@@ -26,7 +26,7 @@ EnvironmentFile=-/etc/default/hadoop-systemd
 ExecStart={{ exec }} --config /etc/hadoop/conf start {{ hadoop_svc }}
 ExecStop={{ exec }} --config /etc/hadoop/conf stop {{ hadoop_svc }}
 Restart=on-failure
-SyslogIdentifier=hadoop-{{ service }}
+SyslogIdentifier=hadoop-{{ hadoop_svc }}
 
 [Install]
 WantedBy=multi-user.target
