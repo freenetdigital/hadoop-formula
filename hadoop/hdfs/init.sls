@@ -252,7 +252,10 @@ systemd-hadoop-journalnode:
     - mode: '644'
     - template: jinja
     - context:
-      service: journalnode
+      hadoop_svc: journalnode
+      hadoop_user: hdfs
+      hadoop_major: {{ hadoop.major_version }}
+      hadoop_home: {{ hadoop.alt_home }}
       user: hdfs
     - watch_in:
       - cmd: systemd-reload
