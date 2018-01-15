@@ -32,28 +32,28 @@
 
 {{ username }}_private_key:
   file.managed:
-    - name: {{ userhome }}/.ssh/id_dsa
+    - name: {{ userhome }}/.ssh/id_rsa
     - user: {{ username }}
     - group: {{ username }}
     - mode: 600
-    - source: salt://hadoop/files/dsa-{{ username }}
+    - source: salt://hadoop/files/rsa-{{ username }}
     - require:
       - file: {{ userhome }}/.ssh
 
 {{ username }}_public_key:
   file.managed:
-    - name: {{ userhome }}/.ssh/id_dsa.pub
+    - name: {{ userhome }}/.ssh/id_rsa.pub
     - user: {{ username }}
     - group: {{ username }}
     - mode: 644
-    - source: salt://hadoop/files/dsa-{{ username }}.pub
+    - source: salt://hadoop/files/rsa-{{ username }}.pub
     - require:
       - file: {{ username }}_private_key
 
-ssh_dss_{{ username }}:
+ssh_rss_{{ username }}:
   ssh_auth.present:
     - user: {{ username }}
-    - source: salt://hadoop/files/dsa-{{ username }}.pub
+    - source: salt://hadoop/files/rsa-{{ username }}.pub
     - require:
       - file: {{ username }}_private_key
 
