@@ -1,12 +1,12 @@
 {%- if hadoop_svc == 'historyserver' %}
-{% set pidfile = "/var/run/hadoop/mapred-{{ hadoop_user }}-{{ hadoop_svc }}.pid" %}
-{% set exec = "{{ hadoop_home }}/{{ bindir }}/mr-jobhistory-daemon.sh" %}
+{% set pidfile = /var/run/hadoop/mapred-{{ hadoop_user }}-{{ hadoop_svc }}.pid %}
+{% set exec = {{ hadoop_home }}/{{ bindir }}/mr-jobhistory-daemon.sh %}
 {%- elif hadoop_user == 'yarn' %}
-{% set pidfile = "/var/run/hadoop/yarn-{{ hadoop_user }}-{{ hadoop_svc }}.pid" %}
-{% set exec = "{{ hadoop_home }}/{{ bindir }}/yarn-daemon.sh" %}
+{% set pidfile = /var/run/hadoop/yarn-{{ hadoop_user }}-{{ hadoop_svc }}.pid %}
+{% set exec = {{ hadoop_home }}/{{ bindir }}/yarn-daemon.sh %}
 {%- else %}
-{% set pidfile = "/var/run/hadoop/hadoop-{{ hadoop_user }}-{{ hadoop_svc }}.pid" %}
-{% set exec = "{{ hadoop_home }}/{{ bindir }}/hadoop-daemon.sh" %}
+{% set pidfile = /var/run/hadoop/hadoop-{{ hadoop_user }}-{{ hadoop_svc }}.pid %}
+{% set exec = {{ hadoop_home }}/{{ bindir }}/hadoop-daemon.sh %}
 {%- endif %}
 
 [Unit]
@@ -16,7 +16,7 @@ After=network.target remote-fs.target
 
 [Service]
 Type=simple
-PIDFile=/var/run/hadoop/hadoop-{{ hadoop_svc }}.pid
+PIDFile={{ pidfile }}
 User={{ hadoop_user }}
 Group={{ hadoop_user }}
 
