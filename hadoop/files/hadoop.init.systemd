@@ -20,7 +20,7 @@ Requires=network.target remote-fs.target
 After=network.target remote-fs.target
 
 [Service]
-Type=simple
+Type=forking
 PIDFile={{ pidfile }}
 User={{ hadoop_user }}
 Group={{ hadoop_user }}
