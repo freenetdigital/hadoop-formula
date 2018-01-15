@@ -1,12 +1,17 @@
-{%- if hadoop_svc == 'historyserver' %}
-{% set pidfile = "/var/run/hadoop/mapred-" + {{ hadoop_user }} + "-" + {{ hadoop_svc }} + ".pid" %}
-{% set exec = {{ hadoop_home }} + "/" + {{ bindir }} + "/mr-jobhistory-daemon.sh" %}
-{%- elif hadoop_user == 'yarn' %}
-{% set pidfile = "/var/run/hadoop/yarn-" + {{ hadoop_user }} + "-" + {{ hadoop_svc }}".pid" %}
-{% set exec = {{ hadoop_home }} + "/" + {{ bindir }} + "/yarn-daemon.sh" %}
+{%- if hadoop_major == 1 %}
+{%- set bindir='bin' %}
 {%- else %}
-{% set pidfile = "/var/run/hadoop/hadoop-" + {{ hadoop_user }} + "-" + {{ hadoop_svc }} + ".pid" %}
-{% set exec = {{ hadoop_home }} + "/" + {{ bindir }} + "/hadoop-daemon.sh" %}
+{%- set bindir='sbin' %}
+{%- endif %}
+{%- if hadoop_svc == 'historyserver' %}
+{% set pidfile = "/var/run/hadoop/mapred-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
+{% set exec = hadoop_home + "/" + bindir + "/mr-jobhistory-daemon.sh" %}
+{%- elif hadoop_user == 'yarn' %}
+{% set pidfile = "/var/run/hadoop/yarn-" + hadoop_user + "-" + hadoop_svc }}".pid" %}
+{% set exec = hadoop_home + "/" + bindir + "/yarn-daemon.sh" %}
+{%- else %}
+{% set pidfile = "/var/run/hadoop/hadoop-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
+{% set exec = hadoop_home + "/" + bindir + "/hadoop-daemon.sh" %}
 {%- endif %}
 
 [Unit]
