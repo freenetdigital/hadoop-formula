@@ -131,8 +131,10 @@ systemd-hadoop-namenode:
     - mode: '644'
     - template: jinja
     - context:
-      service: namenode
-      user: root
+      hadoop_svc: namenode
+      hadoop_user: hdfs
+      hadoop_major: {{ hadoop.major_version }}
+      hadoop_home: {{ hadoop.alt_home }}
     - watch_in:
       - cmd: systemd-reload
 {% endif %}
@@ -189,8 +191,10 @@ systemd-hadoop-zkfc:
     - mode: '644'
     - template: jinja
     - context:
-      service: zkfc
-      user: root
+      hadoop_svc: zkfc
+      hadoop_user: hdfs
+      hadoop_major: {{ hadoop.major_version }}
+      hadoop_home: {{ hadoop.alt_home }}
     - watch_in:
       - cmd: systemd-reload
 {% endif %}
@@ -221,8 +225,10 @@ systemd-hadoop-datanode:
     - mode: '644'
     - template: jinja
     - context:
-      service: datanode
-      user: hdfs
+      hadoop_svc: datanode
+      hadoop_user: hdfs
+      hadoop_major: {{ hadoop.major_version }}
+      hadoop_home: {{ hadoop.alt_home }}
     - watch_in:
       - cmd: systemd-reload
 {% endif %}
