@@ -100,6 +100,24 @@ fix-executor-permissions:
       hadoop_major: {{ hadoop.major_version }}
       hadoop_home: {{ hadoop.alt_home }}
 
+{% if grains['init'] == 'systemd' %}
+systemd-hadoop-historyserver:
+  file.managed:
+    - name: /etc/systemd/system/hadoop-historyserver.service
+    - source: salt://hadoop/files/{{ hadoop.initscript_systemd }}
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - context:
+      hadoop_svc: historyserver
+      hadoop_user: hdfs
+      hadoop_major: {{ hadoop.major_version }}
+      hadoop_home: {{ hadoop.alt_home }}
+    - watch_in:
+      - cmd: systemd-reload
+{% endif %}
+
 hadoop-historyserver:
   service.running:
     - enable: True
@@ -116,6 +134,24 @@ hadoop-historyserver:
       hadoop_user: yarn
       hadoop_major: {{ hadoop.major_version }}
       hadoop_home: {{ hadoop.alt_home }}
+
+{% if grains['init'] == 'systemd' %}
+systemd-hadoop-resourcemanager:
+  file.managed:
+    - name: /etc/systemd/system/hadoop-resourcemanager.service
+    - source: salt://hadoop/files/{{ hadoop.initscript_systemd }}
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - context:
+      hadoop_svc: resourcemanager
+      hadoop_user: yarn
+      hadoop_major: {{ hadoop.major_version }}
+      hadoop_home: {{ hadoop.alt_home }}
+    - watch_in:
+      - cmd: systemd-reload
+{% endif %}
 
 hadoop-resourcemanager:
   service.running:
@@ -137,9 +173,34 @@ hadoop-resourcemanager:
       hadoop_major: {{ hadoop.major_version }}
       hadoop_home: {{ hadoop.alt_home }}
 
+{% if grains['init'] == 'systemd' %}
+systemd-hadoop-nodemanager:
+  file.managed:
+    - name: /etc/systemd/system/hadoop-nodemanager.service
+    - source: salt://hadoop/files/{{ hadoop.initscript_systemd }}
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - context:
+      hadoop_svc: nodemanager
+      hadoop_user: yarn
+      hadoop_major: {{ hadoop.major_version }}
+      hadoop_home: {{ hadoop.alt_home }}
+    - watch_in:
+      - cmd: systemd-reload
+{% endif %}
+
 hadoop-nodemanager:
   service.running:
     - enable: True
 {% endif %}
 
+{% if grains['init'] == 'systemd' %}
+systemd-reload:
+  cmd.wait:
+    - name: systemctl daemon-reload 
+{% endif %}
+
 {%- endif %}
+
