@@ -9,7 +9,7 @@
 <configuration>
     <property>
         <name>yarn.resourcemanager.zk-address</name>
-        <value>{% for zk in hadoop.zookeeper_hosts %}{{ zk }}:2181{{ "," if not loop.last }}{% endor %}</value>
+        <value>{% for zk in yarn.zookeeper_hosts %}{{ zk }}:2181{{ "," if not loop.last }}{% endor %}</value>
     </property>
 
     <property>
