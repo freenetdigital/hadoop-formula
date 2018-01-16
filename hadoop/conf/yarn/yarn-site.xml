@@ -13,6 +13,11 @@
     </property>
 
     <property>
+        <name>yarn.resourcemanager.cluster-id</name>
+        <value>{{ yarn.cluster_id }}</value>
+    </property>
+
+    <property>
         <name>yarn.resourcemanager.ha.enabled</name>
         <value>true</value>
     </property>

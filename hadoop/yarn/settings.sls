@@ -20,6 +20,8 @@
 {%- set zookeeper_target            = g.get('zookeeper_target', p.get('zookeeper_target', 'roles:zookeeper')) %}
 {%- set zookeeper_hosts             = salt['mine.get'](zookeeper_target, 'network.interfaces', expr_form=targeting_method).keys() %}
 
+{%- set cluster_id                  = salt['grains.get']('cluster_id', 'cluster1') %}
+
 {%- set local_disks                 = salt['grains.get']('yarn_data_disks', ['/yarn_data']) %}
 {%- set config_yarn_site            = gc.get('yarn-site', pc.get('yarn-site', {})) %}
 {%- set config_capacity_scheduler   = gc.get('capacity-scheduler', pc.get('capacity-scheduler', {})) %}
@@ -48,4 +50,5 @@
                      'is_resourcemanager'          : is_resourcemanager,
                      'is_nodemanager'              : is_nodemanager,
                      'zookeeper_hosts'             : zookeeper_hosts,
+                     'cluster_id'                  : cluster_id,
                    }) %}
