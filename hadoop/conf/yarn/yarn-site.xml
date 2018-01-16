@@ -8,29 +8,51 @@
 
 <configuration>
     <property>
-        <name>yarn.resourcemanager.scheduler.address</name>
-        <value>{{ yarn.resourcemanager_host }}:{{ yarn.scheduler_port }}</value>
+        <name>yarn.resourcemanager.zk-address</name>
+        <value>{% for zk in hadoop.zookeeper_hosts %}{{ zk }}:2181{{ "," if not loop.last }}{% endor %}</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.ha.enabled</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.ha.rm-ids</name>
+        <value>{% for rm in yarn.resourcemanager_hosts %}rm{{ loop.index }}{{ "," if not loop.last }}{% endor %}</value>
+    </property>
+
+    {% for rm in yarn.resourcemanager_hosts %}
+    <property>
+        <name>yarn.resourcemanager.hostname.rm{{ loop.index }}</name>
+        <value>{{ rm }}</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.address.rm{{ loop.index }}</name>
+        <value>{{ rm }}:{{ yarn.resourcemanager_port }}</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.scheduler.address.rm{{ loop.index }}</name>
+        <value>{{ rm }}:{{ yarn.scheduler_port }}</value>
     </property>
      
     <property>
-        <name>yarn.resourcemanager.resource-tracker.address</name>
-        <value>{{ yarn.resourcemanager_host }}:{{ yarn.resourcetracker_port }}</value>
+        <name>yarn.resourcemanager.resource-tracker.addressi.rm{{ loop.index }}</name>
+        <value>{{ rm }}:{{ yarn.resourcetracker_port }}</value>
     </property>
      
     <property>
-        <name>yarn.resourcemanager.address</name>
-        <value>{{ yarn.resourcemanager_host }}:{{ yarn.resourcemanager_port }}</value>
+        <name>yarn.resourcemanager.admin.address.rm{{ loop.index }}</name>
+        <value>{{ rm }}:{{ yarn.resourcemanager_admin_port }}</value>
     </property>
      
     <property>
-        <name>yarn.resourcemanager.admin.address</name>
-        <value>{{ yarn.resourcemanager_host }}:{{ yarn.resourcemanager_admin_port }}</value>
+        <name>yarn.resourcemanager.webapp.address.rm{{ loop.index }}</name>
+        <value>{{ rm }}:{{ yarn.resourcemanager_webapp_port }}</value>
     </property>
-     
-    <property>
-        <name>yarn.resourcemanager.webapp.address</name>
-        <value>{{ yarn.resourcemanager_host }}:{{ yarn.resourcemanager_webapp_port }}</value>
-    </property>
+    {% endfor %}
 
     <property>
         <name>yarn.nodemanager.address</name>

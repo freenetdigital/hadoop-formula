@@ -16,6 +16,7 @@
 # this is a deliberate duplication as to not re-import hadoop/settings multiple times
 {%- set targeting_method            = salt['grains.get']('hadoop:targeting_method', salt['pillar.get']('hadoop:targeting_method', 'grain')) %}
 {%- set resourcemanager_host        = salt['mine.get'](resourcemanager_target, 'network.interfaces', expr_form=targeting_method)|first() %}
+{%- set resourcemanager_hosts       = salt['mine.get'](resourcemanager_target, 'network.interfaces', expr_form=targeting_method) %}
 
 {%- set local_disks                 = salt['grains.get']('yarn_data_disks', ['/yarn_data']) %}
 {%- set config_yarn_site            = gc.get('yarn-site', pc.get('yarn-site', {})) %}
@@ -33,6 +34,7 @@
                      'resourcemanager_webapp_port' : resourcemanager_webapp_port,
                      'resourcemanager_admin_port'  : resourcemanager_admin_port,
                      'resourcemanager_host'        : resourcemanager_host,
+                     'resourcemanager_hosts'       : resourcemanager_hosts,
                      'nodemanager_port'            : nodemanager_port,
                      'nodemanager_webapp_port'     : nodemanager_webapp_port,
                      'nodemanager_localizer_port'  : nodemanager_localizer_port,

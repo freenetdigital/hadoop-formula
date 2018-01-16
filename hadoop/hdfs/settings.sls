@@ -8,6 +8,7 @@
 {%- set secondary_namenode_target = g.get('secondary_namenode_target', p.get('secondary_namenode_target', 'roles:hdfs_namenode2')) %}
 {%- set datanode_target     = g.get('datanode_target', p.get('datanode_target', 'roles:hadoop_slave')) %}
 {%- set journalnode_target  = g.get('journalnode_target', p.get('journalnode_target', 'roles:hdfs_journalnode')) %}
+{%- set zookeeper_target    = g.get('zookeeper_target', p.get('zookeeper_target', 'roles:zookeeper')) %}
 # this is a deliberate duplication as to not re-import hadoop/settings multiple times
 {%- set targeting_method    = salt['grains.get']('hadoop:targeting_method', salt['pillar.get']('hadoop:targeting_method', 'grain')) %}
 
@@ -36,6 +37,7 @@
 
 {%- set datanode_hosts        = salt['mine.get'](datanode_target, 'network.interfaces', expr_form=targeting_method).keys() %}
 {%- set journalnode_hosts     = salt['mine.get'](journalnode_target, 'network.interfaces', expr_form=targeting_method).keys() %}
+{%- set zookeeper_hosts       = salt['mine.get'](zookeeper_target, 'network.interfaces', expr_form=targeting_method).keys() %}
 {%- set datanode_count        = datanode_hosts|count() %}
 {%- set journalnode_count     = journalnode_hosts|count() %}
 {%- set namenode_port         = gc.get('namenode_port', pc.get('namenode_port', '8020')) %}
@@ -80,6 +82,7 @@
                      'namenode_count'              : namenode_count,
                      'datanode_hosts'              : datanode_hosts,
                      'journalnode_hosts'           : journalnode_hosts,
+                     'zookeeper_hosts'             : zookeeper_hosts,
                      'namenode_port'               : namenode_port,
                      'ha_namenode_port'            : ha_namenode_port,
                      'namenode_http_port'          : namenode_http_port,
