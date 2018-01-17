@@ -173,6 +173,7 @@
                   'hdfs'   : 6001,
                   'mapred' : 6002,
                   'yarn'   : 6003,
+                  'hive'   : 6004,
                 } %}
 
 {%- set hadoop = {} %}
