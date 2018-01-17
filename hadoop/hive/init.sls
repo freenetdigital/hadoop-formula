@@ -1,5 +1,5 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
-{%- from 'hive/settings.sls' import hive with context %}
+{%- from 'hadoop/hive/settings.sls' import hive with context %}
 {%- from 'hadoop/user_macro.sls' import hadoop_user with context %}
 include:
   - hadoop.systemd
@@ -11,23 +11,28 @@ include:
 
 hive-directory:
   file.directory:
-    - name: {{ hive.install_dir }}/hive-{{ hive.version }}
+    - name: {{ hive.install_dir }}
     - owner: {{ username }}
+
+hive-directory-symlink:
   file.symlink:
-    - name: {{ hive.install_dir }}/hive-{{ hive.version }}
     - target: {{ hive.install_dir }}
+    - name: {{ hive.dir }}
 
 download-hive-archive:
   cmd.run:
     - name: wget {{ hive.download_mirror }}/hive-{{ hive.version }}/apache-hive-{{ hive.version }}-bin.tar.gz
     - cwd: {{ hive.install_dir }}
     - user: {{ username }}
-    - unless: ls {{ hive.install_dir }} | grep "hive-{{ hive.version }}"
+    - unless: test -f {{ hive.install_dir }}/bin/hive
+
+{% set archive_dir = hive.install_dir + '/apache-hive-' + hive.version + '-bin' %}
+{% set archive = archive_dir + '.tar.gz' %}
 
 check-jdk-archive:
   module.run:
     - name: file.check_hash
-    - path: {{ hive.install_dir }}/apache-hive-{{ hive.version }}-bin.tar.gz
+    - path: {{ archive }}
     - file_hash: {{ hive.hash }}
     - onchanges:
       - cmd: download-hive-archive     
@@ -36,14 +41,16 @@ check-jdk-archive:
 
 unpack-hive-archive:
   archive.extracted:
-    - name: {{ hive.install_dir }}/hive-{{ hive.version }}
-    - source: file://{{ hive.install_dir }}/apache-hive-{{ hive.version }}-bin.tar.gz
+    - name: {{ hive.install_dir }}
+    - source: file://{{ archive }}
     - archive_format: tar
     - user: {{ username }}
     - group: {{ username }}
-    - if_missing: hive
     - onchanges:
       - cmd: download-hive-archive
 
-
-
+cleanup-hive-directory:
+  cmd.run:
+    - name: mv {{ archive_dir }}/* {{ hive.install_dir }}; rm -rf {{ archive_dir }}*
+    - onchanges:
+      - archive: unpack-hive-archive
