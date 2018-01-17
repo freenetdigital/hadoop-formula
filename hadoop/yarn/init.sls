@@ -3,6 +3,8 @@
 {%- from "hadoop/mapred/settings.sls" import mapred with context %}
 {%- from "hadoop/user_macro.sls" import hadoop_user with context %}
 {%- from 'hadoop/hdfs_mkdir_macro.sls' import hdfs_mkdir with context %}
+include:
+  - hadoop.systemd
 
 {%- if hadoop.major_version|string() == '2' %}
 
@@ -195,12 +197,5 @@ hadoop-nodemanager:
   service.running:
     - enable: True
 {% endif %}
-
-{% if grains['init'] == 'systemd' %}
-systemd-reload:
-  cmd.wait:
-    - name: systemctl daemon-reload 
-{% endif %}
-
 {%- endif %}
 

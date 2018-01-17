@@ -1,7 +1,9 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
 {%- from 'hadoop/hdfs/settings.sls' import hdfs with context %}
 {%- from 'hadoop/user_macro.sls' import hadoop_user with context %}
-
+include:
+  - hadoop.systemd
+  
 {%- set username = 'hdfs' %}
 {%- set uid = hadoop.users[username] %}
 
@@ -299,9 +301,3 @@ hdfs-services:
       - file: {{ hadoop.alt_config }}/hdfs-site.xml
 {%- endif %}
 {%- endif %}
-
-{% if grains['init'] == 'systemd' %}
-systemd-reload:
-  cmd.wait:
-    - name: systemctl daemon-reload 
-{% endif %}

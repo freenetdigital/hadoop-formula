@@ -16,6 +16,11 @@
 # this is a deliberate duplication as to not re-import hadoop/settings multiple times
 {%- set targeting_method            = salt['grains.get']('hadoop:targeting_method', salt['pillar.get']('hadoop:targeting_method', 'grain')) %}
 {%- set resourcemanager_host        = salt['mine.get'](resourcemanager_target, 'network.interfaces', expr_form=targeting_method)|first() %}
+{%- set resourcemanager_hosts       = salt['mine.get'](resourcemanager_target, 'network.interfaces', expr_form=targeting_method) %}
+{%- set zookeeper_target            = g.get('zookeeper_target', p.get('zookeeper_target', 'roles:zookeeper')) %}
+{%- set zookeeper_hosts             = salt['mine.get'](zookeeper_target, 'network.interfaces', expr_form=targeting_method).keys() %}
+
+{%- set cluster_id                  = salt['grains.get']('cluster_id', 'cluster1') %}
 
 {%- set local_disks                 = salt['grains.get']('yarn_data_disks', ['/yarn_data']) %}
 {%- set config_yarn_site            = gc.get('yarn-site', pc.get('yarn-site', {})) %}
@@ -33,6 +38,7 @@
                      'resourcemanager_webapp_port' : resourcemanager_webapp_port,
                      'resourcemanager_admin_port'  : resourcemanager_admin_port,
                      'resourcemanager_host'        : resourcemanager_host,
+                     'resourcemanager_hosts'       : resourcemanager_hosts,
                      'nodemanager_port'            : nodemanager_port,
                      'nodemanager_webapp_port'     : nodemanager_webapp_port,
                      'nodemanager_localizer_port'  : nodemanager_localizer_port,
@@ -43,4 +49,6 @@
                      'banned_users'                : banned_users,
                      'is_resourcemanager'          : is_resourcemanager,
                      'is_nodemanager'              : is_nodemanager,
+                     'zookeeper_hosts'             : zookeeper_hosts,
+                     'cluster_id'                  : cluster_id,
                    }) %}
