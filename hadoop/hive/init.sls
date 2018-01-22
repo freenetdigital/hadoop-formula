@@ -12,7 +12,7 @@ include:
 hive-directory:
   file.directory:
     - name: {{ hive.install_dir }}
-    - owner: {{ username }}
+    - user: {{ username }}
 
 hive-directory-symlink:
   file.symlink:
@@ -65,7 +65,7 @@ hive-site.xml:
     - name: {{ hive.install_dir }}/conf/hive-site.xml
     - template: jinja
     - source: salt://hadoop/conf/hive/hive-site.xml
-    - owner: {{ username }}
+    - user: {{ username }}
 
 
 {% if grains['init'] == 'systemd' %}
