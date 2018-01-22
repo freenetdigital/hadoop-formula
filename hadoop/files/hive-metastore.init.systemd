@@ -1,20 +1,20 @@
 [Unit]
-Description=Hadoop Hive
+Description=Hadoop Hive Metastore
 Requires=network.target remote-fs.target
 After=network.target remote-fs.target
 
 [Service]
 Type=simple
-PIDFile=/var/run/hive/hive-server2.pid
+PIDFile=/var/run/hive/hive-metastore.pid
 User=hive
 Group=hive
 
 Environment="JAVA_OPTS=-Djava.awt.headless=true"
 EnvironmentFile=-/etc/default/hadoop-systemd
 
-ExecStart=/usr/lib/hive/bin/hive --config /etc/hive/conf --service hiveserver2
+ExecStart=/usr/lib/hive/bin/hive --config /etc/hive/conf --service metastore
 Restart=on-failure
-SyslogIdentifier=hadoop-hiveserver2
+SyslogIdentifier=hadoop-hivemetastore
 
 [Install]
 WantedBy=multi-user.target

@@ -88,5 +88,16 @@ hadoop-hive2:
     - template: jinja
     - watch_in:
       - cmd: systemd-reload
+
+hadoop-metastore:
+  file.managed:
+    - name: /etc/systemd/system/hadoop-metastore.service
+    - source: salt://hadoop/files/hive-metastore.init.systemd
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - watch_in:
+      - cmd: systemd-reload
 {% endif %}
 
