@@ -69,7 +69,7 @@ hive-site.xml:
 
 
 {% if grains['init'] == 'systemd' %}
-hadoop-hive2
+hadoop-hive2:
   file.managed:
     - name: /etc/systemd/system/hadoop-hive2.service
     - source: salt://hadoop/files/{{ hadoop.initscript_systemd }}
