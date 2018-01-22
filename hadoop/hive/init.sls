@@ -77,11 +77,6 @@ hive-site.xml:
 {{ hdfs_mkdir('/apps', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
 {{ hdfs_mkdir('/tmp/scratch', 'hive', 'hadoop', 1777, hadoop.dfs_cmd) }}
 
-install-tez:
-  cmd.run:
-    - name: wget http://mirror.funkfreundelandshut.de/apache/tez/0.9.0/apache-tez-0.9.0-bin.tar.gz && 
-    - user: hdfs
-
 {% if grains['init'] == 'systemd' %}
 hadoop-hive2:
   file.managed:

@@ -13,3 +13,8 @@ HADOOP_YARN_HOME={{ hadoop_home }}
 
 HIVE_CONF_DIR=/etc/hive/conf
 HIVE_HOME=/usr/lib/hive
+
+TEZ_CONF_DIR=/etc/tez/conf
+TEZ_JARS=/usr/lib/tez
+
+HADOOP_CLASSPATH=${TEZ_CONF_DIR}:${TEZ_JARS}/*:${TEZ_JARS}/lib/*
