@@ -17,7 +17,7 @@
 --><configuration>
   <property>
     <name>hive.exec.scratchdir</name>
-    <value>/tmp/hive</value>
+    <value>/tmp/scratch</value>
   </property>
   <property>
     <name>hadoop.config.dir</name>
