@@ -77,7 +77,7 @@ hive-site.xml:
 hadoop-hive2:
   file.managed:
     - name: /etc/systemd/system/hadoop-hive2.service
-    - source: salt://hadoop/files/{{ hadoop.initscript_systemd }}
+    - source: salt://hadoop/files/hive.init.systemd
     - user: root
     - group: root
     - mode: '644'
