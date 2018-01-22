@@ -54,3 +54,30 @@ cleanup-hive-directory:
     - name: mv {{ archive_dir }}/* {{ hive.install_dir }}; rm -rf {{ archive_dir }}*
     - onchanges:
       - archive: unpack-hive-archive
+
+hive-conf-symlink:
+  file.symlink:
+    - target: {{ hive.install_dir }}/conf
+    - name: {{ hive.conf_dir }}
+
+hive-site.xml:
+  file.managed:
+    - name: {{ hive.install_dir }}/conf/hive-site.xml
+    - template: jinja
+    - source: salt://hadoop/conf/hive/hive-site.xml
+    - owner: {{ username }}
+
+
+{% if grains['init'] == 'systemd' %}
+hadoop-hive2
+  file.managed:
+    - name: /etc/systemd/system/hadoop-hive2.service
+    - source: salt://hadoop/files/{{ hadoop.initscript_systemd }}
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - watch_in:
+      - cmd: systemd-reload
+{% endif %}
+

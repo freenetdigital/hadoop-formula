@@ -1,0 +1,20 @@
+[Unit]
+Description=Hadoop Hive
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/hive/hive-server2.pid
+User=hive
+Group=hive
+
+Environment="JAVA_OPTS=-Djava.awt.headless=true"
+EnvironmentFile=-/etc/default/hadoop-systemd
+
+ExecStart=/usr/lib/hive/bin/hive --config /etc/hive/conf --service hiveserver2
+Restart=on-failure
+SyslogIdentifier=hadoop-{{ hadoop_svc }}
+
+[Install]
+WantedBy=multi-user.target
