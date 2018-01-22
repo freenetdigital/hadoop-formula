@@ -20,6 +20,10 @@
     <value>/tmp/scratch</value>
   </property>
   <property>
+    <name>hive.execution.engine</name>
+    <value>tez</value>
+  </property>
+  <property>
     <name>hadoop.config.dir</name>
     <value>/etc/hive/conf</value>
   </property>
