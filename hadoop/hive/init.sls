@@ -74,7 +74,7 @@ hive-site.xml:
     - user: {{ username }}
 
 {{ hdfs_mkdir('/tmp', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
-{{ hdfs_mkdir('/tmp/scratch', 'hive', 'hadoop', 1750, hadoop.dfs_cmd) }}
+{{ hdfs_mkdir('/tmp/scratch', 'hive', 'hadoop', 1775, hadoop.dfs_cmd) }}
 
 {% if grains['init'] == 'systemd' %}
 hadoop-hive2:
