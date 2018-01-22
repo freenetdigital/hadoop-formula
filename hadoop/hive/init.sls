@@ -14,6 +14,11 @@ hive-directory:
     - name: {{ hive.install_dir }}
     - user: {{ username }}
 
+hive-conf-directory:
+  file.directory:
+    - name: /etc/hive
+    - user: {{ username }}
+
 hive-directory-symlink:
   file.symlink:
     - target: {{ hive.install_dir }}
