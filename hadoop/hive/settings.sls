@@ -39,4 +39,5 @@
                      'metastore_pass'           : metastore_pass ,
                      'metastore_schema_version' : metastore_schema_version ,
                      'metastore_schema_file'    : metastore_schema_file ,
+                     'config_hive_site'         : pc.get('hive-site', {}) ,
                    }) %}

@@ -1,3 +1,5 @@
+{%- from 'hadoop/hive/settings.sls' import hive with context %}
+{%- set dyn_cfg = hive.get('config_hive_site', {}) %}
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?><!--
    Licensed to the Apache Software Foundation (ASF) under one or more
@@ -15,43 +17,12 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 --><configuration>
-  <property>
-    <name>hive.exec.scratchdir</name>
-    <value>/tmp/scratch</value>
-  </property>
-
-  <property>
-    <name>hive.execution.engine</name>
-    <value>tez</value>
-  </property>
-
-  <property>
-    <name>hadoop.config.dir</name>
-    <value>/etc/hive/conf</value>
-  </property>
-
-  <property>
-    <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:mysql://localhost/hive?verifyServerCertificate=false&amp;useSSL=true</value>
-  </property>
-
-  <property>
-    <name>javax.jdo.option.ConnectionDriverName</name>
-    <value>com.mysql.jdbc.Driver</value>
-  </property>
-
-  <property>
-    <name>javax.jdo.option.ConnectionUserName</name>
-    <value>hive</value>
-  </property>
-
-  <property>
-    <name>javax.jdo.option.ConnectionPassword</name>
-    <value>hive</value>
-  </property>
-
-  <property>
-    <name>hive.metastore.warehouse.dir</name>
-    <value>/user/hive/metastore</value>
-  </property>
+{%- for name, subdict in dyn_cfg.items() %}
+    <property>
+        <name>{{ name }}</name>
+{%- for k,v in subdict.items() %}
+        <{{k}}>{{ v }}</{{k}}>
+{%- endfor %}
+    </property>
+{%- endfor %}
 </configuration>
