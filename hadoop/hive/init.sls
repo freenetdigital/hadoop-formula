@@ -87,7 +87,6 @@ hive-site.xml:
     - mode: '644'
     - template: jinja
     - context:
-      type: forking
       svc: hiveserver2
     - watch_in:
       - cmd: systemd-reload
