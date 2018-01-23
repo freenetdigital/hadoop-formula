@@ -3,13 +3,15 @@
 {% set pass = "hive" %}
 {% set schema_file = "/usr/lib/hive/scripts/metastore/upgrade/mysql/hive-schema-2.3.0.mysql.sql" %}
 
-{{ user }}:
+{{ user }}-user-creation:
   mysql_user.present:
+    - name: {{ user }}
     - host: localhost
     - password: {{ pass }}
 
-{{ db }}:
-  mysql_database.present
+{{ db }}-db-creation:
+  mysql_database.present:
+    - name: {{ db }}
 
 grant-{{user}}-{{ db }}:
   mysql_grants.present:
