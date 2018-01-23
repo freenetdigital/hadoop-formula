@@ -32,7 +32,7 @@
 
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:mysql://localhost/hive?createDatabaseIfNotExist=true</value>
+    <value>jdbc:mysql://localhost/hive?verifyServerCertificate=false&amp;useSSL=true</value>
   </property>
 
   <property>
