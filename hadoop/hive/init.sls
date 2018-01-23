@@ -79,7 +79,7 @@ hive-site.xml:
 {{ hdfs_mkdir('/tmp/scratch', 'hive', 'hadoop', 1777, hadoop.dfs_cmd) }}
 
 {% if grains['init'] == 'systemd' %}
-/etc/systemd/system/hive-hiveserver2.service
+/etc/systemd/system/hive-hiveserver2.service:
   file.managed:
     - source: salt://hadoop/files/hive.init.systemd
     - user: root
@@ -92,7 +92,7 @@ hive-site.xml:
     - watch_in:
       - cmd: systemd-reload
 
-/etc/systemd/system/hive-metastore.service
+/etc/systemd/system/hive-metastore.service:
   file.managed:
     - source: salt://hadoop/files/hive.init.systemd
     - user: root
@@ -105,3 +105,10 @@ hive-site.xml:
       - cmd: systemd-reload
 {% endif %}
 
+hive-metastore:
+  service.running:
+    - enable: True
+
+hive-hiveserver2:
+  service.running:
+    - enable: True
