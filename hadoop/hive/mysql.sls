@@ -28,6 +28,10 @@ load-hive-schema:
     - query_file: {{ schema_file }}
     - connection_pass: {{ pillar.get('hive:mysql:pass', 'defaultpassword') }}
 
+test:
+  cmd.run:
+    - name: "mysql -e 'show databases;'"
+
 #TODO add mysql connector
 # wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.45.tar.gz
 # tar -xvf mysql-connector-java-5.1.45.tar.gz 
