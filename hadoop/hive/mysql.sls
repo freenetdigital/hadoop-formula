@@ -40,3 +40,8 @@ download-and-copy-mysql-connector:
 #TODO setup ssl truststore
 #https://community.hortonworks.com/articles/72475/connect-hiveserver2-to-mysql-metastore-over-ssl-1.html
 
+#TODO
+# create /root/.my.cnf with 0600
+# [mysql]
+# user=uuuu
+# password=aaaa
