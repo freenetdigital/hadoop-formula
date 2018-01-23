@@ -88,7 +88,7 @@ hadoop-hive2:
     - mode: '644'
     - template: jinja
     - context:
-      service: hiveserver2
+      svc: hiveserver2
     - watch_in:
       - cmd: systemd-reload
 
@@ -101,7 +101,7 @@ hadoop-metastore:
     - mode: '644'
     - template: jinja
     - context:
-      service: metastore
+      svc: metastore
     - watch_in:
       - cmd: systemd-reload
 {% endif %}
