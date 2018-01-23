@@ -29,11 +29,9 @@ grant-{{user}}-{{ db }}:
     - connection_user: {{ cpu }}
 
 load-hive-schema:
-  mysql_query.run_file:
-    - database: {{ db }}
-    - query_file: {{ schema_file }}
-    - connection_pass: {{ cpp }}
-    - connection_user: {{ cpu }}
+  cmd.run:
+    - name: mysql -u {{ cpu }} -hlocalhost {{ db }} < {{ schema_file }}
+    - unless: mysql -D hive -e "select SCHEMA_VERSION from VERSION;" -s -N
 
 #TODO add mysql connector
 # wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.45.tar.gz
