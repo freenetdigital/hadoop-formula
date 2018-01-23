@@ -73,6 +73,8 @@ hive-site.xml:
     - template: jinja
     - source: salt://hadoop/conf/hive/hive-site.xml
     - user: {{ username }}
+    - watch_in:
+      - service: hive-hiveserver2
 
 {{ hdfs_mkdir('/tmp', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
 {{ hdfs_mkdir('/apps', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
