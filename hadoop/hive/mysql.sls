@@ -8,25 +8,25 @@
     - name: {{ user }}
     - host: localhost
     - password: {{ pass }}
-    - connection_default_file: /root/.my.cnf
+    - connection_pass: {% pillar.get('hive:mysql:pass', 'defaultpassword') %}
 
 {{ db }}-db-creation:
   mysql_database.present:
     - name: {{ db }}
-    - connection_default_file: /root/.my.cnf
+    - connection_pass: {% pillar.get('hive:mysql:pass', 'defaultpassword') %}
 
 grant-{{user}}-{{ db }}:
   mysql_grants.present:
     - grant: all privileges
     - database: {{ db }}.*
     - user: {{ user }}
-    - connection_default_file: /root/.my.cnf
+    - connection_pass: {% pillar.get('hive:mysql:pass', 'defaultpassword') %}
 
 load-hive-schema:
   mysql_query.run_file:
     - database: {{ db }}
     - query_file: {{ schema_file }}
-    - connection_default_file: /root/.my.cnf
+    - connection_pass: {% pillar.get('hive:mysql:pass', 'defaultpassword') %}
 
 #TODO add mysql connector
 # wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.45.tar.gz
