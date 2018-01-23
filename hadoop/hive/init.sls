@@ -79,7 +79,7 @@ hive-site.xml:
 {{ hdfs_mkdir('/tmp/scratch', 'hive', 'hadoop', 1777, hadoop.dfs_cmd) }}
 
 {% if grains['init'] == 'systemd' %}
-hadoop-hive2:
+hadoop-hive-hiveserver2:
   file.managed:
     - name: /etc/systemd/system/hadoop-hive2.service
     - source: salt://hadoop/files/hive.init.systemd
@@ -88,11 +88,12 @@ hadoop-hive2:
     - mode: '644'
     - template: jinja
     - context:
+      type: forking
       svc: hiveserver2
     - watch_in:
       - cmd: systemd-reload
 
-hadoop-metastore:
+hadoop-hive-metastore:
   file.managed:
     - name: /etc/systemd/system/hadoop-metastore.service
     - source: salt://hadoop/files/hive.init.systemd

@@ -1,11 +1,13 @@
 [Unit]
-Description=Hadoop {{ svc }}
+Description=Hadoop Hive {{ svc }}
 Requires=network.target remote-fs.target
 After=network.target remote-fs.target
 
 [Service]
-Type=simple
-PIDFile=/var/run/hive/{{ svc }}.pid
+Type={{ type if type else 'simple' }}
+{% if pid is defined -%}
+PIDFile=/var/run/hadoop/hive-{{ svc }}.pid
+{% else -%}
 User=hive
 Group=hive
 
@@ -14,7 +16,7 @@ EnvironmentFile=-/etc/default/hadoop-systemd
 
 ExecStart=/usr/lib/hive/bin/hive --config /etc/hive/conf --service {{ svc }}
 Restart=on-failure
-SyslogIdentifier=hadoop-{{ svc }}
+SyslogIdentifier=hadoop-hive-{{ svc }}
 
 [Install]
 WantedBy=multi-user.target
