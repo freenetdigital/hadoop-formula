@@ -55,6 +55,7 @@ unpack-hive-archive:
     - onchanges:
       - cmd: download-hive-archive
 
+
 cleanup-hive-directory:
   cmd.run:
     - name: mv {{ archive_dir }}/* {{ hive.install_dir }}; rm -rf {{ archive_dir }}*
@@ -86,17 +87,21 @@ hadoop-hive2:
     - group: root
     - mode: '644'
     - template: jinja
+    - context:
+      service: hiveserver2
     - watch_in:
       - cmd: systemd-reload
 
 hadoop-metastore:
   file.managed:
     - name: /etc/systemd/system/hadoop-metastore.service
-    - source: salt://hadoop/files/hive-metastore.init.systemd
+    - source: salt://hadoop/files/hive.init.systemd
     - user: root
     - group: root
     - mode: '644'
     - template: jinja
+    - context:
+      service: metastore
     - watch_in:
       - cmd: systemd-reload
 {% endif %}
