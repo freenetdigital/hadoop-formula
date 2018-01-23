@@ -26,3 +26,9 @@
     </property>
 {%- endfor %}
 </configuration>
+
+{{ dyn_cfg }}
+
+------------------
+
+{{ config_hive_site }}
