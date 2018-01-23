@@ -65,7 +65,6 @@
 {%- set replicas = gc.get('replication', pc.get('replication', datanode_count % 4 if datanode_count < 4 else 3 )) %}
 
 {%- set config_hdfs_site = gc.get('hdfs-site', pc.get('hdfs-site', {})) %}
-{%- set config_core_site = gc.get('core-site', pc.get('core-site', {})) %}
 {%- set is_namenode    = salt['match.' ~ targeting_method](namenode_target) %}
 {%- set is_primary_namenode   = salt['match.' ~ targeting_method](primary_namenode_target) %}
 {%- set is_secondary_namenode = salt['match.' ~ targeting_method](secondary_namenode_target) %}
@@ -96,7 +95,6 @@
                      'datanode_count'              : datanode_count,
                      'journalnode_count'           : journalnode_count,
                      'config_hdfs_site'            : config_hdfs_site,
-                     'config_core_site'            : config_core_site,
                      'tmp_dir'                     : tmp_dir,
                      'load'                        : load,
                      'ha_cluster_id'               : ha_cluster_id,
