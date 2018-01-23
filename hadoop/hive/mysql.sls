@@ -32,9 +32,9 @@ test:
   cmd.run:
     - name: "mysql -e 'show databases;'"
 
-{{ pillar.get('hive:mysql:pass', 'defaultpassword') }}:
+{{ pillar.get('hive:mysql:pass') }}:
   cmd.run:
-    - name: "echo {{ pillar.get('hive:mysql:pass', 'defaultpassword') }}"
+    - name: "echo {{ pillar.get('hive:mysql:pass') }}"
 
 #TODO add mysql connector
 # wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.45.tar.gz
