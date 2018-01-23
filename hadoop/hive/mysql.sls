@@ -2,39 +2,38 @@
 {% set user = "hive" %}
 {% set pass = "hive" %}
 {% set schema_file = "/usr/lib/hive/scripts/metastore/upgrade/mysql/hive-schema-2.3.0.mysql.sql" %}
+  
+{% set cpp =  salt['pillar.get']('hive:mysql:pass', 'default') %}
+{% set cpu =  salt['pillar.get']('hive:mysql:user', 'default') %}
 
 {{ user }}-user-creation:
   mysql_user.present:
     - name: {{ user }}
     - host: localhost
     - password: {{ pass }}
-    - connection_pass: {{ pillar.get('hive:mysql:pass', 'defaultpassword') }}
+    - connection_pass: {{ cpp }}
+    - connection_user: {{ cpu }}
 
 {{ db }}-db-creation:
   mysql_database.present:
     - name: {{ db }}
-    - connection_pass: {{ pillar.get('hive:mysql:pass', 'defaultpassword') }}
+    - connection_pass: {{ cpp }}
+    - connection_user: {{ cpu }}
 
 grant-{{user}}-{{ db }}:
   mysql_grants.present:
     - grant: all privileges
     - database: {{ db }}.*
     - user: {{ user }}
-    - connection_pass: {{ pillar.get('hive:mysql:pass', 'defaultpassword') }}
+    - connection_pass: {{ cpp }}
+    - connection_user: {{ cpu }}
 
 load-hive-schema:
   mysql_query.run_file:
     - database: {{ db }}
     - query_file: {{ schema_file }}
-    - connection_pass: {{ pillar.get('hive:mysql:pass', 'defaultpassword') }}
-
-test:
-  cmd.run:
-    - name: "mysql -e 'show databases;'"
-
-{{ salt['pillar.get']('hive:mysql:pass', 'default') }}:
-  cmd.run:
-    - name: "echo {{ salt['pillar.get']('hive:mysql:pass', 'default') }}"
+    - connection_pass: {{ cpp }}
+    - connection_user: {{ cpu }}
 
 #TODO add mysql connector
 # wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.45.tar.gz
