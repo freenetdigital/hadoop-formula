@@ -26,9 +26,3 @@
     </property>
 {%- endfor %}
 </configuration>
-
-{{ dyn_cfg }}
-
-------------------
-
-{{ hive }}
