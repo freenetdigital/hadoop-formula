@@ -16,7 +16,7 @@ EnvironmentFile=-/etc/default/hadoop-systemd
 
 ExecStart=/usr/lib/hive/bin/hive --config /etc/hive/conf --service {{ svc }}
 Restart=on-failure
-SyslogIdentifier=hadoop-hive-{{ svc }}
+SyslogIdentifier=hive-{{ svc }}
 
 [Install]
 WantedBy=multi-user.target
