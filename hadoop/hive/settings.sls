@@ -19,7 +19,7 @@
 {%- set metastore_user     = pc.get('metastore_user', 'hive') %}
 {%- set metastore_pass     = pc.get('metastore_pass', 'hive') %}
 
-{% mver = version.split('.') %}
+{% set mver = version.split('.') %}
 
 {%- set metastore_schema_version     = pc.get('metastore_schema_version', mver[0] + '.' + mver[1] + '.0' ) %}
 {%- set metastore_schema_file        = pc.get('metastore_schema_file', dir + '/scripts/metastore/upgrade/' + metastore_backend +'/hive-schema-' + metastore_schema_version + '.' + metastore_backend + '.sql') %}
