@@ -6,7 +6,7 @@
 {% set schema_file = hive.metastore_schema_file %}
 
 {% set conn = "mysql-connector-java-5.1.45" %}
-{% set conn_tar = connector + ".tar.gz" %}
+{% set conn_tar = conn + ".tar.gz" %}
 
 {{ user }}-user-creation:
   mysql_user.present:
