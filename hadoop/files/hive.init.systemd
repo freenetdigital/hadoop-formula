@@ -4,7 +4,7 @@ Requires=network.target remote-fs.target
 After=network.target remote-fs.target
 
 [Service]
-Type={{ type if type else 'simple' }}
+Type={{ type if type is defined else 'simple' }}
 {% if pid is defined -%}
 PIDFile=/var/run/hadoop/hive-{{ svc }}.pid
 {% endif -%}
