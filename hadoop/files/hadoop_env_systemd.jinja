@@ -15,6 +15,5 @@ HIVE_CONF_DIR=/etc/hive/conf
 HIVE_HOME=/usr/lib/hive
 
 TEZ_CONF_DIR=/etc/tez/conf
-TEZ_JARS=/usr/lib/tez
 
-HADOOP_CLASSPATH=${TEZ_CONF_DIR}:${TEZ_JARS}/*:${TEZ_JARS}/lib/*
+HADOOP_CLASSPATH=/usr/lib/tez/*:/usr/lib/tez/lib/*

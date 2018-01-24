@@ -14,7 +14,5 @@ export HIVE_CONF_DIR=/etc/hive/conf
 export HIVE_HOME=/usr/lib/hive
 
 export TEZ_CONF_DIR=/etc/tez/conf
-export TEZ_JARS=/usr/lib/tez
 
-export HADOOP_CLASSPATH=${TEZ_CONF_DIR}:${TEZ_JARS}/*:${TEZ_JARS}/lib/*
-
+export HADOOP_CLASSPATH=/usr/lib/tez/*:/usr/lib/tez/lib/*
