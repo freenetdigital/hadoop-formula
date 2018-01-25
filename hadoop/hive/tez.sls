@@ -9,19 +9,8 @@ tez-directory-symlink:
   file.managed:
     - makedirs: True
     - user: hive
-    - contents: |
-      <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-      <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-      <configuration>
-        <property>
-          <name>tez.lib.uris</name>
-          <value>/apps/tez/apache-tez-{{ version }}-bin/share/tez.tar.gz</value>
-        </property>
-        <property>
-          <name>tez.use.cluster.hadoop-libs</name>
-          <value>false</value>
-        </property>
-      </configuration>
+    - template: jinja
+    - source: salt://hadoop/conf/hive/tez-site.xml
 
 install-tez:
   cmd.run:
