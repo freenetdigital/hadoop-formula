@@ -44,7 +44,7 @@
     </property>
      
     <property>
-        <name>yarn.resourcemanager.resource-tracker.addressi.rm{{ loop.index }}</name>
+        <name>yarn.resourcemanager.resource-tracker.address.rm{{ loop.index }}</name>
         <value>{{ rm }}:{{ yarn.resourcetracker_port }}</value>
     </property>
      
