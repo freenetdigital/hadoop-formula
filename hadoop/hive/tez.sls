@@ -16,12 +16,12 @@ install-tez:
   cmd.run:
     - cwd: /usr/lib
     - name: wget http://mirror.funkfreundelandshut.de/apache/tez/{{ version }}/apache-tez-{{ version }}-bin.tar.gz; tar xvf apache-tez-{{ version }}-bin.tar.gz 
-    - unless: ls /usr/lib/tez-{{ version }}-bin/conf/tez-default-template.xml
+    - unless: ls /usr/lib/apache-tez-{{ version }}-bin/conf/tez-default-template.xml
 
 copy-to-hdfs:
   cmd.run:
     - user: hdfs
-    - name: hadoop fs -copyFromLocal /usr/lib/tez-{{ version }}-bin /apps/tez/
+    - name: hadoop fs -copyFromLocal /usr/lib/apache-tez-{{ version }}-bin /apps/tez/
     - unless: hadoop fs -ls /apps/tez/apache-tez-{{ version }}-bin/share/tez.tar.gz
 
 chown-as-hive:
