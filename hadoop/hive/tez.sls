@@ -2,7 +2,7 @@
 
 tez-directory-symlink:
   file.symlink:
-    - target: /usr/lib/tez-{{ version }}-bin
+    - target: /usr/lib/apache-tez-{{ version }}-bin
     - name: /usr/lib/tez
 
 /etc/hive/conf/tez-site.xml:
