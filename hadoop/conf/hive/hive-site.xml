@@ -1,0 +1,14 @@
+{%- from 'hadoop/hive/settings.sls' import hive with context %}
+{%- set dyn_cfg = hive.get('config_hive_site', {}) -%}
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+{%- for name, subdict in dyn_cfg.items() %}
+    <property>
+        <name>{{ name }}</name>
+{%- for k,v in subdict.items() %}
+        <{{k}}>{{ v }}</{{k}}>
+{%- endfor %}
+    </property>
+{%- endfor %}
+</configuration>
