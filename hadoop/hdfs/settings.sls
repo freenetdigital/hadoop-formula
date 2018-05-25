@@ -103,5 +103,5 @@
 
 /tmp/hdfs_settings.yaml:
   file.serialize:
-    - dataset: {%- hdfs %}
+    - dataset: {{ hdfs }}
     - formatter: yaml
