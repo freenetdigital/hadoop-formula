@@ -100,3 +100,8 @@
                      'ha_cluster_id'               : ha_cluster_id,
                      'quorum_connection_string'    : quorum_connection_string,
                    }) %}
+
+/tmp/hdfs_settings.yaml:
+  file.serialize:
+    - dataset: hdfs
+    - formatter: yaml
