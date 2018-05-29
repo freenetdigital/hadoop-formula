@@ -231,9 +231,17 @@ hadoop-conf-link:
       hadoop_config: {{ hadoop.alt_config }}
 
 {%- if hadoop.jmx_export %}
-{{ hadoop['real_config'] }}/jmx_hdfs.yaml:
+{{ hadoop['real_config'] }}/jmx_hdfs_nn.yaml:
   file.managed:
-    - source: salt://hadoop/conf/hdfs/jmx_hdfs.yaml
+    - source: salt://hadoop/conf/hdfs/jmx_hdfs_nn.yaml
+    - template: jinja
+    - mode: 644
+    - user: root
+    - group: root
+
+{{ hadoop['real_config'] }}/jmx_hdfs_dn.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/hdfs/jmx_hdfs_dn.yaml
     - template: jinja
     - mode: 644
     - user: root

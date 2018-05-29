@@ -6,13 +6,15 @@ export PATH=$HADOOP_PREFIX/bin:$HADOOP_PREFIX/sbin:${JAVA_HOME}/bin:$PATH
 export HADOOP_HEAPSIZE=1024
 export JMX_OPTS=" -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote -Djava.rmi.server.hostname=127.0.0.1"
 {%- if jmx_export %}
-export JMX_HDFS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27001:{{ hadoop_config }}/jmx_hdfs.yaml"
-export HADOOP_NAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26001 $JMX_HDFS"
+export JMX_HDFS_NN=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27001:{{ hadoop_config }}/jmx_hdfs_nn.yaml"
+export JMX_HDFS_DN=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27003:{{ hadoop_config }}/jmx_hdfs_dn.yaml"
+export HADOOP_NAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26001 $JMX_HDFS_NN"
+export HADOOP_DATANODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26003 $JMX_HDFS_DN"
 {% else %}
 export HADOOP_NAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26001 $HADOOP_NAMENODE_OPTS"
+export HADOOP_DATANODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26003 $HADOOP_DATANODE_OPTS"
 {% endif %} 
 export HADOOP_SECONDARYNAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26002 $HADOOP_SECONDARYNAMENODE_OPTS"
-export HADOOP_DATANODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26003 $HADOOP_DATANODE_OPTS"
 export HADOOP_BALANCER_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26004 $HADOOP_BALANCER_OPTS"
 export HADOOP_JOBTRACKER_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26005 $HADOOP_JOBTRACKER_OPTS"
 export HADOOP_TASKTRACKER_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26006 $HADOOP_TASKTRACKER_OPTS"
