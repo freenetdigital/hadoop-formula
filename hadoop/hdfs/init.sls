@@ -72,14 +72,6 @@ include:
     - template: jinja
     - mode: 644
 
-{%- if hdfs.jmx_export %}
-{{hadoop.alt_config}}/jmx_hdfs.yaml:
-  file.managed:
-    - source: salt://hadoop/conf/hdfs/jmx_hdfs.yaml
-    - template: jinja
-    - mode: 644
-{%- endif %}
-
 {{ hadoop.alt_config }}/masters:
   file.managed:
     - mode: 644

@@ -225,9 +225,20 @@ hadoop-conf-link:
     - user: root
     - group: root
     - context:
+      jmx_export: {{ hadoop.jmx_export }}
       java_home: {{ hadoop.java_home }}
       hadoop_home: {{ hadoop.alt_home }}
       hadoop_config: {{ hadoop.alt_config }}
+
+{%- if hadoop.jmx_export %}
+{{ hadoop['real_config'] }}/jmx_hdfs.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/hdfs/jmx_hdfs.yaml
+    - template: jinja
+    - mode: 644
+    - user: root
+    - group: root
+{%- endif %}
 
 {%- if grains.os == 'Ubuntu' %}
 /etc/default/hadoop:

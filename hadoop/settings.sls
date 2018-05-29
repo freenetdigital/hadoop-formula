@@ -163,6 +163,7 @@
 {%- set initscript       = 'hadoop.init' %}
 {%- set initscript_systemd  = 'hadoop.init.systemd' %}
 {%- set targeting_method = g.get('targeting_method', p.get('targeting_method', 'grain')) %}
+{%- set jmx_export = pc.get('jmx_export', false) %}
 
 {%- if version_info['major_version'] == '1' %}
 {%- set dfs_cmd = alt_home + '/bin/hadoop dfs' %}
@@ -205,4 +206,5 @@
                           'config_core_site' : config_core_site,
                           'targeting_method' : targeting_method,
                           'users'            : users,
+                          'jmx_export'       : jmx_export,
                       }) %}
