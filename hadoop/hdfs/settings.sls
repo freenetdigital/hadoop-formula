@@ -10,6 +10,7 @@
 {%- set journalnode_target  = g.get('journalnode_target', p.get('journalnode_target', 'roles:hdfs_journalnode')) %}
 # this is a deliberate duplication as to not re-import hadoop/settings multiple times
 {%- set targeting_method    = salt['grains.get']('hadoop:targeting_method', salt['pillar.get']('hadoop:targeting_method', 'grain')) %}
+{%- set jmx_export = pc.get('jmx_export', false) %}
 
 # HA requires that you have exactly two NNs
 {%- set namenode_host           = salt['mine.get'](namenode_target, 'network.interfaces', expr_form=targeting_method).keys() %}
@@ -99,6 +100,7 @@
                      'load'                        : load,
                      'ha_cluster_id'               : ha_cluster_id,
                      'quorum_connection_string'    : quorum_connection_string,
+                     'jmx_export'                  : jmx_export,
                    }) %}
 
 /tmp/hdfs_settings.yaml:
