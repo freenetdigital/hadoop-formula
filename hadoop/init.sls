@@ -254,6 +254,14 @@ hadoop-conf-link:
     - mode: 644
     - user: root
     - group: root
+
+{{ hadoop['real_config'] }}/jmx_hdfs_jn.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/hdfs/jmx_hdfs_jn.yaml
+    - template: jinja
+    - mode: 644
+    - user: root
+    - group: root
 {%- endif %}
 
 {%- if grains.os == 'Ubuntu' %}
