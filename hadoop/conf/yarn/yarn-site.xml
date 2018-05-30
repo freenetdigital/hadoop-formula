@@ -4,12 +4,14 @@
 {%- from 'hadoop/yarn/settings.sls' import yarn with context %}
 {%- set dyn_cfg = yarn.get('config_yarn_site', {}) %}
 {%- set major = hadoop.major_version|string() -%}<?xml version="1.0"?>
+
+{%- from 'zookeeper/settings.sls' import zk with context %}
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 
 <configuration>
     <property>
         <name>yarn.resourcemanager.zk-address</name>
-        <value>{% for zk in yarn.zookeeper_hosts %}{{ zk }}:2181{{ "," if not loop.last else "" }}{% endfor %}</value>
+        <value>{{ zk.connection_string }}</value>
     </property>
 
     <property>
