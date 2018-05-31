@@ -262,6 +262,22 @@ hadoop-conf-link:
     - mode: 644
     - user: root
     - group: root
+
+{{ hadoop['real_config'] }}/jmx_yarn_rm.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/yarn/jmx_yarn_rm.yaml
+    - template: jinja
+    - mode: 644
+    - user: root
+    - group: root
+
+{{ hadoop['real_config'] }}/jmx_yarn_nm.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/yarn/jmx_yarn_nm.yaml
+    - template: jinja
+    - mode: 644
+    - user: root
+    - group: root
 {%- endif %}
 
 {%- if grains.os == 'Ubuntu' %}

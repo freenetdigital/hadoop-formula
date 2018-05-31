@@ -13,6 +13,9 @@ export HADOOP_NAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26001
 export HADOOP_DATANODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26003 $JMX_HDFS_DN"
 export HADOOP_ZKFC_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27008:{{ hadoop_config }}/jmx_hdfs_zkfc.yaml"
 export HADOOP_JOURNALNODE_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27007:{{ hadoop_config }}/jmx_hdfs_jn.yaml"
+export YARN_RESOURCEMANAGER_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27009:{{ hadoop_config }}/jmx_yarn_rm.yaml"
+export YARN_NODEMANAGER_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27010:{{ hadoop_config }}/jmx_yarn_nm.yaml"
+
 {% else %}
 export HADOOP_NAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26001 $HADOOP_NAMENODE_OPTS"
 export HADOOP_DATANODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26003 $HADOOP_DATANODE_OPTS"
