@@ -28,16 +28,6 @@ create-common-folders:
     - target: {{ hadoop.log_root }}
 {%- endif %}
 
-vm.swappiness:
-  sysctl:
-    - present
-    - value: 0
-
-vm.overcommit_memory:
-  sysctl:
-    - present
-    - value: 0
-
 unpack-hadoop-dist:
   archive.extracted:
     - name: /usr/lib/
