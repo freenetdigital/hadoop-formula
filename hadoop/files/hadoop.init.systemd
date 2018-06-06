@@ -23,7 +23,9 @@ After=network.target remote-fs.target
 Type=forking
 PIDFile={{ pidfile }}
 User={{ hadoop_user }}
-Group={{ hadoop_user }}
+Group=hadoop
+RuntimeDirectory=hadoop
+RuntimeDirectoryMode=775
 
 Environment="JAVA_OPTS=-Djava.awt.headless=true"
 EnvironmentFile=-/etc/default/hadoop-systemd
