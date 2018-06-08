@@ -25,5 +25,9 @@ chmod{{ localname }}-dir:
   cmd.run:
     - user: hdfs
     - name: {{ cmd }} -chmod {{ mode }} {{ name }}
+    {% if mode == 1777 %}
+    - unless: '/usr/bin/test "$({{ cmd }} -ls -d {{ name }} | | tr -s '' '' | cut -d'' '' -f1)" == "drwxrwxrwt"'
+    {% else %} 
     - unless: '/usr/bin/test "$({{ cmd }} -ls -d {{ name }} | awk ''{k=0;for(i=0;i<=8;i++) {if (substr($1,i+2,1)~/[s]/) k += ((substr($1,i+2,1)~/[s]/)*2^9);else k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));}if (k)printf("%0o",k);}'')" == "{{ mode }}"'
+    {% endif %}
 {%- endmacro %}
