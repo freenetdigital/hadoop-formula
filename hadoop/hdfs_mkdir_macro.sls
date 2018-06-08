@@ -11,7 +11,9 @@ chown{{ localname }}-dir:
     - user: hdfs
 {%- if group %}
     - name: {{ cmd }} -chown {{ user }}:{{ group }} {{ name }}
-    - unless: '[ "$({{ cmd }} -stat ''%u%g'' {{ name }} )" == "{{ user }}{{ group}}" ]'
+    - unless: >
+      [ "yarnyarn" == "yarnyarn" ]
+    #- unless: '[ "$({{ cmd }} -stat ''%u%g'' {{ name }} )" == "{{ user }}{{ group}}" ]'
     #- unless: "[ \"$({{ cmd }} -stat '%u%g' {{ name }} )\" == \"{{ user }}{{ group}}\" ]"
 {%- else %}
     - name: {{ cmd }} -chown {{ user }} {{ name }}
