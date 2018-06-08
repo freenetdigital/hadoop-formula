@@ -11,8 +11,7 @@ chown{{ localname }}-dir:
     - user: hdfs
 {%- if group %}
     - name: {{ cmd }} -chown {{ user }}:{{ group }} {{ name }}
-    - unless: >
-        [ "yarnyarn" == "yarnyarn" ]
+    - unless: '[ "yarnyarn" == "yarnyarn" ]'
         
 {%- else %}
     - name: {{ cmd }} -chown {{ user }} {{ name }}
