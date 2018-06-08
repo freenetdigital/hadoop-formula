@@ -11,11 +11,11 @@ chown{{ localname }}-dir:
     - user: hdfs
 {%- if group %}
     - name: {{ cmd }} -chown {{ user }}:{{ group }} {{ name }}
-    - unless: '[ "yarnyarn" == "yarnyarn" ]'
+    - unless: 'bash -c "[ \"$({{ cmd }} -stat ''%u%g'' {{ name }} )\" == \"{{ user }}{{group}}\" ]"'
         
 {%- else %}
     - name: {{ cmd }} -chown {{ user }} {{ name }}
-    - unless: '[ "$({{ cmd }} -stat ''%u'' {{ name }} )" == "{{ user }}" ]'
+    - unless: 'bash -c "[ \"$({{ cmd }} -stat ''%u'' {{ name }} )\" == \"{{ user }}\" ]"'
 {%- endif %}
 
 #this ugly 'unless' clause parses the output of ls, transforms the permission string like 
