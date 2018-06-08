@@ -12,12 +12,10 @@ chown{{ localname }}-dir:
 {%- if group %}
     - name: {{ cmd }} -chown {{ user }}:{{ group }} {{ name }}
     - unless: >
-      [ "yarnyarn" == "yarnyarn" ]
-    #- unless: '[ "$({{ cmd }} -stat ''%u%g'' {{ name }} )" == "{{ user }}{{ group}}" ]'
-    #- unless: "[ \"$({{ cmd }} -stat '%u%g' {{ name }} )\" == \"{{ user }}{{ group}}\" ]"
+        [ "yarnyarn" == "yarnyarn" ]
+        
 {%- else %}
     - name: {{ cmd }} -chown {{ user }} {{ name }}
-    #- unless: "[ \"$({{ cmd }} -stat '%u' {{ name }} )\" == \"{{ user }}\" ]"
     - unless: '[ "$({{ cmd }} -stat ''%u'' {{ name }} )" == "{{ user }}" ]'
 {%- endif %}
 
@@ -28,5 +26,5 @@ chmod{{ localname }}-dir:
   cmd.run:
     - user: hdfs
     - name: {{ cmd }} -chmod {{ mode }} {{ name }}
-    - unless: "[ \"$({{ cmd }} -ls -d {{ name }} | awk '{k=0;for(i=0;i<=8;i++) {if (substr($1,i+2,1)~/[s]/) k += ((substr($1,i+2,1)~/[s]/)*2^9);else k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));}if (k)printf(\"%0o\",k);}')\" == \"{{ mode }}\" ]"
+    #- unless: "[ \"$({{ cmd }} -ls -d {{ name }} | awk '{k=0;for(i=0;i<=8;i++) {if (substr($1,i+2,1)~/[s]/) k += ((substr($1,i+2,1)~/[s]/)*2^9);else k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));}if (k)printf(\"%0o\",k);}')\" == \"{{ mode }}\" ]"
 {%- endmacro %}
