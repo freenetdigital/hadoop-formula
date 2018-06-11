@@ -1,13 +1,13 @@
-#{%- from 'hadoop/hive/settings.sls' import hive with context %}
-#
-#{% set db = hive.metastore_db %}
-#{% set user = hive.metastore_user %}
-#{% set pass = hive.metastore_pass %}
-#{% set schema_file = hive.metastore_schema_file %}
-#
-#{% set conn = "mysql-connector-java-5.1.45" %}
-#{% set conn_tar = conn + ".tar.gz" %}
-#
+{%- from 'hadoop/hive/settings.sls' import hive with context %}
+
+{% set db = hive.metastore_db %}
+{% set user = hive.metastore_user %}
+{% set pass = hive.metastore_pass %}
+{% set schema_file = hive.metastore_schema_file %}
+
+{% set conn = "mysql-connector-java-5.1.45" %}
+{% set conn_tar = conn + ".tar.gz" %}
+
 #{{ user }}-user-creation:
 #  mysql_user.present:
 #    - name: {{ user }}
@@ -35,13 +35,13 @@
 #    - name: mysql -u {{ hive.admin_username }} -hlocalhost {{ db }} < {{ schema_file }}
 #    - unless: mysql -D hive -e "select SCHEMA_VERSION from VERSION;" -s -N
 #
-#download-and-copy-mysql-connector:
-#  cmd.run:
-#    - cwd: {{ hive.dir }}
-#    - name: wget https://dev.mysql.com/get/Downloads/Connector-J/{{ conn_tar }}; tar -xvf {{ conn_tar }}; cp {{ conn }}/{{ conn }}-bin.jar {{ hive.dir }}/lib/; rm -rf {{ conn }}*
-#    - user: hive
-#    - unless: ls /usr/lib/hive/lib/mysql-connector-java-5.1.45-bin.jar
-#
+download-and-copy-mysql-connector:
+  cmd.run:
+    - cwd: {{ hive.dir }}
+    - name: wget https://dev.mysql.com/get/Downloads/Connector-J/{{ conn_tar }}; tar -xvf {{ conn_tar }}; cp {{ conn }}/{{ conn }}-bin.jar {{ hive.dir }}/lib/; rm -rf {{ conn }}*
+    - user: hive
+    - unless: ls /usr/lib/hive/lib/mysql-connector-java-5.1.45-bin.jar
+
 ##TODO setup ssl truststore
 ##https://community.hortonworks.com/articles/72475/connect-hiveserver2-to-mysql-metastore-over-ssl-1.html
 #
