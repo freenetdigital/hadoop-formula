@@ -39,7 +39,6 @@ download-and-copy-mysql-connector:
   cmd.run:
     - cwd: {{ hive.dir }}
     - name: wget https://dev.mysql.com/get/Downloads/Connector-J/{{ conn_tar }}; tar -xvf {{ conn_tar }}; cp {{ conn }}/{{ conn }}-bin.jar {{ hive.dir }}/lib/; rm -rf {{ conn }}*
-    - user: hive
     - unless: ls /usr/lib/hive/lib/mysql-connector-java-5.1.45-bin.jar
 
 ##TODO setup ssl truststore
