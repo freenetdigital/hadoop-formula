@@ -76,6 +76,20 @@ hive-site.xml:
     - watch_in:
       - service: hive-hiveserver2
 
+hive-log-directory:
+  file.directory:
+    - name: {{ hive.hive_log_dir }}
+    - user: {{ username }}
+
+hive-log4j2.properties:
+  file.managed:
+    - name: {{ hive.install_dir }}/conf/hive-log4j2.properties
+    - template: jinja
+    - source: salt://hadoop/conf/hive/hive-log4j2.properties
+    - user: {{ username }}
+    - watch_in:
+      - service: hive-hiveserver2
+
 {{ hdfs_mkdir('/tmp', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
 {{ hdfs_mkdir('/apps', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
 {{ hdfs_mkdir('/tmp/scratch', 'hive', 'hadoop', 1777, hadoop.dfs_cmd) }}

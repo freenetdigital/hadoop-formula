@@ -19,6 +19,8 @@
 {%- set metastore_user     = pc.get('metastore_user', 'hive') %}
 {%- set metastore_pass     = pc.get('metastore_pass', 'hive') %}
 
+{%- set hive_log_dir       = pc.get('hive_log_dir', '/var/log/hive')) %}
+
 {% set mver = version.split('.') %}
 
 {%- set metastore_schema_version     = pc.get('metastore_schema_version', mver[0] + '.' + mver[1] + '.0' ) %}
