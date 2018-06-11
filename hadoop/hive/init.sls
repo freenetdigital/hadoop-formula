@@ -7,8 +7,11 @@ include:
   
 {%- set username = 'hive' %}
 {%- set uid = hadoop.users[username] %}
+{%- set hdfs_username = 'hdfs' %}
+{%- set hdfs_uid = hadoop.users[hdfs_username] %}
 
 {{ hadoop_user(username, uid) }}
+{{ hadoop_user(hdfs_username, hdfs_uid) }}
 
 hive-directory:
   file.directory:
