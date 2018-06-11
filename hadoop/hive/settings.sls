@@ -6,7 +6,7 @@
 {%- set base_install_dir   = gc.get('base_install_dir', pc.get('base_install_dir', '/usr/lib')) %}
 {%- set dir                = gc.get('dir', pc.get('dir', base_install_dir+'/hive')) %}
 {%- set conf_dir           = gc.get('conf_dir', pc.get('conf_dir', '/etc/hive/conf')) %}
-{%- set version            = gc.get('version', pc.get('version', '2.3.2')) %}
+{%- set version            = gc.get('version', pc.get('version', '2.3.3')) %}
 {%- set hash               = gc.get('hash', pc.get('hash', 'md5=8f3abedb3fba28769afcea1445c64231')) %}
 {%- set download_mirror    = gc.get('download_mirror', pc.get('download_mirror', 'http://apache.lauf-forum.at/hive')) %}
 
