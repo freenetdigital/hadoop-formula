@@ -62,6 +62,15 @@ cleanup-hive-directory:
     - onchanges:
       - archive: unpack-hive-archive
 
+#patch hiveserver start script
+hive-startscript.sh:
+  file.managed:
+    - name: {{ hive.install_dir }}/bin/ext/hiveserver2.sh
+    - source: salt://hadoop/files/hiveserver2.sh
+    - user: root
+    - watch_in:
+      - service: hive-hiveserver2
+
 hive-conf-symlink:
   file.symlink:
     - target: {{ hive.install_dir }}/conf
@@ -134,6 +143,14 @@ hive-log4j2.properties:
 {{ hive.conf_dir }}/jmx_hive.yaml:
   file.managed:
     - source: salt://hadoop/conf/hive/jmx_hive.yaml
+    - template: jinja
+    - mode: 644
+    - user: root
+    - group: root
+
+{{ hive.conf_dir }}/jmx_metastore.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/hive/jmx_metastore.yaml
     - template: jinja
     - mode: 644
     - user: root
