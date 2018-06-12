@@ -120,6 +120,26 @@ hive-log4j2.properties:
       - cmd: systemd-reload
 {% endif %}
 
+{% if hive.jmx_export %}
+{{ hive.conf_dir }}/hive-env.sh:
+  file.managed:
+    - source: salt://hadoop/conf/hive/hive-env.sh
+    - template: jinja
+    - mode: 644
+    - user: root
+    - group: root
+    - context:
+      jmx_export: {{ hive.jmx_export }}
+
+{{ hive.conf_dir }}/jmx_hive.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/hive/jmx_hive.yaml
+    - template: jinja
+    - mode: 644
+    - user: root
+    - group: root
+{% endif %} 
+
 hive-metastore:
   service.running:
     - enable: True

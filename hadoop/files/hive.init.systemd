@@ -14,7 +14,7 @@ Group=hive
 Environment="JAVA_OPTS=-Djava.awt.headless=true"
 EnvironmentFile=-/etc/default/hadoop-systemd
 
-ExecStart=/usr/lib/hive/bin/hive --config /etc/hive/conf --service {{ svc }}
+ExecStart=/usr/lib/hive/bin/hive --config /etc/hive/conf --service {{ svc }} --skiphadoopversion
 Restart=on-failure
 SyslogIdentifier=hive-{{ svc }}
 
