@@ -1,4 +1,5 @@
 {%- from 'hadoop/hive/settings.sls' import hive with context %}
+{%- from 'hadoop/settings.sls' import hadoop with context %}
 
 {% set db = hive.metastore_db %}
 {% set user = hive.metastore_user %}
@@ -43,8 +44,8 @@ download-and-copy-mysql-connector:
 
 init-schema:
   cmd.run:
-    - name: {{ hive.install_dir}}/bin/schematool -dbType mysql -initSchema
-    - unless: {{ hive.install_dir}}/bin/schematool -dbType mysql -validate
+    - name: bash -c "export HADOOP_LIBEXEC_DIR={{ hadoop.alt_home }}/libexec; {{ hive.install_dir}}/bin/schematool -dbType mysql -initSchema"
+    - unless: bash -c "export HADOOP_LIBEXEC_DIR={{ hadoop.alt_home }}/libexec; {{ hive.install_dir}}/bin/schematool -dbType mysql -validate"
 
 ##TODO setup ssl truststore
 ##https://community.hortonworks.com/articles/72475/connect-hiveserver2-to-mysql-metastore-over-ssl-1.html
