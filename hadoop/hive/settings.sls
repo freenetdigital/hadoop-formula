@@ -20,6 +20,7 @@
 {%- set metastore_pass     = pc.get('metastore_pass', 'hive') %}
 
 {%- set hive_log_dir       = pc.get('hive_log_dir', '/var/log/hive') %}
+{%- set jmx_export         = pc.get('jmx_export', false) %}
 
 {% set mver = version.split('.') %}
 
@@ -43,4 +44,5 @@
                      'metastore_schema_file'    : metastore_schema_file ,
                      'hive_log_dir'             : hive_log_dir ,
                      'config_hive_site'         : pc.get('hive-site', {}) ,
+                     'jmx_export'               : jmx_export,
                    }) %}
