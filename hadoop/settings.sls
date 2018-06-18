@@ -181,6 +181,8 @@
                   'mapred' : 6002,
                   'yarn'   : 6003,
                   'hive'   : 6004,
+                  'knox'   : 6005,
+                  'ranger' : 6006,
                 } %}
 
 {%- set hadoop = {} %}
