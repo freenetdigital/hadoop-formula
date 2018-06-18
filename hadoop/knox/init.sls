@@ -67,33 +67,6 @@ knox-conf-symlink:
     - target: {{ knox.install_dir }}/conf
     - name: {{ knox.conf_dir }}
 
-#hive-site.xml:
-#  file.managed:
-#    - name: {{ hive.install_dir }}/conf/hive-site.xml
-#    - template: jinja
-#    - source: salt://hadoop/conf/hive/hive-site.xml
-#    - user: {{ username }}
-#    - watch_in:
-#      - service: hive-hiveserver2
-#
-#hive-log-directory:
-#  file.directory:
-#    - name: {{ hive.hive_log_dir }}
-#    - user: {{ username }}
-#
-#hive-log4j2.properties:
-#  file.managed:
-#    - name: {{ hive.install_dir }}/conf/hive-log4j2.properties
-#    - template: jinja
-#    - source: salt://hadoop/conf/hive/hive-log4j2.properties
-#    - user: {{ username }}
-#    - watch_in:
-#      - service: hive-hiveserver2
-#
-#{{ hdfs_mkdir('/tmp', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
-#{{ hdfs_mkdir('/apps', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
-#{{ hdfs_mkdir('/tmp/scratch', 'hive', 'hadoop', 1777, hadoop.dfs_cmd) }}
-#
 {% if grains['init'] == 'systemd' %}
 /etc/systemd/system/knox.service:
   file.managed:
@@ -110,31 +83,6 @@ knox-conf-symlink:
 {% endif %}
 
 {% if knox.jmx_export %}
-#{{ hive.conf_dir }}/hive-env.sh:
-#  file.managed:
-#    - source: salt://hadoop/conf/hive/hive-env.sh
-#    - template: jinja
-#    - mode: 644
-#    - user: root
-#    - group: root
-#    - context:
-#      jmx_export: {{ hive.jmx_export }}
-#
-#{{ hive.conf_dir }}/jmx_hive.yaml:
-#  file.managed:
-#    - source: salt://hadoop/conf/hive/jmx_hive.yaml
-#    - template: jinja
-#    - mode: 644
-#    - user: root
-#    - group: root
-#
-#{{ hive.conf_dir }}/jmx_metastore.yaml:
-#  file.managed:
-#    - source: salt://hadoop/conf/hive/jmx_metastore.yaml
-#    - template: jinja
-#    - mode: 644
-#    - user: root
-#    - group: root
 {% endif %} 
 
 knox:
