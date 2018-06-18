@@ -27,7 +27,7 @@ knox-directory-symlink:
 
 download-knox-archive:
   cmd.run:
-    - name: wget {{ knox.download_mirror }}/knox/{{ knox.version }}/knox-{{ knox.version }}.zip
+    - name: wget {{ knox.download_mirror }}/{{ knox.version }}/knox-{{ knox.version }}.zip
     - cwd: {{ knox.install_dir }}
     - user: {{ username }}
     - unless: test -f {{ knox.install_dir }}/bin/gateway.sh
