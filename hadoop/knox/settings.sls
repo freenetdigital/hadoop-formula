@@ -16,6 +16,7 @@
 {%- do knox.update({ 'version'                  : version,
                      'hash'                     : hash,
                      'conf_dir'                 : conf_dir,
+                     'dir'                      : dir,
                      'install_dir'              : base_install_dir + '/knox-' + version,
                      'download_mirror'          : download_mirror,
                      'jmx_export'               : jmx_export,
