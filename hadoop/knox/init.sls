@@ -83,9 +83,11 @@ knox-conf-symlink:
 {% endif %}
 
 {% if knox.jmx_export %}
+#TODO
 {% endif %} 
 
 knox-service:
   service.running:
     - enable: True
+    - name: knox.service
 
