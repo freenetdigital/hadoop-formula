@@ -76,7 +76,7 @@ knox-conf-symlink:
     - mode: '644'
     - template: jinja
     - context:
-      svc: knox
+      dir: {{ knox.dir }}
     - watch_in:
       - cmd: systemd-reload
 

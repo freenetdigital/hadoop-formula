@@ -5,12 +5,12 @@ After=network.target remote-fs.target
 
 [Service]
 Type=simple
-PIDFile={{knox.dir}}/pids/gateway.pid
+PIDFile={{ dir }}/pids/gateway.pid
 User=knox
 Group=knox
 
-ExecStart={{knox.dir}}/bin/gateway.sh start 
-ExecStop={{knox.dir}}/bin/gateway.sh stop 
+ExecStart={{ dir }}/bin/gateway.sh start 
+ExecStop={{ dir }}/bin/gateway.sh stop 
 
 Restart=on-failure
 SyslogIdentifier=knox
