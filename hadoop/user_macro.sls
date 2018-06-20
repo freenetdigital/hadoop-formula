@@ -1,6 +1,6 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
 
-{% macro hadoop_user(username, uid) -%}
+{% macro hadoop_user(username, uid, ssh=True) -%}
 {%- set userhome='/home/'+username %}
 {{ username }}:
   group.present:
@@ -21,6 +21,7 @@
 #      - /var/run/hadoop/{{ username }}
 #      - /var/lib/hadoop/{{ username }}
 
+{% if ssh %}
 {{ userhome }}/.ssh:
   file.directory:
     - user: {{ username }}
@@ -65,6 +66,7 @@ ssh_rss_{{ username }}:
     - mode: 644
     - require:
       - file: {{ userhome }}/.ssh
+{% endif %}
 
 {{ userhome }}/.bashrc:
   file.append:

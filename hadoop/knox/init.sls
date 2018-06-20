@@ -8,7 +8,7 @@ include:
 {%- set username = 'knox' %}
 {%- set uid = hadoop.users[username] %}
 
-{{ hadoop_user(username, uid) }}
+{{ hadoop_user(username, uid, ssh=False) }}
 
 knox-directory:
   file.directory:
