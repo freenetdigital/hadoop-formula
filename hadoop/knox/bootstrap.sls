@@ -49,12 +49,12 @@ only-localcert:
 
 {% if knox.master_enc %}
 {{ knox.install_dir}}/data/security/master:
-  - user: {{ username }}
-  - group: {{ username }}
-  - mode: 600
-  - contents: 
-    - {{ knox.master_enc }}
-  - allow_empty: False
+  file.managed:
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: 600
+    - contents_pillar: {{ knox.master_enc }}
+    - allow_empty: False
 {% else %}
 {% if not salt['file.file_exists'](knox.install_dir + '/data/security/master') %} 
 need-manual-master-secret:
