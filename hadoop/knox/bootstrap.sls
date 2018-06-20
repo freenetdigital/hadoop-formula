@@ -34,6 +34,12 @@ set-cert-alias:
     - onchanges:
       - cmd: create-jvm-keystore
 
+{{ knox.install_dir }}/data/security/keystores/gateway.jks:
+  file.managed:
+    - replace: False
+    - user: {{ username }}
+    - group: {{ username }}
+
 #create-gateway-passphrase-for-cert:
 #  cmd.run:
 #    - name: {{ knox.install_dir }}/bin/knoxcli.sh create-alias gateway-identity-passphrase --value {{ knox.master_pass }}
@@ -43,7 +49,7 @@ set-cert-alias:
 only-localcert:
   test.show_notification:
     - name: No certificate was configured 
-    - text: "No certificate was configured using knox.cert_name, localcert will be used by knox on startup, See: http://knox.apache.org/books/knox-1-0-0/user-guide.html#Keystores"
+    - text: "No certificate was configured using knox.cert_name, local demo cert will be used by knox on startup, See: http://knox.apache.org/books/knox-1-0-0/user-guide.html#Keystores"
 
 {% endif %}
 
