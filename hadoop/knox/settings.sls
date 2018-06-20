@@ -10,11 +10,11 @@
 {%- set download_mirror    = g.get('download_mirror', p.get('download_mirror', 'http://apache.lauf-forum.at/knox')) %}
 
 {%- set version            = g.get('version',        p.get('version', '1.0.0')) %}
-{%- set master_pass        = g.get('master_pass',    p.get('master_pass', '') %}
-{%- set master_enc         = g.get('master_enc',     p.get('master_enc', '') %}
-{%- set cert_name          = g.get('cert_name',      p.get('cert_name', '') %}
-{%- set cert_pub_path      = g.get('cert_pub_path',  p.get('cert_pub_path', '/etc/ssl/certs') %}
-{%- set cert_priv_path     = g.get('cert_priv_path', p.get('cert_priv_path', '/etc/ssl/private') %}
+{%- set master_pass        = g.get('master_pass',    p.get('master_pass', '')) %}
+{%- set master_enc         = g.get('master_enc',     p.get('master_enc', '')) %}
+{%- set cert_name          = g.get('cert_name',      p.get('cert_name', '')) %}
+{%- set cert_pub_path      = g.get('cert_pub_path',  p.get('cert_pub_path', '/etc/ssl/certs')) %}
+{%- set cert_priv_path     = g.get('cert_priv_path', p.get('cert_priv_path', '/etc/ssl/private')) %}
 
 {%- set jmx_export         = pc.get('jmx_export', false) %}
 

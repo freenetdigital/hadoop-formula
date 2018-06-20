@@ -45,3 +45,18 @@ only-localcert:
     - text: "See: http://knox.apache.org/books/knox-1-0-0/user-guide.html#Keystores"
 
 {% endif %}
+
+{% if knox.master_enc %}
+{{ knox.install_dir}}/data/security/master:
+  - user: {{ username }}
+  - group: {{ username }}
+  - mode: 600
+  - contents_pillar: knox:master_enc 
+  - allow_empty: False
+{% else %}
+{% if not salt['file.file_exists'](knox.install_dir + '/data/security/master') %} 
+need-manual-master-secret:
+  test.show_notification:
+    - name: "No master secrete was defined. Use 'knoxcli.sh create-master' to create one. Use this value for the var: knox.master_enc "
+{% endif %} 
+{% endif %} 
