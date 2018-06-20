@@ -20,17 +20,17 @@ knox-data-security-keystores:
 {% if knox.cert_name %}
 import-cert:
   cmd.run:
-    - name: openssl pkcs12 -export -in {{ knox.cert_pub_path}}/{{ knox.cert_name }} -inkey {{ knox.cert_priv_path }}/{{ knox.cert_name }}.key -out {{ knox.install_dir }}/data/security/keystores/knox.p12 -password pass:{{ knox.master_pass }}
+    - name: export RANDFILE=/root/.rnd; openssl pkcs12 -export -in {{ knox.cert_pub_path}}/{{ knox.cert_name }} -inkey {{ knox.cert_priv_path }}/{{ knox.cert_name }}.key -out {{ knox.install_dir }}/data/security/keystores/knox.p12 -password pass:{{ knox.master_pass }}
     - creates: {{ knox.install_dir }}/data/security/keystores/knox.p12
 
 create-jvm-keystore:
   cmd.run:
-    - name: keytool -importkeystore -srckeystore {{ knox.install_dir }}/data/security/keystores/knox.p12 -destkeystore {{ knox.install_dir }}/data/security/keystores/gateway.jks -srcstoretype pkcs12 -deststorepass {{ knox.master_pass }} -srcstorepass {{ knox.master_pass }}
+    - name: {{java_home}}/bin/keytool -importkeystore -srckeystore {{ knox.install_dir }}/data/security/keystores/knox.p12 -destkeystore {{ knox.install_dir }}/data/security/keystores/gateway.jks -srcstoretype pkcs12 -deststorepass {{ knox.master_pass }} -srcstorepass {{ knox.master_pass }}
     - creates: {{ knox.install_dir }}/data/security/keystores/gateway.jks
 
 set-cert-alias: 
   cmd.run:
-    - name: keytool -changealias -alias '1' -destalias 'gateway-identity' -keystore {{ knox.install_dir }}/data/security/keystores/gateway.jks -storepass {{ knox.master_pass }}
+    - name: {{java_home}}/bin/keytool -changealias -alias '1' -destalias 'gateway-identity' -keystore {{ knox.install_dir }}/data/security/keystores/gateway.jks -storepass {{ knox.master_pass }}
     - onchanges:
       - cmd: create-jvm-keystore
 
