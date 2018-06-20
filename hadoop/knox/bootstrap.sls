@@ -25,12 +25,12 @@ import-cert:
 
 create-jvm-keystore:
   cmd.run:
-    - name: {{ salt['pillar.get']('java_home', '/usr/lib/java'}}/bin/keytool -importkeystore -srckeystore {{ knox.install_dir }}/data/security/keystores/knox.p12 -destkeystore {{ knox.install_dir }}/data/security/keystores/gateway.jks -srcstoretype pkcs12 -deststorepass {{ knox.master_pass }} -srcstorepass {{ knox.master_pass }}
+    - name: {{ salt['pillar.get']('java_home', '/usr/lib/java')}}/bin/keytool -importkeystore -srckeystore {{ knox.install_dir }}/data/security/keystores/knox.p12 -destkeystore {{ knox.install_dir }}/data/security/keystores/gateway.jks -srcstoretype pkcs12 -deststorepass {{ knox.master_pass }} -srcstorepass {{ knox.master_pass }}
     - creates: {{ knox.install_dir }}/data/security/keystores/gateway.jks
 
 set-cert-alias: 
   cmd.run:
-    - name: {{java_home}}/bin/keytool -changealias -alias '1' -destalias 'gateway-identity' -keystore {{ knox.install_dir }}/data/security/keystores/gateway.jks -storepass {{ knox.master_pass }}
+    - name: {{ salt['pillar.get']('java_home', '/usr/lib/java')}}/bin/keytool -changealias -alias '1' -destalias 'gateway-identity' -keystore {{ knox.install_dir }}/data/security/keystores/gateway.jks -storepass {{ knox.master_pass }}
     - onchanges:
       - cmd: create-jvm-keystore
 
