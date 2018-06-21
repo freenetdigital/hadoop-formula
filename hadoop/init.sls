@@ -270,6 +270,25 @@ hadoop-conf-link:
     - group: root
 {%- endif %}
 
+{{ hadoop.alt_config }}/core-site.xml:
+  file.managed:
+    - source: salt://hadoop/conf/hdfs/core-site.xml
+    - template: jinja
+    - mode: 644
+
+{{ hadoop.alt_config }}/hdfs-site.xml:
+  file.managed:
+    - source: salt://hadoop/conf/hdfs/hdfs-site.xml
+    - template: jinja
+    - mode: 644
+
+{{ hadoop.alt_config }}/yarn-site.xml:
+  file.managed:
+    - source: salt://hadoop/conf/yarn/yarn-site.xml
+    - mode: 644
+    - user: root
+    - template: jinja
+
 {%- if grains.os == 'Ubuntu' %}
 /etc/default/hadoop:
   file.managed:

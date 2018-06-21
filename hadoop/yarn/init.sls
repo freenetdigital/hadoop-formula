@@ -61,12 +61,12 @@ fix-executor-permissions:
     - onlyif: test -f {{hadoop.alt_home}}/bin/container-executor
     - name: {{hadoop.alt_home}}/bin/container-executor
 
-{{ hadoop.alt_config }}/yarn-site.xml:
-  file.managed:
-    - source: salt://hadoop/conf/yarn/yarn-site.xml
-    - mode: 644
-    - user: root
-    - template: jinja
+#{{ hadoop.alt_config }}/yarn-site.xml:
+#  file.managed:
+#    - source: salt://hadoop/conf/yarn/yarn-site.xml
+#    - mode: 644
+#    - user: root
+#    - template: jinja
 
 {{ hadoop.alt_config }}/capacity-scheduler.xml:
   file.managed:
