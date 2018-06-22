@@ -108,14 +108,6 @@ knox-conf-symlink:
     - mode: '600'
     - template: jinja
 
-/tmp/knox-settings-dump.yaml:
-  file.managed:
-    - source: salt://hadoop/conf/knox/dump.yaml
-    - user: root
-    - group: root
-    - mode: '600'
-    - template: jinja
-
 {% if knox.jmx_export %}
 #TODO
 {% endif %} 

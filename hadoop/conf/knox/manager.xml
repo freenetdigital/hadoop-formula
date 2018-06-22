@@ -1,5 +1,5 @@
-{%- from 'hadoop/knox/settings.sls' import knox with context %}
 <?xml version="1.0" encoding="utf-8"?>
+{%- from 'hadoop/knox/settings.sls' import knox with context -%}
 <!--
      SALT-MANAGED
 -->
@@ -15,7 +15,7 @@
             <param><name>xframe.options.enabled</name><value>true</value></param>
             <param><name>strict.transport.enabled</name><value>true</value></param>
         </provider>
-	 <provider>
+        <provider>
             <role>authentication</role>
             <name>ShiroProvider</name>
             <enabled>true</enabled>
@@ -37,45 +37,39 @@
            </param>
             <param>
                 <name>main.ldapRealm.contextFactory.url</name>
-		<value>ldaps://{{ knox.ldap_host }}:{{ knox.ldap_port }}</value>
+                <value>ldaps://{{ knox.ldap_host }}:{{ knox.ldap_port }}</value>
             </param>
-
             <param>
                 <name>main.ldapRealm.authorizationEnabled</name>
                 <value>true</value>
             </param>
-
             <param>
                 <name>main.ldapRealm.contextFactory.systemUsername</name>
-		<value>{{ knox.ldap_user }}</value>
+                <value>{{ knox.ldap_user }}</value>
             </param>
-
             <param>
                 <name>main.ldapRealm.contextFactory.systemPassword</name>
-		<value>{{ knox.ldap_pass }}</value>
+                <value>{{ knox.ldap_pass }}</value>
             </param>
-	                <param>
+            <param>
                 <name>main.ldapRealm.userSearchAttributeName</name>
                 <value>sAMAccountName</value>
             </param>
-
             <param>
                 <name>main.ldapRealm.userObjectClass</name>
                 <value>person</value>
             </param>
-
             <param>
                 <name>main.ldapRealm.searchBase</name>
-		<value>{{ knox.ldap_searchbase }}</value>
+                <value>{{ knox.ldap_searchbase }}</value>
             </param>
-
             <param>
                 <name>main.ldapRealm.groupObjectClass</name>
                 <value>group</value>
             </param>
             <param>
                 <name>main.ldapRealm.groupSearchBase</name>
-		<value>{{ knox.ldap_group_searchbase }}</value>
+                <value>{{ knox.ldap_group_searchbase }}</value>
             </param>
             <param>
                 <name>main.ldapRealm.memberAttribute</name>
@@ -85,16 +79,26 @@
                 <name>main.ldapRealm.groupIdAttribute</name>
                 <value>sAMAccountName</value>
             </param>
-
             <param>
                 <name>main.ldapRealm.contextFactory.authenticationMechanism</name>
                 <value>simple</value>
             </param>
             <param>
+                <name>main.cacheManager</name>
+                <value>org.apache.shiro.cache.ehcache.EhCacheManager</value>
+            </param>
+            <param>
+                <name>main.securityManager.cacheManager</name>
+                <value>$cacheManager</value>
+            </param>
+            <param>
+                <name>main.ldapRealm.authenticationCachingEnabled</name>
+                <value>true</value>
+            </param>
+            <param>
                 <name>urls./**</name>
                 <value>authcBasic</value>
             </param>
-
         </provider>
         <provider>
             <role>authorization</role>
@@ -102,7 +106,7 @@
             <enabled>true</enabled>
             <param>
                 <name>knox.acl</name>
-		<value>{{ knox.manager_topology.acl }}</value>
+                <value>{{ knox.manager_topology.acl }}</value>
             </param>
         </provider>
         <provider>
@@ -111,7 +115,6 @@
             <enabled>true</enabled>
         </provider>
     </gateway>
-
 
     <application>
         <role>admin-ui</role>
