@@ -1,0 +1,4 @@
+{%- from 'hadoop/knox/settings.sls' import knox with context %}
+Knox settings dump
+=================
+{{ knox }}
