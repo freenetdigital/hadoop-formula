@@ -107,7 +107,7 @@
             <name>Default</name>
             <enabled>true</enabled>
         </provider>
-{%- if hdfs.namenode_count > 1 -%}
+{%- if hdfs.namenode_count > 1 %}
         <provider>
             <role>ha</role>
             <name>HaProvider</name>
@@ -117,10 +117,10 @@
                 <value>maxFailoverAttempts=3;failoverSleep=1000;maxRetryAttempts=300;retrySleep=1000;enabled=true</value>
             </param>
         </provider>
-{% endif %}
+{%- endif %}
     </gateway>
 
-{% if hdfs.namenode_count > 1 %}
+{%- if hdfs.namenode_count > 1 %}
     <service>
         <role>HDFSUI</role>
          <url>http://{{ hdfs.namenode_hosts|first() }}:{{ hdfs.namenode_http_port }}</url>
@@ -134,10 +134,10 @@
         <role>WEBHDFS</role>
 {%- for namenode in hdfs.namenode_hosts -%}
          <url>http://{{ namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
-{%- endfor -%}
+{% endfor -%}
     </service>
-{% else %}
-{% if hdfs.namenode_count == 1 %}
+{%- else -%}
+{%- if hdfs.namenode_count == 1 %}
     <service>
         <role>HDFSUI</role>
         <url>http://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}</url>
@@ -151,8 +151,8 @@
         <role>WEBHDFS</role>
         <url>http://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
     </service>
-{% endif %}
-{% endif %}
+{%- endif -%}
+{%- endif %}
     <service>
         <role>JOBTRACKER</role>
         <url>rpc://localhost:8050</url>
@@ -163,25 +163,25 @@
         <url>http://localhost:50111/templeton</url>
     </service>
 
-    {% set thrift_port = hive_cfg.get('hive.server2.thrift.http.port', {}) %}
-    {% set thrift_path = hive_cfg.get('hive.server2.thrift.http.path', {}) %}
-    {% set hive_target = 'G@role:hive and G@clustername:' + grains['cluster_id'] %}
-    {% set hive_grains = salt['mine.get'](hive_target, 'grains.item','compound') %}
-    {% if thrift_port and thrift_path and hive_grains %}
+    {%- set thrift_port = hive_cfg.get('hive.server2.thrift.http.port', {}) -%}
+    {%- set thrift_path = hive_cfg.get('hive.server2.thrift.http.path', {}) -%}
+    {%- set hive_target = 'G@role:hive and G@clustername:' + grains['cluster_id'] -%}
+    {%- set hive_grains = salt['mine.get'](hive_target, 'grains.item','compound') -%}
+    {%- if thrift_port and thrift_path and hive_grains and len(hive.grains.keys()) == 1-%}
     <service>
         <role>HIVE</role>
-	{{ hive_grains }}
-        <url>http://:hive_grains:{{ thrift_port.value }}:/{{ thrift_path.value }}</url>
+	{% for minion in hive_grains.keys() %}
+	<url>http://:{{ minion.fqdn }}:{{ thrift_port.value }}:/{{ thrift_path.value }}</url>
     </service>
-    {% endif %}
-    {% if yarn.resourcemanager_hosts %}
+    {%- endif -%}
+    {%- if yarn.resourcemanager_hosts %}
     <service>
         <role>YARNUI</role>
-        <url>http://{{ yarn.resourcemanager_hosts|first() }}:{{ yarn.resourcemanager_port }}</url>
+        <url>http://{{ yarn.resourcemanager_hosts|first() }}:{{ yarn.resourcemanager_webapp_port }}</url>
     </service>
     <service>
         <role>RESOURCEMANAGER</role>
-        <url>http://{{ yarn.resourcemanager_hosts|first() }}:{{ yarn.resourcemanager_port }}/ws</url>
+        <url>http://{{ yarn.resourcemanager_hosts|first() }}:{{ yarn.resourcemanager_webapp_port }}/ws</url>
     </service>
-    {% endif %}
+    {%- endif %}
 </topology>
