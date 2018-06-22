@@ -167,7 +167,7 @@
     {%- set thrift_path = hive_cfg.get('hive.server2.thrift.http.path', {}) -%}
     {%- set hive_target = 'G@role:hive and G@clustername:' + grains['cluster_id'] -%}
     {%- set hive_grains = salt['mine.get'](hive_target, 'grains.item','compound') -%}
-    {%- if thrift_port and thrift_path and hive_grains and hive_grains.keys()|lenght == 1-%}
+    {%- if thrift_port and thrift_path and hive_grains and hive_grains.keys()|length == 1-%}
     <service>
         <role>HIVE</role>
 	{%- for minion in hive_grains.keys() %}
