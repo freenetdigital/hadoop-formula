@@ -170,8 +170,9 @@
     {%- if thrift_port and thrift_path and hive_grains and len(hive.grains.keys()) == 1-%}
     <service>
         <role>HIVE</role>
-	{% for minion in hive_grains.keys() %}
+	{%- for minion in hive_grains.keys() %}
 	<url>http://:{{ minion.fqdn }}:{{ thrift_port.value }}:/{{ thrift_path.value }}</url>
+	{%- endfor %}
     </service>
     {%- endif -%}
     {%- if yarn.resourcemanager_hosts %}
