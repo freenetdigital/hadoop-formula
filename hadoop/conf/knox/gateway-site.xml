@@ -5,7 +5,7 @@
 <!-- SALT MANAGED -->
 
 <configuration>
-	    <property>
+    <property>
         <name>gateway.port</name>
 	<value>{{ knox.gateway_port }}</value>
         <description>The HTTP port for the Gateway.</description>

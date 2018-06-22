@@ -134,6 +134,7 @@
 	<url>http://{{ namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
 	{% endfor -%}
     </service>
+{% else %}
 {% if hdfs.namenode_count == 1 %}
     <service>
         <role>HDFSUI</role>
@@ -149,7 +150,7 @@
 	<url>http://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
     </service>
 {% endif %}
-
+{% endif %}
     <service>
         <role>JOBTRACKER</role>
         <url>rpc://localhost:8050</url>
@@ -164,7 +165,7 @@
     {% set thrift_path = hive_cfg.get('hive.server2.thrift.http.path', {}) %}
     {% set hive_target = 'G@role:hive and G@clustername:' + grains['clustername'] %}
     {% set hive_grains = salt['mine.get'](hive_target,grains.item,compound) %}
-    {% if thrift_port and thrift_path and hive_grains%}
+    {% if thrift_port and thrift_path and hive_grains %}
     <service>
         <role>HIVE</role>
 	<url>http://:{{ hive_grains.fqdn }}:{{ thrift_port.value }}:/{{ thrift_path.value }}

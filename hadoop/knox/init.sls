@@ -89,8 +89,6 @@ knox-conf-symlink:
     - group: {{ username }}
     - mode: '644'
     - template: jinja
-    - context:
-      knox: {{ knox }}
     - watch_in:
       - cmd: systemd-reload
 
@@ -101,8 +99,6 @@ knox-conf-symlink:
     - group: {{ username }}
     - mode: '600'
     - template: jinja
-    - context:
-      knox: {{ knox }}
 
 {{ knox.conf_dir}}/topologies/{{ grains['cluster_id'] }}.xml:
   file.managed:
@@ -111,8 +107,6 @@ knox-conf-symlink:
     - group: {{ username }}
     - mode: '600'
     - template: jinja
-    - context:
-      knox: {{ knox }}
 
 {% if knox.jmx_export %}
 #TODO
