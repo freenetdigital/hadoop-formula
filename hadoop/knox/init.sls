@@ -104,7 +104,7 @@ knox-conf-symlink:
     - context:
       knox: {{ knox }}
 
-{{ knox.conf_dir}}/topologies/{{ grains['clustername'] }}.xml:
+{{ knox.conf_dir}}/topologies/{{ grains['cluster_id'] }}.xml:
   file.managed:
     - source: salt://hadoop/conf/knox/cluster.xml
     - user: {{ username }}

@@ -24,8 +24,8 @@
 {%- set ldap_group_searchbase = gc.get('ldap_group_searchbase', pc.get('ldap_group_searchbase','')) %}
 {%- set ldap_user             = gc.get('ldap_user', pc.get('ldap_user','')) %}
 {%- set ldap_pass             = gc.get('ldap_pass', pc.get('ldap_pass','')) %}
-{%- set manager_topology      = gc.get('manager_topology', pc.get('manager_topology','')) %}
-{%- set cluster_topology      = gc.get('cluster_topology', pc.get('cluster_topology','')) %}
+{%- set manager_topology      = gc.get('manager_topology', pc.get('manager_topology',{})) %}
+{%- set cluster_topology      = gc.get('cluster_topology', pc.get('cluster_topology',{})) %}
 {%- set gateway_port          = gc.get('gateway_port', pc.get('gateway_port', '8443')) %}
 {%- set gateway_path          = gc.get('gateway_path', pc.get('gateway_path','gateway')) %}
 
