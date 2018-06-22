@@ -170,7 +170,8 @@
     {% if thrift_port and thrift_path and hive_grains %}
     <service>
         <role>HIVE</role>
-        <url>http://:{{ hive_grains.fqdn }}:{{ thrift_port.value }}:/{{ thrift_path.value }}</url>
+	{{ hive_grains }}
+        <url>http://:hive_grains:{{ thrift_port.value }}:/{{ thrift_path.value }}</url>
     </service>
     {% endif %}
     {% if yarn.resourcemanager_hosts %}
