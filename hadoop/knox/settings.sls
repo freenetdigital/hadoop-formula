@@ -15,8 +15,20 @@
 {%- set cert_name          = g.get('cert_name',      p.get('cert_name', '')) %}
 {%- set cert_pub_path      = g.get('cert_pub_path',  p.get('cert_pub_path', '/etc/ssl/certs')) %}
 {%- set cert_priv_path     = g.get('cert_priv_path', p.get('cert_priv_path', '/etc/ssl/private')) %}
+{%- set config_gateway_site = gc.get('gateway-site', pc.get('gateway-site', {})) %}
 
-{%- set jmx_export         = pc.get('jmx_export', false) %}
+{%- set jmx_export            = gc.get('jmx_export', pc.get('jmx_export', false)) %}
+{%- set ldap_host             = gc.get('ldap_host', pc.get('ldap_host','')) %}
+{%- set ldap_port             = gc.get('ldap_host', pc.get('ldap_port','')) %}
+{%- set ldap_searchbase       = gc.get('ldap_searchbase', pc.get('ldap_searchbase','')) %}
+{%- set ldap_group_searchbase = gc.get('ldap_group_searchbase', pc.get('ldap_group_searchbase','')) %}
+{%- set ldap_user             = gc.get('ldap_user', pc.get('ldap_user','')) %}
+{%- set ldap_pass             = gc.get('ldap_pass', pc.get('ldap_pass','')) %}
+{%- set manager_topology      = gc.get('manager_topology', pc.get('manager_topology','')) %}
+{%- set cluster_topology      = gc.get('cluster_topology', pc.get('cluster_topology','')) %}
+{%- set gateway_port          = gc.get('gateway_port', pc.get('gateway_port', '8443')) %}
+{%- set gateway_path          = gc.get('gateway_path', pc.get('gateway_path','gateway')) %}
+
 
 {%- set knox = {} %}
 {%- do knox.update({ 'version'                  : version,
@@ -31,4 +43,16 @@
                      'cert_name'                : cert_name, 
                      'cert_pub_path'            : cert_pub_path, 
                      'cert_priv_path'           : cert_priv_path, 
+                     'config_gateway_site'      : config_gateway_site,
+                     'jmx_export'               : jmx_export,
+                     'ldap_host'                : ldap_host,
+                     'ldap_port'                : ldap_port,
+                     'ldap_searchbase'          : ldap_searchbase,
+                     'ldap_group_searchbase'    : ldap_group_searchbase,
+                     'ldap_user'                : ldap_user,
+                     'ldap_pass'                : ldap_pass,
+                     'manager_topology'         : manager_topology,
+                     'cluster_topology'         : cluster_topology,
+                     'gateway_port'             : gateway_port,
+                     'gateway_path'             : gateway_path,
                    }) %}

@@ -1,0 +1,188 @@
+{%- from 'hadoop/knox/settings.sls' import knox with context %}
+{%- from 'hadoop/hdfs/settings.sls' import hdfs with context %}
+{%- from 'hadoop/hive/settings.sls' import hive with context %}
+{%- from 'hadoop/yarn/settings.sls' import yarn with context %}
+{%- set hive_cfg = hive.get('config_hive_site', {}) -%}
+
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SALT-MANAGED
+-->
+<topology>
+    <gateway>
+	 <provider>
+            <role>authentication</role>
+            <name>ShiroProvider</name>
+            <enabled>true</enabled>
+            <param>
+                <name>sessionTimeout</name>
+                <value>30</value>
+            </param>
+            <param>
+                <name>main.ldapRealm</name>
+                <value>org.apache.knox.gateway.shirorealm.KnoxLdapRealm</value>
+            </param>
+            <param>
+                <name>main.ldapContextFactory</name>
+                <value>org.apache.knox.gateway.shirorealm.KnoxLdapContextFactory</value>
+            </param>
+           <param>
+               <name>main.ldapGroupContextFactory</name>
+               <value>org.apache.knox.gateway.shirorealm.KnoxLdapContextFactory</value>
+           </param>
+            <param>
+                <name>main.ldapRealm.contextFactory.url</name>
+		<value>ldaps://{{ knox.ldap_host }}:{{ knox.ldap_port }}</value>
+            </param>
+
+            <param>
+                <name>main.ldapRealm.authorizationEnabled</name>
+                <value>true</value>
+            </param>
+
+            <param>
+                <name>main.ldapRealm.contextFactory.systemUsername</name>
+		<value>{{ knox.ldap_user }}</value>
+            </param>
+
+            <param>
+                <name>main.ldapRealm.contextFactory.systemPassword</name>
+		<value>{{ knox.ldap_pass }}</value>
+            </param>
+	                <param>
+                <name>main.ldapRealm.userSearchAttributeName</name>
+                <value>sAMAccountName</value>
+            </param>
+
+            <param>
+                <name>main.ldapRealm.userObjectClass</name>
+                <value>person</value>
+            </param>
+
+            <param>
+                <name>main.ldapRealm.searchBase</name>
+		<value>{{ knox.ldap_searchbase }}</value>
+            </param>
+
+            <param>
+                <name>main.ldapRealm.groupObjectClass</name>
+                <value>group</value>
+            </param>
+            <param>
+                <name>main.ldapRealm.groupSearchBase</name>
+		<value>{{ knox.ldap_group_searchbase }}</value>
+            </param>
+            <param>
+                <name>main.ldapRealm.memberAttribute</name>
+                <value>member</value>
+            </param>
+            <param>
+                <name>main.ldapRealm.groupIdAttribute</name>
+                <value>sAMAccountName</value>
+            </param>
+
+            <param>
+                <name>main.ldapRealm.contextFactory.authenticationMechanism</name>
+                <value>simple</value>
+            </param>
+            <param>
+                <name>urls./**</name>
+                <value>authcBasic</value>
+            </param>
+
+        </provider>
+        <provider>
+            <role>authorization</role>
+            <name>AclsAuthz</name>
+            <enabled>true</enabled>
+            <param>
+                <name>knox.acl</name>
+		<value>{{ knox.cluster_topology.acl }}</value>
+            </param>
+        </provider>
+        <provider>
+            <role>identity-assertion</role>
+            <name>Default</name>
+            <enabled>true</enabled>
+        </provider>
+{% if hdfs.namenode_count > 1 %}
+	 <provider>
+            <role>ha</role>
+            <name>HaProvider</name>
+            <enabled>true</enabled>
+            <param>
+                <name>WEBHDFS</name>
+                <value>maxFailoverAttempts=3;failoverSleep=1000;maxRetryAttempts=300;retrySleep=1000;enabled=true</value>
+            </param>
+	</provider>
+{% endif %}
+    </gateway>
+
+{% if hdfs.namenode_count > 1 %}
+    <service>
+        <role>HDFSUI</role>
+	<url>http://{{ hdfs.namenode_hosts|first() }}:{{ hdfs.namenode_http_port }}</url>
+    </service>
+    <service>
+        <role>NAMENODE</role>
+	<url>hdfs://{{ hdfs.namenode_hosts|first() }}:{{ hdfs.namenode_port }}</url>
+    </service>
+
+    <service>
+        <role>WEBHDFS</role>
+	{% for namenode in hdfs.namenode_hosts %}
+	<url>http://{{ namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
+	{% endfor -%}
+    </service>
+{% if hdfs.namenode_count == 1 %}
+    <service>
+        <role>HDFSUI</role>
+	<url>http://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}</url>
+    </service>
+    <service>
+        <role>NAMENODE</role>
+	<url>hdfs://{{ hdfs.namenode }}:{{ hdfs.namenode_port }}</url>
+    </service>
+
+    <service>
+        <role>WEBHDFS</role>
+	<url>http://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
+    </service>
+{% endif %}
+
+    <service>
+        <role>JOBTRACKER</role>
+        <url>rpc://localhost:8050</url>
+    </service>
+
+    <service>
+        <role>WEBHCAT</role>
+        <url>http://localhost:50111/templeton</url>
+    </service>
+
+    {% set thrift_port = hive_cfg.get('hive.server2.thrift.http.port', {}) %}
+    {% set thrift_path = hive_cfg.get('hive.server2.thrift.http.path', {}) %}
+    {% set hive_target = 'G@role:hive and G@clustername:' + grains['clustername'] %}
+    {% set hive_grains = salt['mine.get'](hive_target,grains.item,compound) %}
+    {% if thrift_port and thrift_path and hive_grains%}
+    <service>
+        <role>HIVE</role>
+	<url>http://:{{ hive_grains.fqdn }}:{{ thrift_port.value }}:/{{ thrift_path.value }}
+</url>
+    </service>
+
+    {% if yarn.resourcemanager_hosts %}
+    <service>
+        <role>YARNUI</role>
+	<url>http://{{ yarn.resourcemanager_hosts|first() }}:{{ yarn.resourcemanager_port }}</url>
+    </service>
+    <service>
+        <role>RESOURCEMANAGER</role>
+	<url>http://{{ yarn.resourcemanager_hosts|first() }}:{{ yarn.resourcemanager_port }}/ws</url>
+    </service>
+    {% endif %}
+</topology>
+
+
+
+

@@ -82,12 +82,41 @@ knox-conf-symlink:
 
 {% endif %}
 
+{{ knox.conf_dir}}/gateway-site.xml:
+  file.managed:
+    - source: salt://hadoop/conf/knox/gateway-site.xml
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '644'
+    - template: jinja
+    - context:
+      knox: {{ knox }}
+    - watch_in:
+      - cmd: systemd-reload
+
+{{ knox.conf_dir}}/topologies/manager.xml:
+  file.managed:
+    - source: salt://hadoop/conf/knox/manager.xml
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '600'
+    - template: jinja
+    - context:
+      knox: {{ knox }}
+
+{{ knox.conf_dir}}/topologies/{{ grains['clustername'] }}.xml:
+  file.managed:
+    - source: salt://hadoop/conf/knox/cluster.xml
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '600'
+    - template: jinja
+    - context:
+      knox: {{ knox }}
+
 {% if knox.jmx_export %}
 #TODO
 {% endif %} 
-
-include:
-  - bootstrap
 
 knox-service:
   service.running:
