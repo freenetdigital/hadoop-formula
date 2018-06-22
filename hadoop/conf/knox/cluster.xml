@@ -3,7 +3,7 @@
 {%- from 'hadoop/hdfs/settings.sls' import hdfs with context -%}
 {%- from 'hadoop/hive/settings.sls' import hive with context -%}
 {%- from 'hadoop/yarn/settings.sls' import yarn with context -%}
-{%- set hive_cfg = hive.get('config_hive_site', {}) -%}
+{%- set hive_cfg = hive.get('config_hive_site', {}) %}
 <!--
      SALT-MANAGED
 -->
@@ -166,7 +166,7 @@
     {% set thrift_port = hive_cfg.get('hive.server2.thrift.http.port', {}) %}
     {% set thrift_path = hive_cfg.get('hive.server2.thrift.http.path', {}) %}
     {% set hive_target = 'G@role:hive and G@clustername:' + grains['cluster_id'] %}
-    {% set hive_grains = salt['mine.get'](hive_target,grains.item,compound) %}
+    {% set hive_grains = salt['mine.get'](hive_target, 'grains.item','compound') %}
     {% if thrift_port and thrift_path and hive_grains %}
     <service>
         <role>HIVE</role>

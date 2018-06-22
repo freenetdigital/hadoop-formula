@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 {%- from 'hadoop/knox/settings.sls' import knox with context -%}
-{%- set dyn_cfg = knox.get('config_gateway_site', {}) -%}
+{%- set dyn_cfg = knox.get('config_gateway_site', {}) %}
 <!-- SALT MANAGED -->
 <configuration>
     <property>
