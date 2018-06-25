@@ -117,9 +117,8 @@ knox-conf-symlink:
     - mode: '600'
     - template: jinja
 
-{{ knox.conf_dir}}/gateway-site-jmx:
+{{ knox.install_dir}}/bin/gateway.sh:
   file.replace:
-    - name: {{knox.conf_dir }}/gateway-site.xml
     - pattern: "^APP_MEM_OPTS.*"
     - repl: 'APP_MEM_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27014:{{knox.conf_dir}}/jmx.yaml"'
 {% endif %} 
