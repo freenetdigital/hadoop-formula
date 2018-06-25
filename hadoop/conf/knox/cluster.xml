@@ -169,7 +169,7 @@
     <service>
         <role>HIVE</role>
 	{%- for minion in hive_grains.keys() %}
-	<url>http://{{ hive_grains[minion]['fqdn'] }}:{{ thrift_port.value }}:/{{ thrift_path.value }}</url>
+	<url>http://{{ hive_grains[minion]['fqdn'] }}:{{ thrift_port.value }}/{{ thrift_path.value }}</url>
 	{%- endfor %}
     </service>
     {%- endif -%}
