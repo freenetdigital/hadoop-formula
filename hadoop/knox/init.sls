@@ -109,7 +109,19 @@ knox-conf-symlink:
     - template: jinja
 
 {% if knox.jmx_export %}
-#TODO
+{{ knox.conf_dir}}/jmx.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/knox/jmx.yaml
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '600'
+    - template: jinja
+
+{{ knox.conf_dir}}/gateway-site-jmx:
+  file.replace:
+    - name: {{knox.conf_dir }}/gateway-site.xml
+    - pattern: "^APP_MEM_OPTS"
+    - repl: 'APP_MEM_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27014:{{knox.conf_dir}}/jmx.yaml"'
 {% endif %} 
 
 knox-service:
