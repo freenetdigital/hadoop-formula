@@ -1,0 +1,24 @@
+{%- from 'hadoop/solr/settings.sls' import solr with context -%}
+{%- from 'zookeeper/settings.sls' import zk with context -%}
+[Unit]
+Description=Apache Solr Prometheus exporter
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target solr.service
+
+[Service]
+Type=simple
+User=solr
+Group=solr
+
+ExecStart={{ solr.install_dir }}/contrib/prometheus-exporter/bin/solr-exporter -p 27015 -z {{ zk.connection_string }} -f {{ solr.install_dir }}/contrib/prometheus-exporter/conf/solr-exporter-config.xml
+
+TimeoutSec=30
+Restart=on-failure
+RestartSec=30
+StartLimitInterval=350
+StartLimitBurst=10
+
+SyslogIdentifier=solr-exporter
+
+[Install]
+WantedBy=multi-user.target

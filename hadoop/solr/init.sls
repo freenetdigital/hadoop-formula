@@ -88,6 +88,17 @@ cleanup-solr-directory:
     - watch_in:
       - cmd: systemd-reload
 
+{% if solr.jmx_export %}
+/etc/systemd/system/solr-exporter.service:
+  file.managed:
+    - source: salt://hadoop/files/solr-exporter.init.systemd
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - watch_in:
+      - cmd: systemd-reload
+{% endif %}
 {% endif %}
 
 /etc/default/solr.in.sh:
@@ -107,17 +118,6 @@ cleanup-solr-directory:
     - group: {{ username }}
     - mode: '640'
     - template: jinja
-
-#{% if solr.jmx_export %}
-#{{ solr.conf_dir}}/jmx.yaml:
-#  file.managed:
-#    - source: salt://hadoop/conf/solr/jmx.yaml
-#    - user: {{ username }}
-#    - group: {{ username }}
-#    - mode: '600'
-#    - template: jinja
-#
-#{% endif %} 
 
 solr-service:
   service.running:
