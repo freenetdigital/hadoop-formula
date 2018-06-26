@@ -12,7 +12,6 @@
 
 {%- set version            = g.get('version',        p.get('version', '7.3.1')) %}
 {%- set jmx_export         = gc.get('jmx_export',   pc.get('jmx_export', false)) %}
-{%- set data_dir           = gc.get('data_dir',     pc.get('data_dir', '/var/solr/')) %}
 
 
 {%- set solr = {} %}
@@ -25,4 +24,5 @@
                      'jmx_export'               : jmx_export,
                      'data_dir'                 : data_dir,
                      'home_dir'                 : data_dir + '/data',
+                     'log_dir'                  : data_dir + '/logs',
                    }) %}

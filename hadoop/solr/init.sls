@@ -15,10 +15,10 @@ solr-directory:
     - name: {{ solr.install_dir }}
     - user: {{ username }}
 
-solr-conf-directory:
-  file.directory:
-    - name: {{ solr.conf_dir }}
-    - user: {{ username }}
+#solr-conf-directory:
+#  file.directory:
+#    - name: {{ solr.conf_dir }}
+#    - user: {{ username }}
 
 solr-data-directory:
   file.directory:
@@ -32,7 +32,7 @@ solr-home-directory:
 
 solr-logs-directory:
   file.directory:
-    - name: {{ solr.data_dir }}/logs
+    - name: {{ solr.log_dir }}
     - user: {{ username }}
 
 solr-directory-symlink:
