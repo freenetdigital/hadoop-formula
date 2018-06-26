@@ -60,7 +60,7 @@ ZK_HOST="{{zk.connection_string}}"
 
 # By default the start script uses "localhost"; override the hostname here
 # for production SolrCloud environments to control the hostname exposed to cluster state
-SOLR_HOST="{{ salt['grains.get']['fqdn'] }}"
+SOLR_HOST="{{ salt['grains.get']('fqdn') }}"
 
 # By default Solr will try to connect to Zookeeper with 30 seconds in timeout; override the timeout if needed
 #SOLR_WAIT_FOR_ZK="30"
