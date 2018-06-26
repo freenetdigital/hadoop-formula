@@ -183,6 +183,7 @@
                   'hive'   : 6004,
                   'knox'   : 6005,
                   'ranger' : 6006,
+                  'solr'   : 6007,
                 } %}
 
 {%- set hadoop = {} %}
