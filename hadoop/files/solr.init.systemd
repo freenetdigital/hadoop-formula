@@ -1,3 +1,4 @@
+{%- from 'hadoop/solr/settings.sls' import solr with context -%}
 [Unit]
 Description=Apache Solr
 Requires=network.target remote-fs.target
