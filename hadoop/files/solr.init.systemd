@@ -1,0 +1,20 @@
+[Unit]
+Description=Apache Solr
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+Environment=SOLR_INCLUDE=/etc/default/solr.in.sh
+User=solr
+Group=solr
+
+PIDFile={{ solr.data_dir }}/solr-8983.pid
+ExecStart={{ solr.install_dir }}/bin/solr start 
+ExecStop={{ solr.install_dir }}/bin/solr stop
+
+Restart=on-failure
+SyslogIdentifier=solr
+
+[Install]
+WantedBy=multi-user.target

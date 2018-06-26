@@ -17,7 +17,22 @@ solr-directory:
 
 solr-conf-directory:
   file.directory:
-    - name: /etc/solr
+    - name: {{ solr.conf_dir }}
+    - user: {{ username }}
+
+solr-data-directory:
+  file.directory:
+    - name: {{ solr.data_dir }}
+    - user: {{ username }}
+
+solr-home-directory:
+  file.directory:
+    - name: {{ solr.home_dir }}
+    - user: {{ username }}
+
+solr-logs-directory:
+  file.directory:
+    - name: {{ solr.data_dir }}/logs
     - user: {{ username }}
 
 solr-directory-symlink:
@@ -30,7 +45,7 @@ download-solr-archive:
     - name: wget {{ solr.download_mirror }}/{{ solr.version }}/solr-{{ solr.version }}.zip
     - cwd: {{ solr.install_dir }}
     - user: {{ username }}
-    - unless: test -f {{ solr.install_dir }}/bin/gateway.sh
+    - unless: test -f {{ solr.install_dir }}/bin/solr
 
 {% set archive_dir = solr.install_dir + '/solr-' + solr.version %}
 {% set archive = archive_dir + '.zip' %}
@@ -62,52 +77,37 @@ cleanup-solr-directory:
     - onchanges:
       - archive: unpack-solr-archive
 
-solr-conf-symlink:
-  file.symlink:
-    - target: {{ solr.install_dir }}/conf
-    - name: {{ solr.conf_dir }}
+{% if grains['init'] == 'systemd' %}
+/etc/systemd/system/solr.service:
+  file.managed:
+    - source: salt://hadoop/files/solr.init.systemd
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - watch_in:
+      - cmd: systemd-reload
 
-#{% if grains['init'] == 'systemd' %}
-#/etc/systemd/system/solr.service:
-#  file.managed:
-#    - source: salt://hadoop/files/solr.init.systemd
-#    - user: root
-#    - group: root
-#    - mode: '644'
-#    - template: jinja
-#    - context:
-#      dir: {{ solr.dir }}
-#    - watch_in:
-#      - cmd: systemd-reload
-#
-#{% endif %}
-#
-#{{ solr.conf_dir}}/gateway-site.xml:
-#  file.managed:
-#    - source: salt://hadoop/conf/solr/gateway-site.xml
-#    - user: {{ username }}
-#    - group: {{ username }}
-#    - mode: '644'
-#    - template: jinja
-#    - watch_in:
-#      - cmd: systemd-reload
-#
-#{{ solr.conf_dir}}/topologies/manager.xml:
-#  file.managed:
-#    - source: salt://hadoop/conf/solr/manager.xml
-#    - user: {{ username }}
-#    - group: {{ username }}
-#    - mode: '600'
-#    - template: jinja
-#
-#{{ solr.conf_dir}}/topologies/{{ grains['cluster_id'] }}.xml:
-#  file.managed:
-#    - source: salt://hadoop/conf/solr/cluster.xml
-#    - user: {{ username }}
-#    - group: {{ username }}
-#    - mode: '600'
-#    - template: jinja
-#
+{% endif %}
+
+/etc/default/solr.in.sh:
+  file.managed:
+    - source: salt://hadoop/conf/solr/solr.in.sh
+    - user: root
+    - group: {{ username }}
+    - mode: '640'
+    - template: jinja
+    - watch_in:
+      - cmd: systemd-reload
+
+{{ solr.home_dir }}/solr.xml:
+  file.managed:
+    - source: salt://hadoop/conf/solr/solr.xml
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '640'
+    - template: jinja
+
 #{% if solr.jmx_export %}
 #{{ solr.conf_dir}}/jmx.yaml:
 #  file.managed:
@@ -117,14 +117,9 @@ solr-conf-symlink:
 #    - mode: '600'
 #    - template: jinja
 #
-#{{ solr.install_dir}}/bin/gateway.sh:
-#  file.replace:
-#    - pattern: "^APP_MEM_OPTS.*"
-#    - repl: 'APP_MEM_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27014:{{solr.conf_dir}}/jmx.yaml"'
 #{% endif %} 
-#
-#solr-service:
-#  service.running:
-#    - enable: True
-#    - name: solr.service
-#
+
+solr-service:
+  service.running:
+    - enable: True
+    - name: solr.service
