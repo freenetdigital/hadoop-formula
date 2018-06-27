@@ -12,31 +12,31 @@ include:
 
 ranger-directory:
   file.directory:
-    - name: {{ ranger.install_dir }}
+    - name: {{ ranger.admin_install_dir }}
     - user: {{ username }}
 
 ranger-directory-symlink:
   file.symlink:
-    - target: {{ ranger.install_dir }}
-    - name: {{ ranger.dir }}
+    - target: {{ ranger.admin_install_dir }}
+    - name: {{ ranger.admin_dir }}
 
 unpack-ranger-admin-archive:
   archive.extracted:
-    - name: {{ ranger.install_dir }}
+    - name: {{ ranger.admin_install_dir }}
     - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-admin.zip
     - archive_format: zip
     - clean: true
     - user: {{ username }}
     - group: {{ username }}
-    - unless: test -f {{ ranger.install_dir }}/bin/service_start.py
+    - unless: test -f {{ ranger.admin_install_dir }}/bin/service_start.py
 
 move-files:
   cmd.run:
-    - name: mv {{ ranger.install_dir}}/ranger-{{ ranger.version }}-admin/* {{ranger.install_dir}}; rm -rf {{ ranger.install_dir}}/ranger-{{ ranger.version }}-admin
+    - name: mv {{ ranger.admin_install_dir}}/ranger-{{ ranger.version }}-admin/* {{ranger.admin_install_dir}}; rm -rf {{ ranger.admin_install_dir}}/ranger-{{ ranger.version }}-admin
 
 enforce-mode:
   file.directory:
-    - name: {{ ranger.install_dir }}
+    - name: {{ ranger.admin_install_dir }}
     - user: {{ username }}
     - group: {{ username }}
     - dir_mode: 755
