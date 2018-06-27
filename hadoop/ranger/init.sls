@@ -23,7 +23,7 @@ ranger-directory-symlink:
 {% set archive_dir = ranger.install_dir + '/ranger-' + ranger.version %}
 {% set archive_admin = archive_dir + '-admin.zip' %}
 copy-ranger-archive:
-  file.copy:
+  file.managed:
     - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-admin.zip
     - name: {{ archive_admin }}
     - user: {{ username }}
