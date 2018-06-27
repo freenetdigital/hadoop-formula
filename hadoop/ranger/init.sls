@@ -20,27 +20,25 @@ ranger-directory-symlink:
     - target: {{ ranger.install_dir }}
     - name: {{ ranger.dir }}
 
-#{% set archive_dir = ranger.install_dir + '/ranger-' + ranger.version %}
-#{% set archive_admin = archive_dir + '-admin.tar.gz' %}
-#copy-ranger-archive:
-#  file.managed:
-#    - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-admin.tar.gz
-#    - name: {{ archive_admin }}
-#    - user: {{ username }}
-#    - unless: test -f {{ ranger.install_dir }}/bin/service_start.py
-
 unpack-ranger-archive:
   archive.extracted:
     - name: {{ ranger.install_dir }}
     - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-admin.zip
     - archive_format: zip
+    - clean: true
     - user: {{ username }}
     - group: {{ username }}
     - unless: test -f {{ ranger.install_dir }}/bin/service_start.py
 
-#cleanup-ranger-directory:
-#  cmd.run:
-#    - name: mv {{ archive_dir }}/* {{ ranger.install_dir }}; rm -rf {{ archive_dir }}*
-#    - onchanges:
-#      - archive: unpack-ranger-archive
-#
+enforce-mode:
+  file.directory:
+    - name: {{ ranger.install_dir }}
+    - user: {{ username }}
+    - group: {{ username }}
+    - dir_mode: 755
+    - recurse:
+      - user
+      - group
+      - mode
+
+
