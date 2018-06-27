@@ -37,7 +37,7 @@ unpack-ranger-archive:
     - user: {{ username }}
     - group: {{ username }}
     - onchanges:
-      - cmd: copy-ranger-archive
+      - file: copy-ranger-archive
 
 
 cleanup-ranger-directory:
