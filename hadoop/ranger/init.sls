@@ -20,7 +20,7 @@ ranger-directory-symlink:
     - target: {{ ranger.install_dir }}
     - name: {{ ranger.dir }}
 
-unpack-ranger-archive:
+unpack-ranger-admin-archive:
   archive.extracted:
     - name: {{ ranger.install_dir }}
     - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-admin.zip
@@ -29,6 +29,10 @@ unpack-ranger-archive:
     - user: {{ username }}
     - group: {{ username }}
     - unless: test -f {{ ranger.install_dir }}/bin/service_start.py
+
+move-files:
+  cmd.run:
+    - name: mv {{ ranger.install_dir}}/ranger-{{ ranger.version }}-admin/* {{ranger.install_dir}}; rm -rf {{ ranger.install_dir}}/ranger-{{ ranger.version }}-admin
 
 enforce-mode:
   file.directory:
