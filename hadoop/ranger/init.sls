@@ -40,9 +40,9 @@ unpack-ranger-archive:
       - file: copy-ranger-archive
 
 
-cleanup-ranger-directory:
-  cmd.run:
-    - name: mv {{ archive_dir }}/* {{ ranger.install_dir }}; rm -rf {{ archive_dir }}*
-    - onchanges:
-      - archive: unpack-ranger-archive
-
+#cleanup-ranger-directory:
+#  cmd.run:
+#    - name: mv {{ archive_dir }}/* {{ ranger.install_dir }}; rm -rf {{ archive_dir }}*
+#    - onchanges:
+#      - archive: unpack-ranger-archive
+#
