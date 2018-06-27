@@ -3,6 +3,8 @@
 {%- from 'hadoop/hdfs/settings.sls' import hdfs with context -%}
 {%- from 'hadoop/hive/settings.sls' import hive with context -%}
 {%- from 'hadoop/yarn/settings.sls' import yarn with context -%}
+{%- from 'hadoop/solr/settings.sls' import solr with context -%}
+{%- from 'zookeeper/settings.sls'   import zk   with context -%}
 {%- set hive_cfg = hive.get('config_hive_site', {}) %}
 <!--
      SALT-MANAGED
@@ -108,15 +110,25 @@
             <name>Default</name>
             <enabled>true</enabled>
         </provider>
-{%- if hdfs.namenode_count > 1 %}
+{%- set solr_target = 'G@role:solr and G@clustername:' + grains['cluster_id'] -%}
+{%- set solr_grains = salt['mine.get'](solr_target, 'grains.item', expr_form='compound') -%}
+{%- if hdfs.namenode_count > 1 or solr_grains.items()|length > 0 %}
         <provider>
             <role>ha</role>
             <name>HaProvider</name>
             <enabled>true</enabled>
+	    {%- if hdfs.namenode_count > 1 %}
             <param>
                 <name>WEBHDFS</name>
                 <value>maxFailoverAttempts=3;failoverSleep=1000;maxRetryAttempts=300;retrySleep=1000;enabled=true</value>
             </param>
+	    {%- endif %}
+	    {%- if solr_grains.items()|length > 0 %}
+	    <param>
+                <name>SOLR</name>
+		<value>maxFailoverAttempts=3;failoverSleep=1000;enabled=true;zookeeperEnsemble={{ zk.connection_string }}</value>
+            </param>
+	    {%- endif %}
         </provider>
 {%- endif %}
     </gateway>
@@ -181,6 +193,12 @@
     <service>
         <role>RESOURCEMANAGER</role>
         <url>http://{{ yarn.resourcemanager_hosts|first() }}:{{ yarn.resourcemanager_webapp_port }}/ws</url>
+    </service>
+    {%- endif %}
+    {%- if solr_grains.items()|length > 0 %}
+    <service>
+        <role>SOLR</role>
+        <version>6.0.0</version>
     </service>
     {%- endif %}
 </topology>
