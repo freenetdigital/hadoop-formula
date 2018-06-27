@@ -21,10 +21,10 @@ ranger-directory-symlink:
     - name: {{ ranger.dir }}
 
 {% set archive_dir = ranger.install_dir + '/ranger-' + ranger.version %}
-{% set archive_admin = archive_dir + '-admin.zip' %}
+{% set archive_admin = archive_dir + '-admin.tar.gz' %}
 copy-ranger-archive:
   file.managed:
-    - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-admin.zip
+    - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-admin.tar.gz
     - name: {{ archive_admin }}
     - user: {{ username }}
     - unless: test -f {{ ranger.install_dir }}/bin/service_start.py
@@ -33,7 +33,7 @@ unpack-ranger-archive:
   archive.extracted:
     - name: {{ ranger.install_dir }}
     - source: file://{{ archive_admin }}
-    - archive_format: zip
+    - archive_format: tar
     - user: {{ username }}
     - group: {{ username }}
     - onchanges:
