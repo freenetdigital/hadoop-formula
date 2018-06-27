@@ -24,7 +24,7 @@ ranger-directory-symlink:
 {% set archive_admin = archive_dir + '-admin.zip' %}
 copy-ranger-archive:
   file.copy:
-    - source: salt://ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-admin.zip
+    - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-admin.zip
     - name: {{ archive_admin }}
     - user: {{ username }}
     - unless: test -f {{ ranger.install_dir }}/bin/service_start.py
