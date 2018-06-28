@@ -82,7 +82,7 @@ ranger-usersync-directory-symlink:
 unpack-ranger-usersync-archive:
   archive.extracted:
     - name: {{ ranger.usync_install_dir }}
-    - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-usync.zip
+    - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-usersync.zip
     - archive_format: zip
     - clean: true
     - user: {{ username }}
@@ -106,5 +106,5 @@ usersync-enforce-mode:
       - group
       - mode
     - onchanges:
-      - archive: unpack-ranger-usync-archive
+      - archive: unpack-ranger-usersync-archive
 
