@@ -6,7 +6,7 @@
 check-solr-api:
   http.query:
     - name: http://localhost:8983/solr/admin/collections?action=CLUSTERSTATUS&collection=ranger_audits
-    - status: '200'
+    - status: 200
 
 deploy-solr-conf:
   archive.extracted:
