@@ -1,6 +1,7 @@
-{%- from 'hadoop/settings.sls' import hadoop with context %}
-{%- from 'hadoop/ranger/settings.sls' import ranger with context %}
-{%- from 'hadoop/user_macro.sls' import hadoop_user with context %}
+{%- from 'hadoop/settings.sls'        import hadoop      with context %}
+{%- from 'hadoop/ranger/settings.sls' import ranger      with context %}
+{%- from 'hadoop/solr/settings.sls'   import solr        with context %}
+{%- from 'hadoop/user_macro.sls'      import hadoop_user with context %}
 
 include:
   - hadoop.systemd
@@ -33,6 +34,8 @@ unpack-ranger-admin-archive:
 move-files:
   cmd.run:
     - name: mv {{ ranger.admin_install_dir}}/ranger-{{ ranger.version }}-admin/* {{ranger.admin_install_dir}}; rm -rf {{ ranger.admin_install_dir}}/ranger-{{ ranger.version }}-admin
+    onchanges:
+      - archive: unpack-ranger-admin-archive
 
 enforce-mode:
   file.directory:
@@ -44,5 +47,12 @@ enforce-mode:
       - user
       - group
       - mode
+    onchanges:
+      - archive: unpack-ranger-admin-archive
 
+mysql-connector-deps:
+  pkg.installed:
+    - pkgs: 
+      - libmysql-java
+      - bc
 
