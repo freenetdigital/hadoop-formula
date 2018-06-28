@@ -64,11 +64,6 @@ mysql-connector-deps:
     - mode: '600'
     - template: jinja
 
-#provision-ranger-admin:
-#  cmd.run:
-#    - name: bash -c '{{ ranger.admin_install_dir }}/setup.sh'
-#    - unless: test -f {{ ranger.admin_install_dir }}/conf/ranger-admin-site.xml
-
 ranger-usersync-directory:
   file.directory:
     - name: {{ ranger.usync_install_dir }}
@@ -107,4 +102,17 @@ usersync-enforce-mode:
       - mode
     - onchanges:
       - archive: unpack-ranger-usersync-archive
+
+{{ ranger.usync_install_dir }}/install.properties:
+  file.managed:
+    - source: salt://hadoop/conf/ranger/usersync.install.properties
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '600'
+    - template: jinja
+
+#provision-ranger-admin:
+#  cmd.run:
+#    - name: bash -c '{{ ranger.admin_install_dir }}/setup.sh'
+#    - unless: test -f {{ ranger.admin_install_dir }}/conf/ranger-admin-site.xml
 

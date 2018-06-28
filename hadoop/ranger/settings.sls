@@ -8,10 +8,17 @@
 {%- set usync_dir          = g.get('usync_dir',        p.get('usync_dir', base_install_dir+'/ranger-usersync')) %}
 {%- set conf_dir           = g.get('conf_dir',         p.get('conf_dir', '/etc/ranger-admin/conf')) %}
 
-{%- set version            = g.get('version',        p.get('version',     '1.0.0')) %}
-{%- set jmx_export         = gc.get('jmx_export',   pc.get('jmx_export',   false)) %}
-{%- set db_root_pass       = gc.get('db_root_pass', pc.get('db_root_pass', '')) %}
-{%- set ranger_pass        = gc.get('ranger_pass',  pc.get('ranger_pass', '')) %}
+{%- set version               = g.get('version',                 p.get('version',     '1.0.0')) %}
+{%- set jmx_export            = gc.get('jmx_export',            pc.get('jmx_export',   false)) %}
+{%- set db_root_pass          = gc.get('db_root_pass',          pc.get('db_root_pass', '')) %}
+{%- set ranger_pass           = gc.get('ranger_pass',           pc.get('ranger_pass', '')) %}
+{%- set ldap_host             = gc.get('ldap_host',             pc.get('ldap_host','')) %}
+{%- set ldap_port             = gc.get('ldap_host',             pc.get('ldap_port','')) %}
+{%- set ldap_searchbase       = gc.get('ldap_searchbase',       pc.get('ldap_searchbase','')) %}
+{%- set ldap_group_searchbase = gc.get('ldap_group_searchbase', pc.get('ldap_group_searchbase','')) %}
+{%- set ldap_user             = gc.get('ldap_user',             pc.get('ldap_user','')) %}
+{%- set ldap_pass             = gc.get('ldap_pass',             pc.get('ldap_pass','')) %}
+
 
 
 {%- set ranger = {} %}
@@ -25,4 +32,11 @@
                        'jmx_export'                 : jmx_export,
                        'db_root_pass'               : db_root_pass,
                        'ranger_pass'                : ranger_pass,
+                       'ldap_host'                  : ldap_host,
+                       'ldap_port'                  : ldap_port,
+                       'ldap_searchbase'            : ldap_searchbase,
+                       'ldap_group_searchbase'      : ldap_group_searchbase,
+                       'ldap_user'                  : ldap_user,
+                       'ldap_pass'                  : ldap_pass,
+
                    }) %}
