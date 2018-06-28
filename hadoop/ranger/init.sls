@@ -34,7 +34,7 @@ unpack-ranger-admin-archive:
 move-files:
   cmd.run:
     - name: mv {{ ranger.admin_install_dir}}/ranger-{{ ranger.version }}-admin/* {{ranger.admin_install_dir}}; rm -rf {{ ranger.admin_install_dir}}/ranger-{{ ranger.version }}-admin
-    onchanges:
+    - onchanges:
       - archive: unpack-ranger-admin-archive
 
 enforce-mode:
@@ -47,7 +47,7 @@ enforce-mode:
       - user
       - group
       - mode
-    onchanges:
+    - onchanges:
       - archive: unpack-ranger-admin-archive
 
 mysql-connector-deps:
