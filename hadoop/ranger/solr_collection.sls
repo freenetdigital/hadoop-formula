@@ -16,11 +16,19 @@ deploy-solr-conf:
     - clean: true
     - user: solr
     - group: solr
-    - onfail: http.check-solr-api
+    - onfail: 
+      - http: check-solr-api
 
 create-solr-collection:
   cmd.run:
     - name: {{ solr.install_dir }}/bin/solr create_collection -c ranger_audits -d /tmp/ranger-solr-conf/ranger-{{ ranger.version }}-admin/contrib/solr_for_audit_setup/conf -shards 1 -replicationFactor 1
     - runas: solr
-    - onfail: http.check-solr-api
+    - onfail: 
+      - http: check-solr-api
+
+clear-tmp-files:
+  cmd.run:
+    - name: rm -r /tmp/ranger-solr-conf
+    - onchanges:
+      - archive: deploy-solr-conf
 
