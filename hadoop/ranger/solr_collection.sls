@@ -14,4 +14,5 @@ deploy-solr-conf:
 create-solr-collection:
   cmd.run:
     - name: {{ solr.install_dir }}/bin/solr create_collection -c ranger_audits -d /tmp/ranger-solr-conf/ranger-{{ ranger.version }}-admin/contrib/solr_for_audit_setup/conf -shards 1 -replicationFactor 1
+    - runas: solr
 
