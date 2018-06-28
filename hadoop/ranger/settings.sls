@@ -10,8 +10,8 @@
 
 {%- set version            = g.get('version',        p.get('version',     '1.0.0')) %}
 {%- set jmx_export         = gc.get('jmx_export',   pc.get('jmx_export',   false)) %}
-{%- set db_root_pass       = gc.get('db_root_pass', pc.get('db_root_pass', false)) %}
-{%- set ranger_pass        = gc.get('ranger_pass',  pc.get('ranger_pass', false)) %}
+{%- set db_root_pass       = gc.get('db_root_pass', pc.get('db_root_pass', '')) %}
+{%- set ranger_pass        = gc.get('ranger_pass',  pc.get('ranger_pass', '')) %}
 
 
 {%- set ranger = {} %}
