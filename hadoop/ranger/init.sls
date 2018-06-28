@@ -89,13 +89,13 @@ unpack-ranger-usersync-archive:
     - group: {{ username }}
     - unless: test -f {{ ranger.usync_install_dir }}/bin/service_start.py
 
-move-files:
+move-usersync-files:
   cmd.run:
     - name: mv {{ ranger.usync_install_dir}}/ranger-{{ ranger.version }}-usersync/* {{ranger.usync_install_dir}}; rm -rf {{ ranger.usync_install_dir}}/ranger-{{ ranger.version }}-usersync
     - onchanges:
       - archive: unpack-ranger-usersync-archive
 
-enforce-mode:
+usersync-enforce-mode:
   file.directory:
     - name: {{ ranger.usync_install_dir }}
     - user: {{ username }}
