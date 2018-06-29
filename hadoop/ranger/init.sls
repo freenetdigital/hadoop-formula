@@ -16,6 +16,11 @@ ranger-directory:
     - name: {{ ranger.admin_install_dir }}
     - user: {{ username }}
 
+ranger-conf-directory:
+  file.directory:
+    - name: /etc/ranger-admin
+    - user: {{ username }}
+
 ranger-directory-symlink:
   file.symlink:
     - target: {{ ranger.admin_install_dir }}
@@ -146,6 +151,27 @@ provision-ranger-usync:
     - cwd: {{ ranger.usync_install_dir }}
     - onchanges: 
       - file: {{ ranger.usync_install_dir }}/install.properties
+
+ranger-admin-logs-symlink:
+  file.symlink:
+    - target: {{ ranger.admin_install_dir }}/ews/logs
+    - name: /var/log/ranger-admin
+    - onchanges:
+      - cmd: provision-ranger-admin
+
+ranger-config-symlink:
+  file.symlink:
+    - target: {{ ranger.admin_install_dir }}/ews/webapp/WEB-INF/classes/conf
+    - name: /etc/ranger-admin/conf
+    - onchanges:
+      - cmd: provision-ranger-admin
+
+ranger-usersync-logs-symlink:
+  file.symlink:
+    - target: {{ ranger.usync_install_dir }}/logs
+    - name: /var/log/ranger-usersync
+    - onchanges:
+      - cmd: provision-ranger-usersync
 
 ranger-admin:
   service.running:
