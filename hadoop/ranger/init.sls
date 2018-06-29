@@ -147,13 +147,13 @@ provision-ranger-usync:
 
 ranger-agent:
   service.running:
-    enable: True
-    watch:
+    - enable: True
+    - watch:
       - cmd: provision-ranger-admin
 
 ranger-usersync:
   service.running:
-    enable: True
-    watch:
+    - enable: True
+    - watch:
       - cmd: provision-ranger-usync
 
