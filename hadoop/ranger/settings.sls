@@ -12,12 +12,16 @@
 {%- set jmx_export            = gc.get('jmx_export',            pc.get('jmx_export',   false)) %}
 {%- set db_root_pass          = gc.get('db_root_pass',          pc.get('db_root_pass', '')) %}
 {%- set ranger_pass           = gc.get('ranger_pass',           pc.get('ranger_pass', '')) %}
+{%- set ui_useraccess         = gc.get('ui_useraccess',         pc.get('ui_useraccess', False)) %}
 {%- set ldap_host             = gc.get('ldap_host',             pc.get('ldap_host','')) %}
 {%- set ldap_port             = gc.get('ldap_host',             pc.get('ldap_port','')) %}
 {%- set ldap_searchbase       = gc.get('ldap_searchbase',       pc.get('ldap_searchbase','')) %}
 {%- set ldap_group_searchbase = gc.get('ldap_group_searchbase', pc.get('ldap_group_searchbase','')) %}
 {%- set ldap_user             = gc.get('ldap_user',             pc.get('ldap_user','')) %}
 {%- set ldap_pass             = gc.get('ldap_pass',             pc.get('ldap_pass','')) %}
+{%- set ldap_ad_domain        = gc.get('ldap_ad_domain',        pc.get('ldap_ad_domain','')) %}
+{%- set ldap_scrape_userfilter = gc.get('ldap_scrape_userfilter',pc.get('ldap_scrape_userfilter','')) %}
+{%- set ldap_ad_usersearchfilter = gc.get('ldap_ad_usersearchfilter',pc.get('ldap_ad_usersearchfilter','')) %}
 
 
 
@@ -32,11 +36,15 @@
                        'jmx_export'                 : jmx_export,
                        'db_root_pass'               : db_root_pass,
                        'ranger_pass'                : ranger_pass,
+                       'ui_useraccess'              : ui_useraccess,
                        'ldap_host'                  : ldap_host,
                        'ldap_port'                  : ldap_port,
                        'ldap_searchbase'            : ldap_searchbase,
                        'ldap_group_searchbase'      : ldap_group_searchbase,
                        'ldap_user'                  : ldap_user,
                        'ldap_pass'                  : ldap_pass,
+                       'ldap_ad_domain'             : ldap_ad_domain,
+                       'ldap_scrape_userfilter'     : ldap_scrape_userfilter,
+                       'ldap_ad_usersearchfilter'   : ldap_ad_usersearchfilter,
 
                    }) %}

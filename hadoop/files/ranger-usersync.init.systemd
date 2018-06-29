@@ -1,0 +1,15 @@
+[Unit]
+Description=Apache Ranger Usersync
+After=network.target
+
+[Service]
+User=ranger
+Group=ranger
+SyslogIdentifier=ranger
+Type=forking
+PIDFile=/var/run/ranger/usersync.pid
+ExecStart=/usr/bin/ranger-usersync start
+ExecStop=/usr/bin/ranger-usersync stop
+
+[Install]
+WantedBy=multi-user.target

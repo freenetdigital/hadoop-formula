@@ -1,0 +1,15 @@
+[Unit]
+Description=Apache Ranger Admin UI
+After=network.target
+
+[Service]
+User=ranger
+Group=ranger
+SyslogIdentifier=ranger
+Type=forking
+PIDFile=/var/run/ranger/rangeradmin.pid
+ExecStart=/usr/bin/ranger-admin start
+ExecStop=/usr/bin/ranger-admin stop
+
+[Install]
+WantedBy=multi-user.target

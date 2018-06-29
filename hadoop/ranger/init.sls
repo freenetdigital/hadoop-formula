@@ -111,8 +111,49 @@ usersync-enforce-mode:
     - mode: '600'
     - template: jinja
 
-#provision-ranger-admin:
-#  cmd.run:
-#    - name: bash -c '{{ ranger.admin_install_dir }}/setup.sh'
-#    - unless: test -f {{ ranger.admin_install_dir }}/conf/ranger-admin-site.xml
+{% if grains['init'] == 'systemd' %}
+/etc/systemd/system/ranger-admin.service:
+  file.managed:
+    - source: salt://hadoop/files/ranger-admin.init.systemd
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - watch_in:
+      - cmd: systemd-reload
+
+/etc/systemd/system/ranger-usersync.service:
+  file.managed:
+    - source: salt://hadoop/files/ranger-usersync.init.systemd
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - watch_in:
+      - cmd: systemd-reload
+{% endif %}
+
+provision-ranger-admin:
+  cmd.run:
+    - name: bash -c '{{ ranger.admin_install_dir }}/setup.sh; /etc/init.d/ranger-admin stop; rm /etc/init.d/ranger-admin'
+    - onchanges: 
+      - file: {{ ranger.admin_install_dir }}/install.properties:
+
+provision-ranger-usync:
+  cmd.run:
+    - name: bash -c '{{ ranger.usersync_install_dir }}/setup.sh; /etc/init.d/ranger-usersync stop; rm /etc/init.d/ranger-usersync'
+    - onchanges: 
+      - file: {{ ranger.usersync_install_dir }}/install.properties:
+
+ranger-agent:
+  service.running:
+    enable: True
+    watch:
+      - cmd: provision-ranger-admin
+
+ranger-usersync:
+  service.running:
+    enable: True
+    watch:
+      - cmd: provision-ranger-usync
 
