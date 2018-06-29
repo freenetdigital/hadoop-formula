@@ -142,7 +142,7 @@ provision-ranger-admin:
 
 provision-ranger-usync:
   cmd.run:
-    - name: bash -c '/etc/profile.d/java.sh; ./setup.sh; /etc/init.d/ranger-usersync stop; rm /etc/init.d/ranger-usersync'
+    - name: bash -c 'JAVA_HOME=/usr/lib/java; ./setup.sh; /etc/init.d/ranger-usersync stop; rm /etc/init.d/ranger-usersync'
     - cwd: {{ ranger.usync_install_dir }}
     - onchanges: 
       - file: {{ ranger.usync_install_dir }}/install.properties
