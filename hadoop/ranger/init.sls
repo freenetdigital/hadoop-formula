@@ -145,21 +145,35 @@ usersync-enforce-mode:
 
 provision-ranger-admin:
   cmd.run:
-    - name: bash -c './setup.sh; /etc/init.d/ranger-admin stop; rm /etc/init.d/ranger-admin'
+    - name: bash -c './setup.sh'
     - cwd: {{ ranger.admin_install_dir }}
     - env:
-      - JAVA_HOME=/usr/lib/java
+      - JAVA_HOME: '/usr/lib/java'
     - onchanges: 
       - file: {{ ranger.admin_install_dir }}/install.properties
+      
+provision-ranger-admin-cleanup:
+  cmd.run:
+    - name: '/etc/init.d/ranger-admin stop; rm /etc/init.d/ranger-admin'
+    - onlyif: test -f /etc/init.d/ranger-admin
+    - onchanges: 
+      - cmd: provision-ranger-admin
 
 provision-ranger-usync:
   cmd.run:
-    - name: bash -c './setup.sh; /etc/init.d/ranger-usersync stop; rm /etc/init.d/ranger-usersync'
+    - name: bash -c './setup.sh'
     - cwd: {{ ranger.usync_install_dir }}
     - env:
-      - JAVA_HOME=/usr/lib/java
+      - JAVA_HOME: '/usr/lib/java'
     - onchanges: 
       - file: {{ ranger.usync_install_dir }}/install.properties
+
+provision-ranger-usync-cleanup:
+  cmd.run:
+    - name: '/etc/init.d/ranger-usersync stop; rm /etc/init.d/ranger-usersync'
+    - onlyif: test -f /etc/init.d/ranger-usersync
+    - onchanges: 
+      - cmd: provision-ranger-usync
 
 ranger-admin-logs-symlink:
   file.symlink:
