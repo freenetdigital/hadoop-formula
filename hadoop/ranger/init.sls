@@ -118,7 +118,7 @@ usersync-enforce-mode:
     - source: salt://hadoop/conf/ranger/usersync.install.properties
     - user: {{ username }}
     - group: {{ username }}
-    - mode: '600'
+    - mode: '750'
     - template: jinja
 
 {% if grains['init'] == 'systemd' %}
