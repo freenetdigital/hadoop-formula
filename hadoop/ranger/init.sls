@@ -137,13 +137,13 @@ provision-ranger-admin:
   cmd.run:
     - name: bash -c '{{ ranger.admin_install_dir }}/setup.sh; /etc/init.d/ranger-admin stop; rm /etc/init.d/ranger-admin'
     - onchanges: 
-      - file: {{ ranger.admin_install_dir }}/install.properties:
+      - file: {{ ranger.admin_install_dir }}/install.properties
 
 provision-ranger-usync:
   cmd.run:
     - name: bash -c '{{ ranger.usync_install_dir }}/setup.sh; /etc/init.d/ranger-usersync stop; rm /etc/init.d/ranger-usersync'
     - onchanges: 
-      - file: {{ ranger.usync_install_dir }}/install.properties:
+      - file: {{ ranger.usync_install_dir }}/install.properties
 
 ranger-agent:
   service.running:
