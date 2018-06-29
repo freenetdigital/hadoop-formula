@@ -142,12 +142,12 @@ provision-ranger-admin:
 
 provision-ranger-usync:
   cmd.run:
-    - name: bash -c './setup.sh; /etc/init.d/ranger-usersync stop; rm /etc/init.d/ranger-usersync'
+    - name: bash -c '/etc/profile.d/java.sh; ./setup.sh; /etc/init.d/ranger-usersync stop; rm /etc/init.d/ranger-usersync'
     - cwd: {{ ranger.usync_install_dir }}
     - onchanges: 
       - file: {{ ranger.usync_install_dir }}/install.properties
 
-ranger-agent:
+ranger-admin:
   service.running:
     - enable: True
     - watch:
