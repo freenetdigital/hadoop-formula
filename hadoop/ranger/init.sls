@@ -174,7 +174,7 @@ ranger-usersync-logs-symlink:
     - onchanges:
       - cmd: provision-ranger-usync
 
-{% if jmx_export %}
+{% if ranger.jmx_export %}
 /etc/ranger/ranger-admin/conf/jmx_agent.yaml:
   file.managed:
     - source: salt://hadoop/conf/ranger/jmx.yaml
