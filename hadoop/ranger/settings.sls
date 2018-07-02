@@ -9,7 +9,7 @@
 {%- set conf_dir           = g.get('conf_dir',         p.get('conf_dir', '/etc/ranger-admin/conf')) %}
 
 {%- set version               = g.get('version',                 p.get('version',     '1.0.0')) %}
-{%- set jmx_export            = gc.get('jmx_export',            pc.get('jmx_export',   false)) %}
+{%- set jmx_export            = gc.get('jmx_export',            pc.get('jmx_export',   False)) %}
 {%- set db_root_pass          = gc.get('db_root_pass',          pc.get('db_root_pass', '')) %}
 {%- set ranger_pass           = gc.get('ranger_pass',           pc.get('ranger_pass', '')) %}
 {%- set ui_useraccess         = gc.get('ui_useraccess',         pc.get('ui_useraccess', False)) %}

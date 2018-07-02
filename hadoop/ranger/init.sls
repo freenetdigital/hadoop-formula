@@ -121,28 +121,6 @@ usersync-enforce-mode:
     - mode: '750'
     - template: jinja
 
-{% if grains['init'] == 'systemd' %}
-/etc/systemd/system/ranger-admin.service:
-  file.managed:
-    - source: salt://hadoop/files/ranger-admin.init.systemd
-    - user: root
-    - group: root
-    - mode: '644'
-    - template: jinja
-    - watch_in:
-      - cmd: systemd-reload
-
-/etc/systemd/system/ranger-usersync.service:
-  file.managed:
-    - source: salt://hadoop/files/ranger-usersync.init.systemd
-    - user: root
-    - group: root
-    - mode: '644'
-    - template: jinja
-    - watch_in:
-      - cmd: systemd-reload
-{% endif %}
-
 provision-ranger-admin:
   cmd.run:
     - name: bash -c './setup.sh'
@@ -195,6 +173,55 @@ ranger-usersync-logs-symlink:
     - name: /var/log/ranger/ranger-usersync
     - onchanges:
       - cmd: provision-ranger-usync
+
+{% if jmx_export %}
+/etc/ranger/ranger-admin/conf/jmx_agent.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/ranger/jmx.yaml
+    - user: ranger
+    - group: ranger
+    - mode: '644'
+    - template: jinja
+    - watch_in:
+      - cmd: systemd-reload
+    - onchanges:
+      - cmd: provision-ranger-admin
+      - cmd: provision-ranger-usync
+/etc/ranger/usersync/conf/jmx_agent.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/ranger/jmx.yaml
+    - user: ranger
+    - group: ranger
+    - mode: '644'
+    - template: jinja
+    - watch_in:
+      - cmd: systemd-reload
+    - onchanges:
+      - cmd: provision-ranger-admin
+      - cmd: provision-ranger-usync
+{% endif %}
+
+{% if grains['init'] == 'systemd' %}
+/etc/systemd/system/ranger-admin.service:
+  file.managed:
+    - source: salt://hadoop/files/ranger-admin.init.systemd
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - watch_in:
+      - cmd: systemd-reload
+
+/etc/systemd/system/ranger-usersync.service:
+  file.managed:
+    - source: salt://hadoop/files/ranger-usersync.init.systemd
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - watch_in:
+      - cmd: systemd-reload
+{% endif %}
 
 ranger-admin:
   service.running:

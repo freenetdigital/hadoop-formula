@@ -1,3 +1,4 @@
+{%- from 'hadoop/ranger/settings.sls' import ranger with context -%}
 [Unit]
 Description=Apache Ranger Usersync
 After=network.target
@@ -7,6 +8,9 @@ User=ranger
 Group=ranger
 SyslogIdentifier=ranger
 Type=forking
+{% if ranger.jmx_export %-}
+Environment="JAVA_OPTS= -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10    .jar=27016:/etc/ranger/usersync/conf/jmx_agent.yaml"
+{% endif -%}
 PIDFile=/var/run/ranger/usersync.pid
 ExecStart=/usr/bin/ranger-usersync start
 ExecStop=/usr/bin/ranger-usersync stop
