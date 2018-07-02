@@ -32,12 +32,12 @@ provision-ranger-hdfs-plugin:
     - env:
       - JAVA_HOME: '/usr/lib/java'
     - onchanges:
-      - file: {{ hadoop.alt_home }}/ranger_plugin/install.properties:
+      - file: {{ hadoop.alt_home }}/ranger_plugin/install.properties
 
 hdfs-service:
   service.running:
     - enable: True
     - name: hadoop-namenode
     - watch:
-      - cmd: provision-ranger-hdfs-plugin:
+      - cmd: provision-ranger-hdfs-plugin
 {% endif %}
