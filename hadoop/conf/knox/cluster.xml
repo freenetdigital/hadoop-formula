@@ -206,9 +206,10 @@
     {%- set ranger_grains = salt['mine.get'](ranger_target, 'grains.item', expr_form='compound') -%}
     {%- if ranger_grains.items()|length > 0 %}
     {% set ranger_host = ranger_grains|first() %}
+    {% set ranger_fqdn = ranger_grains[ranger_host]['fqdn'] %}
     <service>
         <role>RANGERUI</role>
-	<url>http://{{ ranger_host['fqdn']}}:6080</url>
+	<url>http://{{ ranger_fqdn }}:6080</url>
     </service>
     {%- endif %}
 </topology>
