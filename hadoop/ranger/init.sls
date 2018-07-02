@@ -184,9 +184,7 @@ ranger-usersync-logs-symlink:
     - template: jinja
     - watch_in:
       - cmd: systemd-reload
-    - onchanges:
-      - cmd: provision-ranger-admin
-      - cmd: provision-ranger-usync
+      
 /etc/ranger/usersync/conf/jmx_agent.yaml:
   file.managed:
     - source: salt://hadoop/conf/ranger/jmx.yaml
@@ -196,9 +194,6 @@ ranger-usersync-logs-symlink:
     - template: jinja
     - watch_in:
       - cmd: systemd-reload
-    - onchanges:
-      - cmd: provision-ranger-admin
-      - cmd: provision-ranger-usync
 {% endif %}
 
 {% if grains['init'] == 'systemd' %}
