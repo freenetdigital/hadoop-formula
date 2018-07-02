@@ -47,6 +47,7 @@
 {%- set ha_namenode_port      = gc.get('ha_namenode_port', pc.get('ha_namenode_port', namenode_port)) %}
 {%- set ha_journal_port       = gc.get('ha_journal_port', pc.get('ha_journal_port', '8485')) %}
 {%- set ha_namenode_http_port = gc.get('ha_namenode_http_port', pc.get('ha_namenode_http_port', namenode_http_port)) %}
+{%- set ranger_plugin         = gc.get('ranger_plugin', pc.get('ranger_plugin', False)) %}
 
 {%- if journalnode_count > 0 %}
 {%- set quorum_connection_string = "" %}
@@ -99,9 +100,5 @@
                      'load'                        : load,
                      'ha_cluster_id'               : ha_cluster_id,
                      'quorum_connection_string'    : quorum_connection_string,
+                     'ranger_plugin'               : ranger_plugin,
                    }) %}
-
-/tmp/hdfs_settings.yaml:
-  file.serialize:
-    - dataset: {{ hdfs }}
-    - formatter: yaml
