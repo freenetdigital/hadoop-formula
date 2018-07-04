@@ -41,7 +41,7 @@ provision-ranger-hdfs-plugin:
     - onchanges:
       - file: {{ hadoop.alt_home }}/ranger_plugin/install.properties
 
-{{ hadoop.alt_config}}/ranger-hdfs-security.xml
+{{ hadoop.alt_config}}/ranger-hdfs-security.xml:
   file.managed:
     - source: salt://hadoop/conf/hdfs/ranger-hdfs-security.xml
     - user: {{ username }}
