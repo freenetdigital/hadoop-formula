@@ -1,4 +1,4 @@
-{% from 'hadoop/hdfs/setting.sls' import hdfs with context -%}
+{%- from 'hadoop/hdfs/settings.sls' import hdfs with context -%}
 {%- from 'hadoop/ranger/settings.sls' import ranger with context -%}
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
