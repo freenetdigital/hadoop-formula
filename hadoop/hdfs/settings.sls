@@ -48,6 +48,7 @@
 {%- set ha_journal_port       = gc.get('ha_journal_port', pc.get('ha_journal_port', '8485')) %}
 {%- set ha_namenode_http_port = gc.get('ha_namenode_http_port', pc.get('ha_namenode_http_port', namenode_http_port)) %}
 {%- set ranger_plugin         = gc.get('ranger_plugin', pc.get('ranger_plugin', False)) %}
+{%- set ranger_allow_hdfs_acl = gc.get('ranger_allow_hdfs_acl', pc.get('ranger_allow_hdfs_acl', 'true')) %}
 
 {%- if journalnode_count > 0 %}
 {%- set quorum_connection_string = "" %}
@@ -101,4 +102,5 @@
                      'ha_cluster_id'               : ha_cluster_id,
                      'quorum_connection_string'    : quorum_connection_string,
                      'ranger_plugin'               : ranger_plugin,
+                     'ranger_allow_hdfs_acl'       : ranger_allow_hdfs_acl,
                    }) %}

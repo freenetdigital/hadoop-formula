@@ -1,5 +1,6 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
 {%- from 'hadoop/hdfs/settings.sls' import hdfs with context %}
+{%- from 'hadoop/ranger/settings.sls' import ranger with context %}
 {%- set dyn_cfg = hadoop.get('config_core_site', {}) %}
 {%- set major = hadoop.major_version|string() -%}
 <?xml version="1.0" encoding="UTF-8"?>
@@ -40,4 +41,62 @@
 {%- endfor %}
     </property>
 {%- endfor %}
+{% if hdfs.is_namenode and hdfs.ranger_plugin %}
+    <property>
+        <name>hadoop.security.group.mapping</name>
+        <value>org.apache.hadoop.security.LdapGroupsMapping</value>
+    </property>
+        <property>
+        <name>hadoop.security.group.mapping.ldap.bind.user</name>
+	<value>{{ ranger.ldap_user }}</value>
+    </property>
+     <property>
+        <name>hadoop.security.group.mapping.ldap.bind.password</name>
+	<value>{{ ranger.ldap_pass }}</value>
+    </property>
+        <property>
+        <name>hadoop.security.group.mapping.ldap.url</name>
+	<value>ldaps://{{ ranger.ldap_host }}:{{ ranger.ldap_port }}</value>
+    </property>
+        <property>
+        <name>hadoop.security.group.mapping.ldap.ssl</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hadoop.security.group.mapping.ldap.ssl.keystore</name>
+        <value>/usr/lib/java/jre/lib/security/cacerts</value>
+    </property>
+    <property>
+        <name>hadoop.security.group.mapping.ldap.ssl.keystore.password</name>
+        <value>changeit</value>
+    </property>
+    <property>
+        <name>hadoop.security.group.mapping.ldap.base</name>
+	<value>{{ ranger.ldap_searchbase }}</value>
+    </property>
+    <property>
+        <name>hadoop.security.group.mapping.ldap.search.filter.user</name>
+	<value>{{ ranger.ldap_ad_usersearchfilter | escape }}</value>
+    </property>
+    <property>
+        <name>hadoop.security.group.mapping.ldap.search.filter.group</name>
+        <value>(objectclass=group)</value>
+    </property>
+    <property>
+        <name>hadoop.security.group.mapping.ldap.groupbase</name>
+	<value>{{ ranger.ldap_group_searchbase }}</value>
+    </property>
+    <property>
+        <name>hadoop.security.group.mapping.ldap.search.attr.memberof</name>
+        <value>memberOf</value>
+    </property>
+    <property>
+        <name>hadoop.security.group.mapping.ldap.search.attr.member</name>
+        <value>member</value>
+    </property>
+    <property>
+        <name>hadoop.security.group.mapping.ldap.search.attr.group.name</name>
+        <value>sAMAccountName</value>
+    </property>
+{% endif %}
 </configuration>
