@@ -31,7 +31,7 @@ set-cert-alias:
     - mode: "400"
     - replace: False
 
-{{ hadoop.alt_conf }}/ssl-server.xml:
+{{ hadoop.alt_config }}/ssl-server.xml:
   file.managed:
     - source: salt://hadoop/conf/ssl-server.xml
     - user: {{ username }}
@@ -41,7 +41,7 @@ set-cert-alias:
       username={{username}}
       keystore_pass={{keystore_pass}}
 
-{{ hadoop.alt_conf }}/ssl-client.xml:
+{{ hadoop.alt_config }}/ssl-client.xml:
   file.managed:
     - source: salt://hadoop/conf/ssl-client.xml
     - user: {{ username }}
