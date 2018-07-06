@@ -1,6 +1,7 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
 {%- from 'hadoop/hdfs/settings.sls' import hdfs with context %}
 {%- from 'hadoop/user_macro.sls' import hadoop_user with context %}
+{%- from 'hadoop/keystore_macro.sls' import keystore with context %}
 include:
   - hadoop.systemd
   
@@ -105,23 +106,7 @@ include:
     - group: {{ username }}
     - mode: '700'
 
-import-cert:
-  cmd.run:
-    - name: export RANDFILE=/root/.rnd; openssl pkcs12 -export -in {{ hadoop.cert_pub_path}}/{{ hadoop.cert_name }} -inkey {{ hadoop.cert_priv_path }}/{{ hadoop.cert_name }}.key -out /home/{{username}}/.keystore.p12 -password pass:{{ hadoop.keystore_pass }}
-    - creates: /home/{{username}}/.keystore.p12
-
-create-jvm-keystore:
-  cmd.run:
-    - name: {{ salt['pillar.get']('java_home', '/usr/lib/java')}}/bin/keytool -importkeystore -srckeystore /home/{{username}}/.keystore.p12 -destkeystore /home/{{username}}/.keystore -srcstoretype pkcs12 -deststorepass {{ hadoop.keystore_pass }} -srcstorepass {{ hadoop.keystore_pass }}
-    - creates: /home/{{username}}/.keystore
-
-set-cert-alias:
-  cmd.run:
-    - name: {{ salt['pillar.get']('java_home', '/usr/lib/java')}}/bin/keytool -changealias -alias '1' -destalias '{{ grains['fqdn'] }}' -keystore /home/{{username}}/.keystore -storepass {{ hadoop.keystore_pass }}
-    - onchanges:
-      - cmd: create-jvm-keystore
-
-
+{{ keystore(username)}}
 {% endif %}
 
 {%- if hdfs.namenode_count == 1 %}
@@ -230,6 +215,17 @@ systemd-hadoop-zkfc:
 {% endif %}
 
 {% if hdfs.is_datanode %}
+{% if hadoop.secure_mode %}
+/etc/krb5/dn.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '700'
+
+{{ keystore(username)}}
+{% endif %}
+
 /etc/init.d/hadoop-datanode:
   file.managed:
     - source: salt://hadoop/files/{{ hadoop.initscript }}
@@ -263,6 +259,17 @@ systemd-hadoop-datanode:
 {% endif %}
 
 {% if hdfs.is_journalnode %}
+{% if hadoop.secure_mode %}
+/etc/krb5/jn.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '700'
+
+{{ keystore(username)}}
+{% endif %}
+
 /etc/init.d/hadoop-journalnode:
   file.managed:
     - source: salt://hadoop/files/{{ hadoop.initscript }}
