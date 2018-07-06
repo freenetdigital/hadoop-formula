@@ -1,3 +1,6 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
 <property>
   <name>ssl.server.truststore.location</name>
   <value>/usr/lib/java/jre/lib/security/cacerts</value>
@@ -47,3 +50,4 @@
   <value>jks</value>
   <description>Optional. The keystore file format, default value is "jks".</description>
 </property>
+</configuration>
