@@ -1,3 +1,4 @@
+{% from 'hadoop/settings.sls' import hadoop with context %}
 {% macro hdfs_mkdir(name, user, group, mode, cmd) -%}
 {%- set localname = name | replace('/', '-') %}
 {% if not hadoop.secure_mode %}
