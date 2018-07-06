@@ -216,6 +216,7 @@
                           'users'            : users,
                           'jmx_export'       : jmx_export,
                           'secure_mode'      : secure_mode,
+                          'keystore_pass'    : keystore_pass,
                           'cert_name'        : cert_name,
                           'cert_priv_path'   : cert_priv_path,
                           'cert_pub_path'    : cert_pub_path,
