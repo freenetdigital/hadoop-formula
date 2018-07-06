@@ -1,0 +1,49 @@
+<property>
+  <name>ssl.client.truststore.location</name>
+  <value>/usr/lib/java/jre/lib/security/cacerts</value>
+  <description>Truststore to be used by NN and DN. Must be specified.</description>
+</property>
+
+<property>
+  <name>ssl.client.truststore.password</name>
+  <value>changeit</value>
+  <description>Optional. Default value is "".
+  </description>
+</property>
+
+<property>
+  <name>ssl.client.truststore.type</name>
+  <value>jks</value>
+  <description>Optional. The keystore file format, default value is "jks".</description>
+</property>
+
+<property>
+  <name>ssl.client.truststore.reload.interval</name>
+  <value>100000</value>
+  <description>Truststore reload check interval, in milliseconds.
+  Default value is 10000 (10 seconds).</description>
+</property>
+
+<property>
+  <name>ssl.client.keystore.location</name>
+  <value>/home/{{ username }}/.keystore</value>
+  <description>Keystore to be used by NN and DN. Must be specified.</description>
+</property>
+
+<property>
+  <name>ssl.client.keystore.password</name>
+  <value>{{keystore_pass}}</value>
+  <description>Must be specified.</description>
+</property>
+
+<property>
+  <name>ssl.client.keystore.keypassword</name>
+  <value>{{keystore_pass}}</value>
+  <description>Must be specified.</description>
+</property>
+
+<property>
+  <name>ssl.client.keystore.type</name>
+  <value>jks</value>
+  <description>Optional. The keystore file format, default value is "jks".</description>
+</property>
