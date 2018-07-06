@@ -100,7 +100,7 @@ include:
 {% if hadoop.secure_mode %}
 /etc/krb5/hdfs.keytab:
   file.managed:
-    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}
+    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '700'
