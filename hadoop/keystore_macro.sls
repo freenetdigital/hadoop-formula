@@ -21,14 +21,14 @@ set-cert-alias:
   file.managed:
     - user: {{ username }}
     - group: {{ username }}
-    - mode: "400"
+    - mode: "700"
     - replace: False
 
 /home/{{username}}/.keystore.p12:
   file.managed:
     - user: {{ username }}
     - group: {{ username }}
-    - mode: "400"
+    - mode: "700"
     - replace: False
 
 {{ hadoop.alt_config }}/ssl-server.xml:
@@ -37,6 +37,7 @@ set-cert-alias:
     - user: {{ username }}
     - group: {{ username }}
     - mode: "400"
+    - template: jinja
     - context:
       username: {{ username }}
       keystore_pass: {{ hadoop.keystore_pass }}
@@ -47,6 +48,7 @@ set-cert-alias:
     - user: {{ username }}
     - group: {{ username }}
     - mode: "400"
+    - template: jinja
     - context:
       username: {{ username }}
       keystore_pass: {{ hadoop.keystore_pass }}
