@@ -38,8 +38,8 @@ set-cert-alias:
     - group: {{ username }}
     - mode: "400"
     - context:
-      username={{ username }}
-      keystore_pass={{ hadoop.keystore_pass }}
+      username: {{ username }}
+      keystore_pass: {{ hadoop.keystore_pass }}
 
 {{ hadoop.alt_config }}/ssl-client.xml:
   file.managed:
