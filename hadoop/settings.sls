@@ -175,6 +175,10 @@
 
 {%- set java_home        = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
 {%- set config_core_site = gc.get('core-site', pc.get('core-site', {})) %}
+{%- set secure_mode      = gc.get('secure_mode', pc.get('secure_mode', False)) %}
+{%- set cert_priv_path   = gc.get('cert_priv_path', pc.get('cert_priv_path', '/etc/ssl/private')) %}
+{%- set cert_pub_path    = gc.get('cert_pub_path', pc.get('cert_pub_path', '/etc/ssl/certs')) %}
+{%- set keystore_pass    = gc.get('keystore_pass', pc.get('keystore_pass', False)) %}
 
 {%- set users = { 'hadoop' : 6000,
                   'hdfs'   : 6001,
@@ -210,4 +214,7 @@
                           'targeting_method' : targeting_method,
                           'users'            : users,
                           'jmx_export'       : jmx_export,
+                          'secure_mode'      : secure_mode,
+                          'cert_priv_path'   : cert_priv_path,
+                          'cert_pub_path'    : cert_pub_path,
                       }) %}
