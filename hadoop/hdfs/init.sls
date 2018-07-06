@@ -97,9 +97,8 @@ include:
 {{ hadoop.alt_config }}/dfs.hosts.exclude:
   file.managed
 
-{% if hdfs.is_namenode %}
 {% if hadoop.secure_mode %}
-/etc/krb5/nn.keytab:
+/etc/krb5/hdfs.keytab:
   file.managed:
     - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}
     - user: {{ username }}
@@ -108,6 +107,8 @@ include:
 
 {{ keystore(username)}}
 {% endif %}
+
+{% if hdfs.is_namenode %}
 
 {%- if hdfs.namenode_count == 1 %}
 format-namenode:
@@ -215,17 +216,6 @@ systemd-hadoop-zkfc:
 {% endif %}
 
 {% if hdfs.is_datanode %}
-{% if hadoop.secure_mode %}
-/etc/krb5/dn.keytab:
-  file.managed:
-    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}
-    - user: {{ username }}
-    - group: {{ username }}
-    - mode: '700'
-
-{{ keystore(username)}}
-{% endif %}
-
 /etc/init.d/hadoop-datanode:
   file.managed:
     - source: salt://hadoop/files/{{ hadoop.initscript }}
@@ -259,16 +249,6 @@ systemd-hadoop-datanode:
 {% endif %}
 
 {% if hdfs.is_journalnode %}
-{% if hadoop.secure_mode %}
-/etc/krb5/jn.keytab:
-  file.managed:
-    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}
-    - user: {{ username }}
-    - group: {{ username }}
-    - mode: '700'
-
-{{ keystore(username)}}
-{% endif %}
 
 /etc/init.d/hadoop-journalnode:
   file.managed:
