@@ -21,15 +21,20 @@
         <description>The directory within GATEWAY_HOME that contains gateway topology files and deployments.</description>
     </property>
 
+
     <property>
         <name>gateway.hadoop.kerberos.secured</name>
+	{%- if hadoop.secure_mode %}
+        <value>true</value>
+	{%- else %}
         <value>false</value>
+	{%- endif %}
         <description>Boolean flag indicating whether the Hadoop cluster protected by Gateway is secured with Kerberos</description>
     </property>
 
     <property>
         <name>java.security.krb5.conf</name>
-        <value>/etc/knox/conf/krb5.conf</value>
+        <value>/etc/krb5.conf</value>
         <description>Absolute path to krb5.conf file</description>
     </property>
 

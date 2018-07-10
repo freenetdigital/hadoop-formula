@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+{%- from 'hadoop/settings.sls' import hadoop with context -%}
 {%- from 'hadoop/knox/settings.sls' import knox with context -%}
 {%- from 'hadoop/hdfs/settings.sls' import hdfs with context -%}
 {%- from 'hadoop/hive/settings.sls' import hive with context -%}
@@ -137,7 +138,11 @@
 {%- if hdfs.namenode_count > 1 %}
     <service>
         <role>HDFSUI</role>
+	{%- if hadoop.secure_mode %}
+         <url>https://{{ hdfs.namenode_hosts|first() }}:50470</url>
+	 {%- else %}
          <url>http://{{ hdfs.namenode_hosts|first() }}:{{ hdfs.namenode_http_port }}</url>
+	 {%- endif %}
     </service>
     <service>
         <role>NAMENODE</role>
@@ -147,14 +152,22 @@
     <service>
         <role>WEBHDFS</role>
 {%- for namenode in hdfs.namenode_hosts %}
+	{%- if hadoop.secure_mode %}
+         <url>https://{{ namenode }}:50470/webhdfs</url>
+	 {%- else %}
          <url>http://{{ namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
+	 {%- endif %}
 {% endfor -%}
     </service>
 {%- else -%}
 {%- if hdfs.namenode_count == 1 %}
     <service>
-        <role>HDFSUI</role>
+	{%- if hadoop.secure_mode %}
+        <url>https://{{ hdfs.namenode }}:50470</url>
+	 {%- else %}
         <url>http://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}</url>
+	 {%- endif %}
+        <role>HDFSUI</role>
     </service>
     <service>
         <role>NAMENODE</role>
@@ -162,7 +175,11 @@
     </service>
     <service>
         <role>WEBHDFS</role>
-        <url>http://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
+	{%- if hadoop.secure_mode %}
+         <url>https://{{ hdfs.namenode }}:50470/webhdfs</url>
+	 {%- else %}
+         <url>http://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
+	 {%- endif %}
     </service>
 {%- endif -%}
 {%- endif %}

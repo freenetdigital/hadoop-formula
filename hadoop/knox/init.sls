@@ -108,6 +108,23 @@ knox-conf-symlink:
     - mode: '600'
     - template: jinja
 
+{% if hadoop.secure_mode %}
+{{ knox.conf_dir}}/krb5JAASLogin.conf:
+  file.managed:
+    - source: salt://hadoop/conf/knox/krb5JAASLogin.conf
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '644'
+    - template: jinja
+
+/etc/krb5/knox.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '400'
+{% endif %}
+
 {% if knox.jmx_export %}
 {{ knox.conf_dir}}/jmx.yaml:
   file.managed:
