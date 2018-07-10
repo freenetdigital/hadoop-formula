@@ -104,6 +104,14 @@ include:
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'
+{% if hdfs.is_namenode or hdfs.is_journalnode %}
+/etc/krb5/spnego.keytab:
+  file.managed:
+    - source: salt://kerberos/files/spnego-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '400'
+{% endif %}
 
 {{ keystore(username)}}
 {% endif %}
