@@ -66,6 +66,15 @@ mysql-connector-deps:
       - libmysql-java
       - bc
 
+{% if hadoop.secure_mode %}
+/etc/krb5/ranger.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '400'
+{% endif %}
+
 {{ ranger.admin_install_dir }}/install.properties:
   file.managed:
     - source: salt://hadoop/conf/ranger/admin.install.properties
