@@ -103,7 +103,7 @@ include:
     - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
-    - mode: '700'
+    - mode: '400'
 
 {{ keystore(username)}}
 {% endif %}
