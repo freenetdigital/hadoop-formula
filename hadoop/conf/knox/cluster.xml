@@ -206,11 +206,19 @@
     {%- if yarn.resourcemanager_hosts %}
     <service>
         <role>YARNUI</role>
+	{%- if hadoop.secure_mode %}
+        <url>https://{{ yarn.resourcemanager_hosts|first() }}:8090</url>
+	{%- else %}
         <url>http://{{ yarn.resourcemanager_hosts|first() }}:{{ yarn.resourcemanager_webapp_port }}</url>
+	{% endif %}
     </service>
     <service>
         <role>RESOURCEMANAGER</role>
+	{%- if hadoop.secure_mode %}
+	<url>https://{{ yarn.resourcemanager_hosts|first() }}:8090/ws</url>
+	{%- else %}
         <url>http://{{ yarn.resourcemanager_hosts|first() }}:{{ yarn.resourcemanager_webapp_port }}/ws</url>
+	{%- endif %}
     </service>
     {%- endif %}
     {%- if solr_grains.items()|length > 0 %}
