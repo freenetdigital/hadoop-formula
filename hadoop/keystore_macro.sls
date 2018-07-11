@@ -20,8 +20,8 @@ set-cert-alias:
 /home/{{username}}/.keystore:
   file.managed:
     - user: {{ username }}
-    - group: {{ username }}
-    - mode: "700"
+    - group: hadoop
+    - mode: "440"
     - replace: False
 
 /home/{{username}}/.keystore.p12:
@@ -35,8 +35,8 @@ set-cert-alias:
   file.managed:
     - source: salt://hadoop/conf/ssl-server.xml
     - user: {{ username }}
-    - group: {{ username }}
-    - mode: "400"
+    - group: hadoop
+    - mode: "440"
     - template: jinja
     - context:
       username: {{ username }}
@@ -46,8 +46,8 @@ set-cert-alias:
   file.managed:
     - source: salt://hadoop/conf/ssl-client.xml
     - user: {{ username }}
-    - group: {{ username }}
-    - mode: "400"
+    - group: hadoop
+    - mode: "440"
     - template: jinja
     - context:
       username: {{ username }}
