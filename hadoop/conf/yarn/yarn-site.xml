@@ -63,7 +63,7 @@
     </property>
     <property>
   	<name>yarn.nodemanager.linux-container-executor.group</name>
-  	<value>yarn</value>
+  	<value>hadoop</value>
     </property>
     {% endif %}
 

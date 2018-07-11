@@ -40,9 +40,9 @@ include:
   file.managed:
     - unless: test ! -f {{hadoop.alt_home}}/bin/container-executor
     - source: salt://hadoop/conf/yarn/container-executor.cfg
-    - mode: 644
+    - mode: 400 
     - user: root
-    - group: root
+    - group: hadoop
     - template: jinja
     - context:
       local_disks:
@@ -57,7 +57,7 @@ fix-executor-permissions:
   file.managed:
     - mode: 06050
     - user: root
-    - group: {{username}}
+    - group: hadoop
     - onlyif: test -f {{hadoop.alt_home}}/bin/container-executor
     - name: {{hadoop.alt_home}}/bin/container-executor
 
