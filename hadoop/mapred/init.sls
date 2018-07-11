@@ -135,7 +135,7 @@ hadoop-tasktracker:
 {%- endif %}
 
 {% if grains['init'] == 'systemd' %}
-systemd-reload:
+systemd-reload-mapred:
   cmd.wait:
     - name: systemctl daemon-reload 
 {% endif %}

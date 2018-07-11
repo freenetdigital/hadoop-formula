@@ -5,7 +5,7 @@
 {%- set username = 'hdfs' %}
 {%- set uid = hadoop.users[username] %}
 
-{% if hdfs.ranger_hdfs_plugin and hdfs.is_namenode %}
+{% if hdfs.ranger_plugin and hdfs.is_namenode %}
 
 unpack-ranger-plugin-archive:
   archive.extracted:
