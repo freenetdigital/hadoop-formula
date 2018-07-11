@@ -23,6 +23,41 @@
         <name>yarn.resourcemanager.ha.enabled</name>
         <value>true</value>
     </property>
+    
+    {% if hadoop.secure_mode %}
+    <property>
+        <name>yarn.resourcemanager.principal</name>
+	<value>yarn/_HOST@{{ grains['cluster_id'] | upper}}</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.keytab</name>
+	<value>/etc/krb5/yarn.keytab</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.principal</name>
+	<value>yarn/_HOST@{{ grains['cluster_id'] | upper}}</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.keytab</name>
+	<value>/etc/krb5/yarn.keytab</value>
+    </property>
+    <property>
+        <name>yarn.web-proxy.principal</name>
+	<value>wap/_HOST@{{ grains['cluster_id'] | upper}}</value>
+    </property>
+    <property>
+        <name>yarn.web-proxy.keytab</name>
+	<value>/etc/krb5/wap.keytab</value>
+    </property>
+    <property>
+        <name>yarn.http.policy</name>
+	<value>HTTPS_ONLY</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.proxy-user-privileges.enabled</name>
+	<value>true</value>
+    </property>
+    {% endif %}
 
     <property>
         <name>yarn.resourcemanager.ha.rm-ids</name>
@@ -30,6 +65,17 @@
     </property>
 
     {% for rm in yarn.resourcemanager_hosts %}
+    {%- if hadoop.secure_mode %}
+    <property>
+	<name>yarn.resourcemanager.webapp.https.address.rm{{ loop.index}}</name>
+	<value>{{ rm }}:8090</value>
+    </property>
+    <property>
+	<name>yarn.web-proxy.address.rm{{ loop.index}}</name>
+        <value>{{ rm }}:{{ yarn.resourcemanager_webapp_port }}</value>
+    </property>
+    {% endif %}
+    
     <property>
         <name>yarn.resourcemanager.hostname.rm{{ loop.index }}</name>
         <value>{{ rm }}</value>
@@ -37,7 +83,7 @@
 
     <property>
         <name>yarn.resourcemanager.address.rm{{ loop.index }}</name>
-        <value>{{ rm }}:{{ yarn.resourcemanager_port }}</value>
+        <value>{{ rm }}:8090</value>
     </property>
 
     <property>

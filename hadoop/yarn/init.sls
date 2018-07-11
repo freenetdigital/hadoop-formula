@@ -77,7 +77,25 @@ fix-executor-permissions:
 
 {%- endif %}
 
+{% if hadoop.secure_mode %}
+/etc/krb5/yarn.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '400'
+{% endif %}
+
 {% if yarn.is_resourcemanager %}
+
+{% if hadoop.secure_mode %}
+/etc/krb5/wap.keytab:
+  file.managed:
+    - source: salt://kerberos/files/wap-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '400'
+{% endif %}
 
 # add mr-history directories for Hadoop 2
 {%- set yarn_site = yarn.config_yarn_site %}
