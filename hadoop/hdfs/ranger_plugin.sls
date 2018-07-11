@@ -5,26 +5,26 @@
 {%- set username = 'hdfs' %}
 {%- set uid = hadoop.users[username] %}
 
-{% if hdfs.ranger_plugin and hdfs.is_namenode %}
+{% if hdfs.ranger_hdfs_plugin and hdfs.is_namenode %}
 
 unpack-ranger-plugin-archive:
   archive.extracted:
-    - name: {{ hadoop.alt_home}}/ranger_plugin
+    - name: {{ hadoop.alt_home}}/ranger_hdfs_plugin
     - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-hdfs-plugin.zip
     - archive_format: zip
     - clean: true
     - user: {{ username }}
     - group: {{ username }}
-    - unless: test -f {{ hadoop.alt_home }}/ranger_plugin/enable-hdfs-plugin.sh
+    - unless: test -f {{ hadoop.alt_home }}/ranger_hdfs_plugin/enable-hdfs-plugin.sh
 
 move-plugin-files:
   cmd.run:
-    - name: mv {{ hadoop.alt_home}}/ranger_plugin/ranger-{{ ranger.version }}-hdfs-plugin/* {{ hadoop.alt_home}}/ranger_plugin/; rm -rf {{ hadoop.alt_home}}/ranger_plugin/ranger-{{ ranger.version }}-hdfs-plugin
+    - name: mv {{ hadoop.alt_home}}/ranger_hdfs_plugin/ranger-{{ ranger.version }}-hdfs-plugin/* {{ hadoop.alt_home}}/ranger_hdfs_plugin/; rm -rf {{ hadoop.alt_home}}/ranger_hdfs_plugin/ranger-{{ ranger.version }}-hdfs-plugin
     - onchanges:
       - archive: unpack-ranger-plugin-archive
 
 
-{{ hadoop.alt_home }}/ranger_plugin/install.properties:
+{{ hadoop.alt_home }}/ranger_hdfs_plugin/install.properties:
   file.managed:
     - source: salt://hadoop/conf/hdfs/ranger.install.properties
     - user: {{ username }}
@@ -35,11 +35,11 @@ move-plugin-files:
 provision-ranger-hdfs-plugin:
   cmd.run:
     - name: bash -c './enable-hdfs-plugin.sh'
-    - cwd: {{ hadoop.alt_home }}/ranger_plugin
+    - cwd: {{ hadoop.alt_home }}/ranger_hdfs_plugin
     - env:
       - JAVA_HOME: '/usr/lib/java'
     - onchanges:
-      - file: {{ hadoop.alt_home }}/ranger_plugin/install.properties
+      - file: {{ hadoop.alt_home }}/ranger_hdfs_plugin/install.properties
 
 {{ hadoop.alt_config}}/ranger-hdfs-security.xml:
   file.managed:
