@@ -23,6 +23,7 @@
 {%- set cluster_id                  = salt['grains.get']('cluster_id', 'cluster1') %}
 
 {%- set local_disks                 = salt['grains.get']('yarn_data_disks', ['/yarn_data']) %}
+{%- set ranger_plugin               = gc.get('ranger_plugin', pc.get('ranger_plugin', False)) %}
 {%- set config_yarn_site            = gc.get('yarn-site', pc.get('yarn-site', {})) %}
 {%- set config_capacity_scheduler   = gc.get('capacity-scheduler', pc.get('capacity-scheduler', {})) %}
 # these are system accounts blacklisted with the YARN LCE
@@ -51,4 +52,5 @@
                      'is_nodemanager'              : is_nodemanager,
                      'zookeeper_hosts'             : zookeeper_hosts,
                      'cluster_id'                  : cluster_id,
+                     'ranger_plugin'               : ranger_plugin,
                    }) %}
