@@ -59,6 +59,24 @@
         <value>{{ hdfs.datanode_count }}</value>
     </property>
 {%- endif %}
+{%- if hadoop.secure_mode %}
+    <property>
+        <name>mapreduce.jobhistory.keytab</name>
+	<value>/etc/krb5/mapred.keytab</value>
+    </property>
+    <property>
+        <name>mapreduce.jobhistory.principal</name>
+	<value>mapred/_HOST@{{ grains['cluster_id'] | upper }}</value>
+    </property>
+    <property>
+        <name>mapreduce.jobhistory.http.policy</name>
+	<value>HTTPS_ONLY</value>
+    </property>
+    <property>
+        <name>mapreduce.jobhistory.webapp.https.address</name>
+        <value>{{ mapred.jobtracker_host }}:19890</value>
+    </property>
+{%- endif %}
 
 {%- for name, subdict in dyn_cfg.items() %}
     <property>

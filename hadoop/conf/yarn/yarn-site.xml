@@ -91,7 +91,7 @@
 
     <property>
         <name>yarn.resourcemanager.address.rm{{ loop.index }}</name>
-        <value>{{ rm }}:8090</value>
+	<value>{{ rm }}:{{ yarn.resourcemanager_port }}</value>
     </property>
 
     <property>

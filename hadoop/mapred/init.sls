@@ -33,6 +33,14 @@
     - template: jinja
     - mode: 644
 
+{% if hadoop.secure_mode %}
+/etc/krb5/mapred.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '400'
+{% endif %}
 {%- endif %}
 # create the /tmp directory
 
