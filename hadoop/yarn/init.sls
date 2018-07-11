@@ -53,6 +53,15 @@ include:
       banned_users_list: {{ yarn.banned_users|join(',') }}
 
 # restore the special permissions of the linux container executor
+fix-executor-ownership:
+  file.managed:
+    - mode: 06050
+    - user: root
+    - group: hadoop
+    - onlyif: test -f {{hadoop.alt_home}}/bin/container-executor
+    - name: {{hadoop.alt_home}}/bin/container-executor
+
+#duplicate fix, if chmod is invoked before chown, the permissions get messed up
 fix-executor-permissions:
   file.managed:
     - mode: 06050
