@@ -41,7 +41,7 @@ provision-ranger-knox-plugin:
     - onchanges:
       - file: {{ knox.install_dir }}/ranger_knox_plugin/install.properties
 
-knox-service:
+restart-knox-service:
   service.running:
     - enable: True
     - name: knox
