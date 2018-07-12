@@ -74,9 +74,10 @@ mysql-connector-deps:
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'
-{% endif %}
 
 {{ keystore(username, ssl_config=False)}}
+{% endif %}
+
 
 {{ ranger.admin_install_dir }}/install.properties:
   file.managed:
