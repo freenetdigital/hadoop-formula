@@ -19,7 +19,7 @@
 --><?xml-stylesheet type="text/xsl" href="configuration.xsl"?><configuration xmlns:xi="http://www.w3.org/2001/XInclude">
 	<property>
 		<name>ranger.plugin.hdfs.service.name</name>
-		<value>{{ grains['cluster_id'] }}</value>
+		<value>hdfs-{{ grains['cluster_id'] }}</value>
 		<description>
 			Name of the Ranger service containing policies for this YARN instance
 		</description>
@@ -62,7 +62,7 @@
 
 	<property>
 		<name>ranger.plugin.hdfs.policy.cache.dir</name>
-		<value>/etc/ranger/{{ grains['cluster_id'] }}/policycache</value>
+		<value>/etc/ranger/hdfs-{{ grains['cluster_id'] }}/policycache</value>
 		<description>
 			Directory where Ranger policies are cached after successful retrieval from the source
 		</description>
