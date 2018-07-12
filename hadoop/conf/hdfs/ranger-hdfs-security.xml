@@ -36,9 +36,14 @@
 {%- set ranger_grains = salt['mine.get'](ranger_target, 'grains.item', expr_form='compound') -%} 
 {%- set ranger_host = ranger_grains|first() -%}
 {%- set ranger_fqdn = ranger_grains[ranger_host]['fqdn'] %} 
+{%- if hadoop.secure_mode %}
+{%- set protocol = 'https' %}
+{% else %}
+{%- set protocol = 'http' %}
+{%- endif %}
         <property>
 		<name>ranger.plugin.hdfs.policy.rest.url</name>
-		<value>http://{{ ranger_fqdn }}:6080</value>
+		<value>{{ protocol }}://{{ ranger_fqdn }}:6080</value>
 		<description>
 			URL to Ranger Admin
 		</description>
