@@ -1,3 +1,4 @@
+{% from 'hadoop/settings.sls' import hadoop with context %}
 <?xml version="1.0" encoding="utf-8"?>
 <!--
      SALT-MANAGED
