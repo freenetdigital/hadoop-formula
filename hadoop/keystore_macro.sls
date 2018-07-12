@@ -15,7 +15,7 @@ set-cert-alias-for-{{username}}:
   cmd.run:
     - name: {{ salt['pillar.get']('java_home', '/usr/lib/java')}}/bin/keytool -changealias -alias '1' -destalias '{{ grains['fqdn'] }}' -keystore /home/{{username}}/.keystore -storepass {{ hadoop.keystore_pass }}
     - onchanges:
-      - cmd: create-jvm-keystore
+      - cmd: create-jvm-keystore-for-{{username}}
 
 /home/{{username}}/.keystore:
   file.managed:
