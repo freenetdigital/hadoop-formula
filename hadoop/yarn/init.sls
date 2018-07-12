@@ -95,7 +95,7 @@ fix-executor-permissions:
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'
-{{ keystore(username)}}
+{{ keystore(username, ssl_conf=False)}}
 {% endif %}
 
 {% if yarn.is_resourcemanager %}
