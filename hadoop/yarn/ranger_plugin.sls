@@ -32,27 +32,19 @@ move-yarn-plugin-files:
     - mode: '644'
     - template: jinja
 
-#provision-ranger-yarn-plugin:
-#  cmd.run:
-#    - name: bash -c './enable-yarn-plugin.sh'
-#    - cwd: {{ hadoop.alt_home }}/ranger_yarn_plugin
-#    - env:
-#      - JAVA_HOME: '/usr/lib/java'
-#    - onchanges:
-#      - file: {{ hadoop.alt_home }}/ranger_yarn_plugin/install.properties
-#
-##{{ hadoop.alt_config}}/ranger-hdfs-security.xml:
-##  file.managed:
-##    - source: salt://hadoop/conf/hdfs/ranger-hdfs-security.xml
-##    - user: {{ username }}
-##    - group: {{ username }}
-##    - mode: '644'
-##    - template: jinja
-#
-#yarn-service:
-#  service.running:
-#    - enable: True
-#    - name: hadoop-resourcemanager
-#    - watch:
-#      - cmd: provision-ranger-yarn-plugin
+provision-ranger-yarn-plugin:
+  cmd.run:
+    - name: bash -c './enable-yarn-plugin.sh'
+    - cwd: {{ hadoop.alt_home }}/ranger_yarn_plugin
+    - env:
+      - JAVA_HOME: '/usr/lib/java'
+    - onchanges:
+      - file: {{ hadoop.alt_home }}/ranger_yarn_plugin/install.properties
+
+yarn-service:
+  service.running:
+    - enable: True
+    - name: hadoop-resourcemanager
+    - watch:
+      - cmd: provision-ranger-yarn-plugin
 {% endif %}

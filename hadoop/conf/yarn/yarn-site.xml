@@ -155,4 +155,10 @@
     </property>
 
 {%- endfor %}
+{%- if yarn.ranger_plugin %}
+    <property>
+        <name>yarn.authorization-provider</name>
+        <value>org.apache.ranger.authorization.yarn.authorizer.RangerYarnAuthorizer</value>
+    </property>
+{%- endif %}
 </configuration>
