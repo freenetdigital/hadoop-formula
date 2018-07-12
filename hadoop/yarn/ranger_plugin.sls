@@ -21,7 +21,7 @@ move-yarn-plugin-files:
   cmd.run:
     - name: mv {{ hadoop.alt_home}}/ranger_yarn_plugin/ranger-{{ ranger.version }}-yarn-plugin/* {{ hadoop.alt_home}}/ranger_yarn_plugin/; rm -rf {{ hadoop.alt_home}}/ranger_yarn_plugin/ranger-{{ ranger.version }}-yarn-plugin
     - onchanges:
-      - archive: unpack-ranger-plugin-archive
+      - archive: unpack-ranger-yarn-plugin-archive
 
 
 {{ hadoop.alt_home }}/ranger_yarn_plugin/install.properties:
