@@ -24,14 +24,14 @@ move-yarn-plugin-files:
       - archive: unpack-ranger-plugin-archive
 
 
-#{{ hadoop.alt_home }}/ranger_yarn_plugin/install.properties:
-#  file.managed:
-#    - source: salt://hadoop/conf/yarn/ranger.install.properties
-#    - user: {{ username }}
-#    - group: {{ username }}
-#    - mode: '644'
-#    - template: jinja
-#
+{{ hadoop.alt_home }}/ranger_yarn_plugin/install.properties:
+  file.managed:
+    - source: salt://hadoop/conf/yarn/ranger.install.properties
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '644'
+    - template: jinja
+
 #provision-ranger-yarn-plugin:
 #  cmd.run:
 #    - name: bash -c './enable-yarn-plugin.sh'
