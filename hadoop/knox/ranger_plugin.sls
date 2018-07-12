@@ -24,14 +24,14 @@ move-knox-plugin-files:
       - archive: unpack-ranger-knox-plugin-archive
 
 
-#{{ knox.install_dir }}/ranger_knox_plugin/install.properties:
-#  file.managed:
-#    - source: salt://hadoop/conf/knox/ranger.install.properties
-#    - user: {{ username }}
-#    - group: {{ username }}
-#    - mode: '644'
-#    - template: jinja
-#
+{{ knox.install_dir }}/ranger_knox_plugin/install.properties:
+  file.managed:
+    - source: salt://hadoop/conf/knox/ranger.install.properties
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '644'
+    - template: jinja
+
 #provision-ranger-knox-plugin:
 #  cmd.run:
 #    - name: bash -c './enable-knox-plugin.sh'
