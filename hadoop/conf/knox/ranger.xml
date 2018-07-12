@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SALT-MANAGED
+-->
+<topology>
+    <gateway> 
+        <provider>
+            <role>authentication</role>
+            <name>Anonymous</name>
+            <enabled>true</enabled>
+            <param>
+                <name>sessionTimeout</name>
+                <value>30</value>
+            </param>
+        </provider>
+        <provider>
+            <role>identity-assertion</role>
+            <name>Default</name>
+            <enabled>false</enabled>
+        </provider>
+    </gateway>
+    {%- set ranger_target = 'G@role:ranger and G@clustername:' + grains['cluster_id'] -%}
+    {%- set ranger_grains = salt['mine.get'](ranger_target, 'grains.item', expr_form='compound') -%}
+    {%- if ranger_grains.items()|length > 0 %}
+    {% set ranger_host = ranger_grains|first() %}
+    {% set ranger_fqdn = ranger_grains[ranger_host]['fqdn'] %}
+    <service>
+        <role>RANGERUI</role>
+	<url>http://{{ ranger_fqdn }}:6080</url>
+    </service>
+    {%- endif %}
+</topology>
+

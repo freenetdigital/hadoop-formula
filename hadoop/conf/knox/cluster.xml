@@ -100,12 +100,17 @@
         </provider>
         <provider>
             <role>authorization</role>
+	    {%- if knox.ranger_plugin %}
+            <name>XASecurePDPKnox</name>
+            <enabled>true</enabled>
+	    {%- else %}
             <name>AclsAuthz</name>
             <enabled>true</enabled>
             <param>
                 <name>knox.acl</name>
                 <value>{{ knox.cluster_topology.acl }}</value>
             </param>
+	    {%- endif %}
         </provider>
         <provider>
             <role>identity-assertion</role>
@@ -225,16 +230,6 @@
     <service>
         <role>SOLR</role>
         <version>6.0.0</version>
-    </service>
-    {%- endif %}
-    {%- set ranger_target = 'G@role:ranger and G@clustername:' + grains['cluster_id'] -%}
-    {%- set ranger_grains = salt['mine.get'](ranger_target, 'grains.item', expr_form='compound') -%}
-    {%- if ranger_grains.items()|length > 0 %}
-    {% set ranger_host = ranger_grains|first() %}
-    {% set ranger_fqdn = ranger_grains[ranger_host]['fqdn'] %}
-    <service>
-        <role>RANGERUI</role>
-	<url>http://{{ ranger_fqdn }}:6080</url>
     </service>
     {%- endif %}
 </topology>

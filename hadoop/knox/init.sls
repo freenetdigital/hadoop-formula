@@ -108,6 +108,14 @@ knox-conf-symlink:
     - mode: '600'
     - template: jinja
 
+{{ knox.conf_dir}}/topologies/{{ grains['cluster_id'] }}-ranger.xml:
+  file.managed:
+    - source: salt://hadoop/conf/knox/ranger.xml
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '600'
+    - template: jinja
+
 {% if hadoop.secure_mode %}
 {{ knox.conf_dir}}/krb5JAASLogin.conf:
   file.managed:

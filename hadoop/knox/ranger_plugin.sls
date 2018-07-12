@@ -32,19 +32,19 @@ move-knox-plugin-files:
     - mode: '644'
     - template: jinja
 
-#provision-ranger-knox-plugin:
-#  cmd.run:
-#    - name: bash -c './enable-knox-plugin.sh'
-#    - cwd: {{ knox.install_dir }}/ranger_knox_plugin
-#    - env:
-#      - JAVA_HOME: '/usr/lib/java'
-#    - onchanges:
-#      - file: {{ knox.install_dir }}/ranger_knox_plugin/install.properties
-#
-#knox-service:
-#  service.running:
-#    - enable: True
-#    - name: hadoop-resourcemanager
-#    - watch:
-#      - cmd: provision-ranger-knox-plugin
+provision-ranger-knox-plugin:
+  cmd.run:
+    - name: bash -c './enable-knox-plugin.sh'
+    - cwd: {{ knox.install_dir }}/ranger_knox_plugin
+    - env:
+      - JAVA_HOME: '/usr/lib/java'
+    - onchanges:
+      - file: {{ knox.install_dir }}/ranger_knox_plugin/install.properties
+
+knox-service:
+  service.running:
+    - enable: True
+    - name: knox
+    - watch:
+      - cmd: provision-ranger-knox-plugin
 {% endif %}

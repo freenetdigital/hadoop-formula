@@ -90,7 +90,12 @@
         </provider>
         <provider>
             <role>authorization</role>
+	    {%- if knox.ranger_plugin %}
+            <name>XASecurePDPKnox</name>
+	    {%- else %}
             <name>AclsAuthz</name>
+	    {%- endif %}
+            <role>authorization</role>
             <enabled>true</enabled>
             <param>
                 <name>knox.acl</name>
