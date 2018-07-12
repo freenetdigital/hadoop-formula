@@ -32,18 +32,20 @@
 			Class to retrieve policies from the source
 		</description>
 	</property>
-{%- set ranger_target = 'G@role:ranger and G@clustername:' + grains['cluster_id'] -%} 
-{%- set ranger_grains = salt['mine.get'](ranger_target, 'grains.item', expr_form='compound') -%} 
-{%- set ranger_host = ranger_grains|first() -%}
-{%- set ranger_fqdn = ranger_grains[ranger_host]['fqdn'] %} 
+{%- set ranger_target = 'G@role:ranger and G@clustername:' + grains['cluster_id'] -%}
+{%- set ranger_grains = salt['mine.get'](ranger_target, 'grains.item', expr_form='compound') -%}
+{% set ranger_host = ranger_grains|first() %}
+{% set ranger_fqdn = ranger_grains[ranger_host]['fqdn'] %}
 {%- if hadoop.secure_mode %}
 {%- set protocol = 'https' %}
+{%- set port = 6182 %}
 {% else %}
 {%- set protocol = 'http' %}
+{%- set port = 6080 %}
 {%- endif %}
         <property>
 		<name>ranger.plugin.hdfs.policy.rest.url</name>
-		<value>{{ protocol }}://{{ ranger_fqdn }}:6080</value>
+		<value>{{ protocol }}://{{ ranger_fqdn }}:{{ port }}</value>
 		<description>
 			URL to Ranger Admin
 		</description>
