@@ -2,6 +2,7 @@
 {%- from 'hadoop/ranger/settings.sls' import ranger      with context %}
 {%- from 'hadoop/solr/settings.sls'   import solr        with context %}
 {%- from 'hadoop/user_macro.sls'      import hadoop_user with context %}
+{%- from 'hadoop/keystore_macro.sls' import keystore with context %}
 
 include:
   - hadoop.systemd
@@ -74,6 +75,8 @@ mysql-connector-deps:
     - group: {{ username }}
     - mode: '400'
 {% endif %}
+
+{{ keystore(username, ssl_config=False)}}
 
 {{ ranger.admin_install_dir }}/install.properties:
   file.managed:

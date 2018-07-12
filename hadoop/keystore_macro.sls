@@ -1,6 +1,6 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
 
-{% macro keystore(username) -%}
+{% macro keystore(username, ssl_conf=True) -%}
 import-cert:
   cmd.run:
     - name: export RANDFILE=/root/.rnd; openssl pkcs12 -export -in {{ hadoop.cert_pub_path}}/{{ hadoop.cert_name }} -inkey {{ hadoop.cert_priv_path }}/{{ hadoop.cert_name }}.key -out /home/{{username}}/.keystore.p12 -password pass:{{ hadoop.keystore_pass }}
@@ -31,6 +31,7 @@ set-cert-alias:
     - mode: "700"
     - replace: False
 
+{% if ssl_conf %}
 {{ hadoop.alt_config }}/ssl-server.xml:
   file.managed:
     - source: salt://hadoop/conf/ssl-server.xml
@@ -53,4 +54,5 @@ set-cert-alias:
       username: {{ username }}
       keystore_pass: {{ hadoop.keystore_pass }}
 
+{% endif %}
 {%- endmacro %}
