@@ -133,7 +133,7 @@ knox-conf-symlink:
     - group: {{ username }}
     - mode: '400'
 
-{{ keystore(knox, ssl_conf=False) }}
+{{ keystore('knox', ssl_conf=False) }}
 {% endif %}
 
 {% if knox.jmx_export %}
