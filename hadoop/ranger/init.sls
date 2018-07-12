@@ -75,7 +75,7 @@ mysql-connector-deps:
     - group: {{ username }}
     - mode: '400'
 
-{{ keystore(username, ssl_config=False)}}
+{{ keystore(username, ssl_conf=False)}}
 {% endif %}
 
 
