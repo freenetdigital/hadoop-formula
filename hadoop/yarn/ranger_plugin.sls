@@ -7,7 +7,7 @@
 
 {% if yarn.ranger_plugin and yarn.is_resourcemanager %}
 
-unpack-ranger-plugin-archive:
+unpack-ranger-yarn-plugin-archive:
   archive.extracted:
     - name: {{ hadoop.alt_home}}/ranger_yarn_plugin
     - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-yarn-plugin.zip
@@ -17,7 +17,7 @@ unpack-ranger-plugin-archive:
     - group: {{ username }}
     - unless: test -f {{ hadoop.alt_home }}/ranger_yarn_plugin/enable-yarn-plugin.sh
 
-move-plugin-files:
+move-yarn-plugin-files:
   cmd.run:
     - name: mv {{ hadoop.alt_home}}/ranger_yarn_plugin/ranger-{{ ranger.version }}-yarn-plugin/* {{ hadoop.alt_home}}/ranger_yarn_plugin/; rm -rf {{ hadoop.alt_home}}/ranger_yarn_plugin/ranger-{{ ranger.version }}-yarn-plugin
     - onchanges:
@@ -55,4 +55,4 @@ move-plugin-files:
 #    - name: hadoop-resourcemanager
 #    - watch:
 #      - cmd: provision-ranger-yarn-plugin
-#{% endif %}
+{% endif %}
