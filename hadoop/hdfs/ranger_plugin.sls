@@ -29,7 +29,7 @@ move-plugin-files:
     - source: salt://hadoop/conf/hdfs/ranger.install.properties
     - user: {{ username }}
     - group: {{ username }}
-    - mode: '644'
+    - mode: '600'
     - template: jinja
 
 provision-ranger-hdfs-plugin:
@@ -46,7 +46,7 @@ provision-ranger-hdfs-plugin:
     - source: salt://hadoop/conf/hdfs/ranger-hdfs-security.xml
     - user: {{ username }}
     - group: {{ username }}
-    - mode: '644'
+    - mode: '600'
     - template: jinja
 
 hdfs-service:

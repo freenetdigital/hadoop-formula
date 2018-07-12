@@ -1,6 +1,7 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
 {%- from 'hadoop/knox/settings.sls' import knox with context %}
 {%- from 'hadoop/user_macro.sls' import hadoop_user with context %}
+{%- from 'hadoop/keystore_macro.sls' import keystore with context %}
 
 include:
   - hadoop.systemd
@@ -131,6 +132,8 @@ knox-conf-symlink:
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'
+
+{{ keystore_macro(knox, ssl_config=False }}
 {% endif %}
 
 {% if knox.jmx_export %}

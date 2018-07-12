@@ -29,7 +29,7 @@ move-knox-plugin-files:
     - source: salt://hadoop/conf/knox/ranger.install.properties
     - user: {{ username }}
     - group: {{ username }}
-    - mode: '644'
+    - mode: '600'
     - template: jinja
 
 provision-ranger-knox-plugin:

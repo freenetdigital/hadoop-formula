@@ -29,7 +29,7 @@ move-yarn-plugin-files:
     - source: salt://hadoop/conf/yarn/ranger.install.properties
     - user: {{ username }}
     - group: {{ username }}
-    - mode: '644'
+    - mode: '600'
     - template: jinja
 
 provision-ranger-yarn-plugin:
