@@ -9,37 +9,37 @@
 
 unpack-ranger-hive-plugin-archive:
   archive.extracted:
-    - name: {{ hadoop.alt_home}}/ranger_hive_plugin
+    - name: {{ hive.install_dir}}/ranger_hive_plugin
     - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-hive-plugin.zip
     - archive_format: zip
     - clean: true
     - user: {{ username }}
     - group: {{ username }}
-    - unless: test -f {{ hadoop.alt_home }}/ranger_hive_plugin/enable-hive-plugin.sh
+    - unless: test -f {{ hive.install_dir }}/ranger_hive_plugin/enable-hive-plugin.sh
 
 move-hive-plugin-files:
   cmd.run:
-    - name: mv {{ hadoop.alt_home}}/ranger_hive_plugin/ranger-{{ ranger.version }}-hive-plugin/* {{ hadoop.alt_home}}/ranger_hive_plugin/; rm -rf {{ hadoop.alt_home}}/ranger_hive_plugin/ranger-{{ ranger.version }}-hive-plugin
+    - name: mv {{ hive.install_dir}}/ranger_hive_plugin/ranger-{{ ranger.version }}-hive-plugin/* {{ hive.install_dir}}/ranger_hive_plugin/; rm -rf {{ hive.install_dir}}/ranger_hive_plugin/ranger-{{ ranger.version }}-hive-plugin
     - onchanges:
       - archive: unpack-ranger-hive-plugin-archive
 
 
-#{{ hadoop.alt_home }}/ranger_hive_plugin/install.properties:
-#  file.managed:
-#    - source: salt://hadoop/conf/hive/ranger.install.properties
-#    - user: {{ username }}
-#    - group: {{ username }}
-#    - mode: '600'
-#    - template: jinja
-#
+{{ hive.install_dir }}/ranger_hive_plugin/install.properties:
+  file.managed:
+    - source: salt://hadoop/conf/hive/ranger.install.properties
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '600'
+    - template: jinja
+
 #provision-ranger-hive-plugin:
 #  cmd.run:
 #    - name: bash -c './enable-hive-plugin.sh'
-#    - cwd: {{ hadoop.alt_home }}/ranger_hive_plugin
+#    - cwd: {{ hive.install_dir }}/ranger_hive_plugin
 #    - env:
 #      - JAVA_HOME: '/usr/lib/java'
 #    - onchanges:
-#      - file: {{ hadoop.alt_home }}/ranger_hive_plugin/install.properties
+#      - file: {{ hive.install_dir }}/ranger_hive_plugin/install.properties
 #
 #hive-service:
 #  service.running:

@@ -2,6 +2,8 @@
 {%- from 'hadoop/hive/settings.sls' import hive with context %}
 {%- from 'hadoop/user_macro.sls' import hadoop_user with context %}
 {%- from 'hadoop/hdfs_mkdir_macro.sls' import hdfs_mkdir with context %}
+{%- from 'hadoop/keystore_macro.sls' import keystore with context %}
+
 include:
   - hadoop.systemd
   
@@ -84,6 +86,10 @@ hive-site.xml:
     - user: {{ username }}
     - watch_in:
       - service: hive-hiveserver2
+
+{% if hadoop.secure_mode %}
+{{ keystore(username, ssl_conf=False)}}
+{% endif %}
 
 hive-log-directory:
   file.directory:
