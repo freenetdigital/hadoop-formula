@@ -5,9 +5,45 @@
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
    {%- if hadoop.secure_mode %}
-   <property>
+     <property>
+            <name>hive.server2.authentication.spnego.keytab</name>
+            <value>/etc/krb5/spnego.keytab</value>
+     </property>
+     <property>
+            <name>hive.server2.authentication.spnego.principal</name>
+            <value>HTTP/_HOST@HADOOP-PRE-C3</value>
+    </property>
+    <property>
+            <name>hive.server2.thrift.sasl.qop</name>
+            <value>auth-conf</value>
+    </property>
+    <property>
+            <name>hive.server2.enable.doAs</name>
+            <value>true</value>
+    </property>
+    <property>
+            <name>hive.server2.webui.use.ssl</name>
+            <value>true</value>
+    </property>
+    <property>
+            <name>hive.server2.webui.keystore.path</name>
+            <value>/home/hive/.keystore</value>
+    </property>
+    <property>
+            <name>hive.server2.webui.keystore.password</name>
+	    <value>{{ hadoop.keystore_pass }}</value>
+    </property>
+    <property>
+            <name>hive.metastore.kerberos.keytab.file</name>
+    	    <value>/etc/krb5/metastore.keytab</value>
+    </property>
+    <property>
+            <name>hive.metastore.kerberos.principal</name>
+	    <value>metastore/_HOST@{{grains['cluster_id'] | upper }}</value>
+    </property>
+    <property>
             <name>hive.server2.authentication</name>
-            <value>kerberos</value>
+            <value>KERBEROS</value>
    </property>
     <property>
             <name>hive.server2.authentication.kerberos.keytab</name>
@@ -15,7 +51,7 @@
    </property>
     <property>
             <name>hive.server2.authentication.kerberos.principal</name>
-	    <value>hive/{{ grains['fqdn']}}@{{grains['cluster_id'] | upper }}</value>
+	    <value>hive/_HOST@{{grains['cluster_id'] | upper }}</value>
    </property>
    {%- endif %}
 
