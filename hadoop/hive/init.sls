@@ -88,6 +88,13 @@ hive-site.xml:
       - service: hive-hiveserver2
 
 {% if hadoop.secure_mode %}
+/etc/krb5/hive.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '400'
+
 {{ keystore(username, ssl_conf=False)}}
 {% endif %}
 

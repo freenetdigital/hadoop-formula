@@ -32,19 +32,26 @@ move-hive-plugin-files:
     - mode: '600'
     - template: jinja
 
-#provision-ranger-hive-plugin:
-#  cmd.run:
-#    - name: bash -c './enable-hive-plugin.sh'
-#    - cwd: {{ hive.install_dir }}/ranger_hive_plugin
-#    - env:
-#      - JAVA_HOME: '/usr/lib/java'
-#    - onchanges:
-#      - file: {{ hive.install_dir }}/ranger_hive_plugin/install.properties
-#
-#hive-service:
-#  service.running:
-#    - enable: True
-#    - name: hadoop-resourcemanager
-#    - watch:
-#      - cmd: provision-ranger-hive-plugin
+provision-ranger-hive-plugin:
+  cmd.run:
+    - name: bash -c './enable-hive-plugin.sh'
+    - cwd: {{ hive.install_dir }}/ranger_hive_plugin
+    - env:
+      - JAVA_HOME: '/usr/lib/java'
+    - onchanges:
+      - file: {{ hive.install_dir }}/ranger_hive_plugin/install.properties
+
+hive-service-ranger:
+  service.running:
+    - enable: True
+    - name: hive-hiveserver2
+    - watch:
+      - cmd: provision-ranger-hive-plugin
+
+hivemetastore-service-ranger:
+  service.running:
+    - enable: True
+    - name: hive-metastore
+    - watch:
+      - cmd: provision-ranger-hive-plugin
 {% endif %}
