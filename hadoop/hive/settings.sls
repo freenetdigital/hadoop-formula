@@ -21,6 +21,7 @@
 
 {%- set hive_log_dir       = pc.get('hive_log_dir', '/var/log/hive') %}
 {%- set jmx_export         = pc.get('jmx_export', false) %}
+{%- set ranger_plugin      = pc.get('ranger_plugin', false) %}
 
 {% set mver = version.split('.') %}
 
@@ -45,4 +46,5 @@
                      'hive_log_dir'             : hive_log_dir ,
                      'config_hive_site'         : pc.get('hive-site', {}) ,
                      'jmx_export'               : jmx_export,
+                     'ranger_plugin'            : ranger_plugin,
                    }) %}
