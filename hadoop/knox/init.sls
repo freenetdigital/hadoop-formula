@@ -131,7 +131,7 @@ knox-conf-symlink:
     - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
-    - mode: '400'
+    - mode: '0400'
 
 {{ keystore('knox', ssl_conf=False) }}
 {% endif %}
