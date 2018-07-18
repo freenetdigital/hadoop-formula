@@ -35,11 +35,11 @@
     </property>
     <property>
             <name>hive.metastore.kerberos.keytab.file</name>
-    	    <value>/etc/krb5/metastore.keytab</value>
+    	    <value>/etc/krb5/hive.keytab</value>
     </property>
     <property>
             <name>hive.metastore.kerberos.principal</name>
-	    <value>metastore/_HOST@{{grains['cluster_id'] | upper }}</value>
+	    <value>hive/_HOST@{{grains['cluster_id'] | upper }}</value>
     </property>
     <property>
             <name>hive.server2.authentication</name>
