@@ -14,6 +14,10 @@
             <value>HTTP/_HOST@HADOOP-PRE-C3</value>
     </property>
     <property>
+	    <name>hive.metastore.sasl.enabled</name>
+            <value>true</value>
+    </property>
+    <property>
             <name>hive.server2.thrift.sasl.qop</name>
             <value>auth-conf</value>
     </property>
