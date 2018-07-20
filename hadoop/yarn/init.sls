@@ -15,6 +15,10 @@ include:
 {% set uid = hadoop.users[username] %}
 {{ hadoop_user(username, uid) }}
 
+#deploy hive user on yarn node to be able to spawn container as hive user
+{% set hiveuid = hadoop.users['hive'] %}
+{{ hadoop_user('hive', hiveuid) }}
+
 {% if yarn.is_resourcemanager or yarn.is_nodemanager %}
 
 {% for disk in yarn.local_disks %}
