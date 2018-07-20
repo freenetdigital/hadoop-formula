@@ -45,6 +45,7 @@
                      'metastore_schema_file'    : metastore_schema_file ,
                      'hive_log_dir'             : hive_log_dir ,
                      'config_hive_site'         : pc.get('hive-site', {}) ,
+                     'config_tez_site'          : pc.get('tez-site', {}) ,
                      'jmx_export'               : jmx_export,
                      'ranger_plugin'            : ranger_plugin,
                    }) %}

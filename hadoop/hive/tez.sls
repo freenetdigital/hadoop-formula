@@ -1,3 +1,4 @@
+{% from 'hadoop/settings.sls' import hadoop with context %}
 {% set version = salt['pillar.get']('hive:tez:version', '0.9.0') %}
 
 tez-directory-symlink:
@@ -18,6 +19,7 @@ install-tez:
     - name: wget http://mirror.funkfreundelandshut.de/apache/tez/{{ version }}/apache-tez-{{ version }}-bin.tar.gz; tar xvf apache-tez-{{ version }}-bin.tar.gz 
     - unless: ls /usr/lib/apache-tez-{{ version }}-bin/conf/tez-default-template.xml
 
+{% if not hadoop.secure_mode %}
 copy-to-hdfs:
   cmd.run:
     - user: hdfs
@@ -28,3 +30,4 @@ chown-as-hive:
   cmd.run:
     - user: hdfs
     - name: hadoop fs -chown -R hive /apps/tez
+{% endif %}
