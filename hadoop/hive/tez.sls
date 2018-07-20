@@ -23,11 +23,11 @@ install-tez:
 copy-to-hdfs:
   cmd.run:
     - user: hdfs
-    - name: hadoop fs -copyFromLocal /usr/lib/apache-tez-{{ version }}-bin /apps/tez/
-    - unless: hadoop fs -ls /apps/tez/apache-tez-{{ version }}-bin/share/tez.tar.gz
+    - name: hdfs dfs -put /usr/lib/apache-tez-{{ version }}-bin/share/tez.tar.gz /apps/tez/
+    - unless: hdfs dfs -ls /apps/tez/tez.tar.gz
 
 chown-as-hive:
   cmd.run:
     - user: hdfs
-    - name: hadoop fs -chown -R hive /apps/tez
+    - name: hdfs dfs -chown -R hive /apps/tez
 {% endif %}
