@@ -8,7 +8,7 @@ libnss-ldapd:
   file.managed:
     - source: salt://hadoop/conf/nslcd.conf
     - template: jinja
-    - mode: 644
+    - mode: 400
     - user: root
     - group: root
 
@@ -16,7 +16,7 @@ libnss-ldapd:
   file.managed:
     - source: salt://hadoop/files/nsswitch.conf
     - template: jinja
-    - mode: 644
+    - mode: 400
     - user: root
     - group: root
 
