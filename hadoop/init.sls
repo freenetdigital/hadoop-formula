@@ -29,7 +29,7 @@ create-common-folders:
     - target: {{ hadoop.log_root }}
 {%- endif %}
 
-{% if ldap_user_to_unix %}
+{% if hadoop.ldap_user_to_unix %}
 libnss-ldapd:
   pkg.installed
 
