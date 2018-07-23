@@ -176,6 +176,7 @@
 {%- set java_home        = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
 {%- set config_core_site = gc.get('core-site', pc.get('core-site', {})) %}
 {%- set secure_mode      = gc.get('secure_mode', pc.get('secure_mode', False)) %}
+{%- set ldap_user_to_unix= gc.get('ldap_user_to_unix', pc.get('ldap_user_to_unix', False)) %}
 {%- set cert_name        = gc.get('cert_name', pc.get('cert_name', '')) %}
 {%- set cert_priv_path   = gc.get('cert_priv_path', pc.get('cert_priv_path', '/etc/ssl/private')) %}
 {%- set cert_pub_path    = gc.get('cert_pub_path', pc.get('cert_pub_path', '/etc/ssl/certs')) %}
@@ -220,4 +221,5 @@
                           'cert_name'        : cert_name,
                           'cert_priv_path'   : cert_priv_path,
                           'cert_pub_path'    : cert_pub_path,
+                          'ldap_user_to_unix': ldap_user_to_unix,
                       }) %}
