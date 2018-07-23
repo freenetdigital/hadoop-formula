@@ -1,6 +1,7 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
 {%- from 'hadoop/ranger/settings.sls' import ranger with context %}
 
+{% if hadoop.ldap_user_to_unix %}
 libnss-ldapd:
   pkg.installed
 
@@ -32,3 +33,5 @@ nscd:
     - watch_any: 
       - file: /etc/nslcd.conf
       - file: /etc/nsswitch.conf
+
+{% endif %} 
