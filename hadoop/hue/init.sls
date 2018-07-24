@@ -11,12 +11,6 @@ include:
 
 {{ hadoop_user(username, uid, ssh=False) }}
 
-hue-directory:
-  file.directory:
-    - name: {{ hue.install_dir }}
-    - user: {{ username }}
-
-
 {% if hue.download_mirror %}
 download-hue-archive:
   cmd.run:
@@ -75,3 +69,34 @@ hue-make-install:
   cmd.run:
     - name: 'bash -c "PREFIX={{hue.install_dir}} make install"'
     - cwd: {{ hue.download_dir}}/hue-{{ hue.version }}
+    - unless: test -f {{hue.install_dir}}/hue/build/env/bin/hue
+
+hue-symlink:
+  file.symlink:
+    - target: {{ hue.install_dir}}/hue
+    - name: {{hue.dir}}
+
+hue-conf-dir:
+  file.directory:
+    - name: /etc/hue
+    - user: {{username}}
+
+hue-conf-symlink:
+  file.symlink:
+    - target: {{ hue.install_dir}}/hue/desktop/conf
+    - name: {{ hue.conf_dir}}
+
+{{ hue.conf_dir}}/hue.ini:
+  file.managed:
+    - source: salt://hadoop/conf/hue/hue.ini
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '600'
+    - template: jinja
+
+/etc/krb5/hue.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '0400'
