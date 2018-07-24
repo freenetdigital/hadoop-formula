@@ -127,7 +127,6 @@ hue-conf-symlink:
     - mode: '400'
 {% endif %}
 
-{% if grains['init'] == 'systemd' %}
 /etc/systemd/system/hue.service:
   file.managed:
     - source: salt://hadoop/files/hue.init.systemd
