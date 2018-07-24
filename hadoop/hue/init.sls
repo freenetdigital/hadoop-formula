@@ -74,3 +74,4 @@ install-build-dependencies:
 hue-make-install:
   cmd.run:
     - name: 'bash -c "PREFIX={{hue.install_dir}} make install"'
+    - cwd: {{ hue.download_dir}}/hue-{{ hue.version }}
