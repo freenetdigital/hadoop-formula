@@ -4,7 +4,7 @@
 {%- set gc = g.get('config', {}) %}
 
 {%- set base_install_dir   = g.get('base_install_dir', p.get('base_install_dir', '/usr/lib')) %}
-{%- set base_download_dir  = g.get('base_download_dir', p.get('base_download_dir', '/opt')) %}
+{%- set download_dir       = g.get('download_dir', p.get('download_dir', '/opt')) %}
 {%- set dir                = g.get('dir', p.get('dir', base_install_dir+'/hue')) %}
 {%- set conf_dir           = g.get('conf_dir', p.get('conf_dir', '/etc/hue/conf')) %}
 
@@ -32,6 +32,7 @@
                      'conf_dir'                 : conf_dir,
                      'dir'                      : dir,
                      'install_dir'              : base_install_dir + '/hue-' + version,
+                     'download_dir'             : download_dir,
                      'download_mirror'          : download_mirror,
                      'jmx_export'               : jmx_export,
                      'cert_name'                : cert_name, 

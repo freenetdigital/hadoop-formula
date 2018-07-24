@@ -21,14 +21,14 @@ hue-directory:
 download-hue-archive:
   cmd.run:
     - name: wget {{ hue.download_mirror }}/{{ hue.version }}/hue-{{ hue.version }}.tgz
-    - cwd: {{ hue.base_download_dir }}
+    - cwd: {{ hue.download_dir }}
     - user: {{ username }}
-    - unless: test -f {{ hue.base_download_dir }}/hue-{{hue.version}}/VERSION
+    - unless: test -f {{ hue.download_dir }}/hue-{{hue.version}}/VERSION
 
 unpack-hue-archive:
   archive.extracted:
-    - name: {{ hue.base_download_dir }}
-    - source: file://{{ hue.base_download_dir }}/hue-{{ hue.version}}.tgz
+    - name: {{ hue.download_dir }}
+    - source: file://{{ hue.download_dir }}/hue-{{ hue.version}}.tgz
     - archive_format: tar
     - user: {{ username }}
     - group: {{ username }}
@@ -37,13 +37,13 @@ unpack-hue-archive:
 {% else %}
 copy-hue-archive:
   archive.extracted:
-    - name: {{ hue.base_download_dir }}
+    - name: {{ hue.download_dir }}
     - source: salt://hue/files/hue-{{ hue.version}}.tgz
     - archive_format: tar
     - clean: true
     - user: {{ username }}
     - group: {{ username }}
-    - unless: test -f {{hue.base_download_dir }}/hue-{{ hue.version }}/VERSION
+    - unless: test -f {{hue.download_dir }}/hue-{{ hue.version }}/VERSION
 {% endif %} 
 
 
