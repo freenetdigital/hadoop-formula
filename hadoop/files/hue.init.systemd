@@ -1,0 +1,15 @@
+[Unit]
+Description=Hue
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+User=hue
+WorkingDirectory=/usr/lib/hue/
+Environment=PYTHON_EGG_CACHE=/tmp/.hue-python-eggs
+ExecStart=/usr/bin/env build/env/bin/hue runcherrypyserver
+SyslogIdentifier=hue
+
+[Install]
+WantedBy=multi-user.target

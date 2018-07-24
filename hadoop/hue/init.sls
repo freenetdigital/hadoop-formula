@@ -81,6 +81,12 @@ hue-conf-dir:
     - name: /etc/hue
     - user: {{username}}
 
+hue-log-dir:
+  file.directory:
+    - name: {{ hue.install_dir }}/hue/logs
+    - user: {{username}}
+    - group: {{username}}
+
 hue-conf-symlink:
   file.symlink:
     - target: {{ hue.install_dir}}/hue/desktop/conf
@@ -93,10 +99,50 @@ hue-conf-symlink:
     - group: {{ username }}
     - mode: '600'
     - template: jinja
+    - context:
+      username: {{username}}
 
+{% if hadoop.secure_mode %}
 /etc/krb5/hue.keytab:
   file.managed:
     - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '0400'
+
+/home/{{username}}/ssl:
+  file.directory:
+    - user: {{ username}}
+    - group: {{ username}}
+
+/home/{{username}}/ssl/{{hadoop.cert_name}}:
+  file.copy:
+    - source: {{ hadoop.cert_pub_path}}/{{hadoop.cert_name}}
+    - user: {{ username }}
+    - mode: '400'
+/home/{{username}}/ssl/{{hadoop.cert_name}}.key:
+  file.copy:
+    - source: {{ hadoop.cert_priv_path}}/{{hadoop.cert_name}}.key
+    - user: {{ username }}
+    - mode: '400'
+{% endif %}
+
+{% if grains['init'] == 'systemd' %}
+/etc/systemd/system/hue.service:
+  file.managed:
+    - source: salt://hadoop/files/hue.init.systemd
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - context:
+      dir: {{ hue.dir }}
+    - watch_in:
+      - cmd: systemd-reload
+
+hue-service:
+  service.running:
+    - enable: True
+    - name: hue.service
+    - watch:
+      - file: {{ hue.conf_dir}}/hue.ini
