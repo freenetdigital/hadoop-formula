@@ -71,6 +71,10 @@ install-build-dependencies:
       - libz-dev 
       - python-pip
 
+hue-make-install:
+  cmd.run:
+    - name: 'bash -c  "PREFIX={{hue.install_dir}} make install"'
+
 #hue-directory-symlink:
 #  file.symlink:
 #    - target: {{ hue.install_dir }}
