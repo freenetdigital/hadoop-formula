@@ -16,33 +16,36 @@ hue-directory:
     - name: {{ hue.install_dir }}
     - user: {{ username }}
 
-hue-conf-directory:
-  file.directory:
-    - name: /etc/hue
-    - user: {{ username }}
-
-hue-directory-symlink:
-  file.symlink:
-    - target: {{ hue.install_dir }}
-    - name: {{ hue.dir }}
 
 {% if hue.download_mirror %}
 download-hue-archive:
   cmd.run:
     - name: wget {{ hue.download_mirror }}/{{ hue.version }}/hue-{{ hue.version }}.tgz
-    - cwd: {{ hue.install_dir }}
+    - cwd: {{ hue.base_download_dir }}
     - user: {{ username }}
-    - unless: test -f {{ hue.install_dir }}/bin/gateway.sh
+    - unless: test -f {{ hue.base_download_dir }}/hue-{{hue.version}}/VERSION
+
+unpack-hue-archive:
+  archive.extracted:
+    - name: {{ hue.base_download_dir }}
+    - source: file://{{ hue.base_download_dir }}/hue-{{ hue.version}}.tgz
+    - archive_format: tar
+    - user: {{ username }}
+    - group: {{ username }}
+    - onchanges:
+      - cmd: download-hue-archive
 {% else %}
 copy-hue-archive:
   archive.extracted:
-    - name: {{ hue.install_dir }}
+    - name: {{ hue.base_download_dir }}
     - source: salt://hue/files/hue-{{ hue.version}}.tgz
     - archive_format: tar
     - clean: true
     - user: {{ username }}
     - group: {{ username }}
+    - unless: test -f {{hue.base_download_dir }}/hue-{{ hue.version }}/VERSION
 {% endif %} 
+
 
 install-build-dependencies:
   pkg.installed:
@@ -67,6 +70,11 @@ install-build-dependencies:
       - libgmp3-dev 
       - libz-dev 
       - python-pip
+
+#hue-directory-symlink:
+#  file.symlink:
+#    - target: {{ hue.install_dir }}
+#    - name: {{ hue.dir }}
 
 #hue-conf-symlink:
 #  file.symlink:

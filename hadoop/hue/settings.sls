@@ -4,6 +4,7 @@
 {%- set gc = g.get('config', {}) %}
 
 {%- set base_install_dir   = g.get('base_install_dir', p.get('base_install_dir', '/usr/lib')) %}
+{%- set base_download_dir  = g.get('base_download_dir', p.get('base_download_dir', '/opt')) %}
 {%- set dir                = g.get('dir', p.get('dir', base_install_dir+'/hue')) %}
 {%- set conf_dir           = g.get('conf_dir', p.get('conf_dir', '/etc/hue/conf')) %}
 
