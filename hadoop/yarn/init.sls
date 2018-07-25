@@ -17,9 +17,9 @@ include:
 
 #deploy hive user on yarn node to be able to spawn container as hive user
 {% set hiveuid = hadoop.users['hive'] %}
-{{ hadoop_user('hive', hiveuid, ssl=False) }}
+{{ hadoop_user('hive', hiveuid, ssh=False) }}
 {% set hueuid = hadoop.users['hue'] %}
-{{ hadoop_user('hue', hueuid, ssl=False) }}
+{{ hadoop_user('hue', hueuid, ssh=False) }}
 
 {% if yarn.is_resourcemanager or yarn.is_nodemanager %}
 
