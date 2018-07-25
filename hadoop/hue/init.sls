@@ -87,6 +87,11 @@ hue-log-dir:
     - user: {{username}}
     - group: {{username}}
 
+hue-log-symlink:
+  file.symlink:
+    - target: {{ hue.install_dir}}/hue/logs
+    - name: /var/log/hue
+
 hue-conf-symlink:
   file.symlink:
     - target: {{ hue.install_dir}}/hue/desktop/conf
@@ -126,6 +131,13 @@ hue-conf-symlink:
     - user: {{ username }}
     - mode: '400'
 {% endif %}
+
+{{ hue.install_dir}}/hue/desktop/desktop.db
+  file.managed:
+    - user: {{ username }}
+    - group: {{ username }}
+    - replace: False
+    - create: False
 
 /etc/systemd/system/hue.service:
   file.managed:
