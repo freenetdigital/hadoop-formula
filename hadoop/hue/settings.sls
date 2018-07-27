@@ -18,6 +18,8 @@
 {%- set cert_priv_path     = g.get('cert_priv_path', p.get('cert_priv_path', '/etc/ssl/private')) %}
 
 {%- set jmx_export            = gc.get('jmx_export', pc.get('jmx_export', false)) %}
+{%- set database              = gc.get('database', pc.get('database', 'sqlite')) %}
+{%- set sqlite_path           = gc.get('sqlite_path', pc.get('sqlite_path', dir + '/desktop/desktop.db')) %}
 {%- set ldap_username_pattern = gc.get('ldap_username_pattern', pc.get('ldap_username_pattern','')) %}
 {%- set ldap_user_filter      = gc.get('ldap_user_filter', pc.get('ldap_user_filter','')) %}
 
@@ -31,6 +33,8 @@
                      'download_dir'             : download_dir,
                      'download_mirror'          : download_mirror,
                      'jmx_export'               : jmx_export,
+                     'database'                 : database,
+                     'sqlite_path'              : sqlite_path,
                      'cert_name'                : cert_name, 
                      'cert_pub_path'            : cert_pub_path, 
                      'cert_priv_path'           : cert_priv_path, 

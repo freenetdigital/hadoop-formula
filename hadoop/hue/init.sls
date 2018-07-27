@@ -151,7 +151,7 @@ hive-site.xml-for-hue:
     - mode: '400'
 {% endif %}
 
-{{ hue.install_dir}}/hue/desktop/desktop.db:
+{{ hue.sqlite_path}}:
   file.managed:
     - user: {{ username }}
     - group: {{ username }}
