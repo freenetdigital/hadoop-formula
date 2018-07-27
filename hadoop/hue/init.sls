@@ -105,6 +105,17 @@ hue-conf-symlink:
     - target: {{ hue.install_dir}}/hue/desktop/conf
     - name: {{ hue.conf_dir}}
 
+hue-create-hive-conf:
+  file.directory:
+    - name: /etc/hive/conf
+    - makedirs: true
+
+hive-site.xml-for-hue:
+  file.managed:
+    - name: /etc/hive/conf/hive-site.xml
+    - template: jinja
+    - source: salt://hadoop/conf/hive/hive-site.xml
+
 {{ hue.conf_dir}}/hue.ini:
   file.managed:
     - source: salt://hadoop/conf/hue/hue.ini

@@ -10,7 +10,7 @@ WorkingDirectory=/usr/lib/hue/
 RuntimeDirectory=hue
 CacheDirectory=hue
 Environment=PYTHON_EGG_CACHE=/tmp/.hue-python-eggs
-ExecStart=/usr/bin/env build/env/bin/hue runcherrypyserver
+ExecStart=/usr/bin/env build/env/bin/supervisor
 SyslogIdentifier=hue
 
 [Install]
