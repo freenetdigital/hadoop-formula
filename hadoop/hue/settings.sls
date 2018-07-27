@@ -18,12 +18,8 @@
 {%- set cert_priv_path     = g.get('cert_priv_path', p.get('cert_priv_path', '/etc/ssl/private')) %}
 
 {%- set jmx_export            = gc.get('jmx_export', pc.get('jmx_export', false)) %}
-{%- set ldap_host             = gc.get('ldap_host', pc.get('ldap_host','')) %}
-{%- set ldap_port             = gc.get('ldap_host', pc.get('ldap_port','')) %}
-{%- set ldap_searchbase       = gc.get('ldap_searchbase', pc.get('ldap_searchbase','')) %}
-{%- set ldap_group_searchbase = gc.get('ldap_group_searchbase', pc.get('ldap_group_searchbase','')) %}
-{%- set ldap_user             = gc.get('ldap_user', pc.get('ldap_user','')) %}
-{%- set ldap_pass             = gc.get('ldap_pass', pc.get('ldap_pass','')) %}
+{%- set ldap_username_pattern = gc.get('ldap_username_pattern', pc.get('ldap_username_pattern','')) %}
+{%- set ldap_user_filter      = gc.get('ldap_user_filter', pc.get('ldap_user_filter','')) %}
 
 
 {%- set hue = {} %}
@@ -38,10 +34,6 @@
                      'cert_name'                : cert_name, 
                      'cert_pub_path'            : cert_pub_path, 
                      'cert_priv_path'           : cert_priv_path, 
-                     'ldap_host'                : ldap_host,
-                     'ldap_port'                : ldap_port,
-                     'ldap_searchbase'          : ldap_searchbase,
-                     'ldap_group_searchbase'    : ldap_group_searchbase,
-                     'ldap_user'                : ldap_user,
-                     'ldap_pass'                : ldap_pass,
+                     'ldap_username_pattern'    : ldap_username_pattern,
+                     'ldap_user_filter'         : ldap_user_filter,
                    }) %}

@@ -87,10 +87,18 @@ hue-log-dir:
     - user: {{username}}
     - group: {{username}}
 
+hue-log-dir:
+  file.directory:
+    - name: {{ hue.install_dir }}/hue/logs/audit_logs
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '700'
+
 hue-log-symlink:
   file.symlink:
     - target: {{ hue.install_dir}}/hue/logs
     - name: /var/log/hue
+
 
 hue-conf-symlink:
   file.symlink:
