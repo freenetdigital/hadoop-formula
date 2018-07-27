@@ -87,7 +87,7 @@ hue-log-dir:
     - user: {{username}}
     - group: {{username}}
 
-hue-log-dir:
+hue-log-audit-dir:
   file.directory:
     - name: {{ hue.install_dir }}/hue/logs/audit_logs
     - user: {{username}}
