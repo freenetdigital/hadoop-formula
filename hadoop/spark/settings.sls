@@ -22,7 +22,7 @@
                      'release'                  : release,
                      'conf_dir'                 : conf_dir,
                      'dir'                      : dir,
-                     'install_dir'              : base_install_dir + '/spark-' + version,
+                     'install_dir'              : base_install_dir + '/spark-' + version + '-' + release,
                      'download_mirror'          : download_mirror,
                      'jmx_export'               : jmx_export,
                    }) %}
