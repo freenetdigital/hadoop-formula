@@ -33,7 +33,7 @@ download-spark-archive:
     - name: wget {{ spark.download_mirror }}/spark-{{ spark.version }}/spark-{{ spark.version }}-{{ spark.release }}.tgz
     - cwd: {{ spark.install_dir }}
     - user: {{ username }}
-    - unless: test -f {{ spark.install_dir }}/spark-{{spark.version}}-{{spark.release}}/bin/spark-submit
+    - unless: test -f {{ spark.install_dir }}/bin/spark-submit
 
 {% set archive_dir = spark.install_dir + '/spark-' + spark.version + '-' + spark.release %}
 {% set archive = archive_dir + '.tgz' %}

@@ -30,7 +30,7 @@ livy-directory-symlink:
 
 download-livy-archive:
   cmd.run:
-    - name: wget {{ livy.download_mirror }}/livy-{{ livy.version }}/livy-{{ livy.version }}-{{ livy.release }}.tgz
+    - name: wget {{ livy.download_mirror }}/livy-{{ livy.version }}/livy-{{ livy.version }}-{{ livy.release }}.zip
     - cwd: {{ livy.install_dir }}
     - user: {{ username }}
     - unless: test -f {{ livy.install_dir }}/livy-{{livy.version}}-{{livy.release}}/bin/livy-submit
