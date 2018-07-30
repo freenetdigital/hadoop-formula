@@ -38,7 +38,7 @@ download-spark-archive:
 {% set archive_dir = spark.install_dir + '/spark-' + spark.version + '-' + spark.release %}
 {% set archive = archive_dir + '.tgz' %}
 
-check-solr-archive:
+check-spark-archive:
   module.run:
     - name: file.check_hash
     - path: {{ archive }}
@@ -61,9 +61,9 @@ unpack-spark-archive:
 
 cleanup-spark-directory:
   cmd.run:
-    - name: mv {{ archive_dir }}/* {{ solr.install_dir }}; rm -rf {{ archive_dir }}*
+    - name: mv {{ archive_dir }}/* {{ spark.install_dir }}; rm -rf {{ archive_dir }}*
     - onchanges:
-      - archive: unpack-solr-archive
+      - archive: unpack-spark-archive
 
 spark-symlink:
   file.symlink:
