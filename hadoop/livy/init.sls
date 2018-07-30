@@ -33,7 +33,7 @@ download-livy-archive:
     - name: wget {{ livy.download_mirror }}/{{ livy.version }}-incubating/livy-{{ livy.version }}-{{ livy.release }}.zip
     - cwd: {{ livy.install_dir }}
     - user: {{ username }}
-    - unless: test -f {{ livy.install_dir }}/livy-{{livy.version}}-{{livy.release}}/bin/livy-submit
+    - unless: test -f {{ livy.install_dir }}/livy-{{livy.version}}-{{livy.release}}/bin/livy-server
 
 {% set archive_dir = livy.install_dir + '/livy-' + livy.version + '-' + livy.release %}
 {% set archive = archive_dir + '.zip' %}
