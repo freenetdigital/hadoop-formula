@@ -191,6 +191,7 @@
                   'ranger' : 6006,
                   'solr'   : 6007,
                   'hue'    : 6008,
+                  'spark'  : 6009,
                 } %}
 
 {%- set hadoop = {} %}
