@@ -33,7 +33,7 @@ download-spark-archive:
     - name: wget {{ spark.download_mirror }}/spark-{{ spark.version }}/spark-{{ spark.version }}-{{ spark.release }}.tgz
     - cwd: {{ spark.install_dir }}
     - user: {{ username }}
-    - unless: test -f {{ spark.download_dir }}/spark-{{spark.version}}/VERSION
+    - unless: test -f {{ spark.install_dir }}/spark-{{spark.version}}/VERSION
 
 {% set archive_dir = spark.install_dir + '/spark-' + spark.version %}
 {% set archive = archive_dir + '-' + spark.release + '.tgz' %}
@@ -51,8 +51,8 @@ check-solr-archive:
 
 unpack-spark-archive:
   archive.extracted:
-    - name: {{ spark.download_dir }}
-    - source: file://{{ spark.download_dir }}/spark-{{ spark.version}}-{{spark.release}}.tgz
+    - name: {{ spark.install_dir }}
+    - source: file://{{ spark.install_dir }}/spark-{{ spark.version}}-{{spark.release}}.tgz
     - archive_format: tar
     - user: {{ username }}
     - group: {{ username }}
