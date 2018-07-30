@@ -1,9 +1,8 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
 {%- from 'hadoop/livy/settings.sls' import livy with context %}
 {%- from 'hadoop/user_macro.sls' import hadoop_user with context %}
-
-# this state does currently only deploy livy libs and config to be used by apache livy
-# with this configuration, only livy on yarn mode is supported
+{%- from 'hadoop/keystore_macro.sls' import keystore with context %}
+{%- from 'hadoop/keystore_macro.sls' import keystore with context %}
 
 include:
   - hadoop.systemd
@@ -75,3 +74,58 @@ livy-conf-symlink:
     - target: {{ livy.install_dir}}/conf
     - name: /etc/livy/conf
 
+livy-logs-directory:
+  file.directory:
+    - name: {{ livy.install_dir }}/logs
+    - user: {{ username }}
+
+livy-logs-symlink:
+  file.symlink:
+    - target: {{ livy.install_dir}}/logs
+    - name: /var/log/livy
+
+/etc/livy/conf/livy.conf:
+  file.managed:
+    - source: salt://hadoop/conf/livy/livy.conf
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '644'
+    - template: jinja
+    - context:
+      username: {{ username }}
+      keystore_pass: {{ hadoop.keystore_pass }}
+
+/etc/livy/conf/livy-env.sh:
+  file.managed:
+    - source: salt://hadoop/conf/livy/livy-env.sh
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '755'
+    - template: jinja
+
+/etc/livy/conf/spark-blacklist.conf:
+  file.managed:
+    - source: salt://hadoop/conf/livy/spark-blacklist.conf
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '644'
+    - template: jinja
+
+{% if hadoop.secure_mode %}
+
+{{ keystore(username, ssl_conf=False)}}
+
+/etc/krb5/livy.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '0400'
+
+/etc/krb5/spnego.livy.keytab:
+  file.managed:
+    - source: salt://kerberos/files/spnego-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '0400'
+{% endif %}
