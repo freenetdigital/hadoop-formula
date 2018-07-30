@@ -20,7 +20,7 @@ spark-directory:
 
 spark-conf-directory:
   file.directory:
-    - name: {{ spark.conf_dir}}
+    - name: /etc/spark
     - user: {{ username }}
 
 spark-directory-symlink:
@@ -33,7 +33,7 @@ download-spark-archive:
     - name: wget {{ spark.download_mirror }}/spark-{{ spark.version }}/spark-{{ spark.version }}-{{ spark.release }}.tgz
     - cwd: {{ spark.install_dir }}
     - user: {{ username }}
-    - unless: test -f {{ spark.install_dir }}/spark-{{spark.version}}-{{spark.release}}/VERSION
+    - unless: test -f {{ spark.install_dir }}/spark-{{spark.version}}-{{spark.release}}/bin/spark-submit
 
 {% set archive_dir = spark.install_dir + '/spark-' + spark.version + '-' + spark.release %}
 {% set archive = archive_dir + '.tgz' %}
@@ -70,4 +70,8 @@ spark-symlink:
     - target: {{ spark.install_dir}}
     - name: {{spark.dir}}
 
+spark-conf-symlink:
+  file.symlink:
+    - target: {{ spark.install_dir}}/conf
+    - name: /etc/spark/conf
 
