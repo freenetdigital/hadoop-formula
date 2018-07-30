@@ -68,6 +68,17 @@ knox-conf-symlink:
     - target: {{ knox.install_dir }}/conf
     - name: {{ knox.conf_dir }}
 
+knox-logs-dir:
+  file.directory:
+    - name: {{ knox.install_dir }}/logs
+    - user: {{ username}}
+    - group: {{ username}}
+
+knox-logs-symlink:
+  file.symlink:
+    - target: {{ knox.install_dir }}/logs
+    - name: /var/log/knox
+
 {% if grains['init'] == 'systemd' %}
 /etc/systemd/system/knox.service:
   file.managed:
