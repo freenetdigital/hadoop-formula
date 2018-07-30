@@ -55,7 +55,7 @@ unpack-spark-archive:
     - source: file://{{ archive }}
     - archive_format: tar
     - user: {{ username }}
-    - group: {{ username }}
+    - group: hadoop
     - onchanges:
       - cmd: download-spark-archive
 
