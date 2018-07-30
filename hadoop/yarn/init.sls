@@ -15,11 +15,13 @@ include:
 {% set uid = hadoop.users[username] %}
 {{ hadoop_user(username, uid) }}
 
-#deploy hive user on yarn node to be able to spawn container as hive user
+#deploy hive,hue,livy user on yarn worker nodes to be able to spawn container as hive user
 {% set hiveuid = hadoop.users['hive'] %}
 {{ hadoop_user('hive', hiveuid, ssh=False) }}
 {% set hueuid = hadoop.users['hue'] %}
 {{ hadoop_user('hue', hueuid, ssh=False) }}
+{% set livyuid = hadoop.users['livy'] %}
+{{ hadoop_user('livy', livyuid, ssh=False) }}
 
 {% if yarn.is_resourcemanager or yarn.is_nodemanager %}
 
