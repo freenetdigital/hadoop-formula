@@ -5,6 +5,7 @@
 {%- from 'hadoop/hive/settings.sls' import hive with context -%}
 {%- from 'hadoop/yarn/settings.sls' import yarn with context -%}
 {%- from 'hadoop/solr/settings.sls' import solr with context -%}
+{%- from 'hadoop/livy/settings.sls' import livy with context -%}
 {%- from 'hadoop/ranger/settings.sls' import ranger with context -%}
 {%- from 'zookeeper/settings.sls'   import zk   with context -%}
 {%- set hive_cfg = hive.get('config_hive_site', {}) %}
@@ -118,7 +119,7 @@
             <enabled>true</enabled>
         </provider>
 {%- set solr_target = 'G@role:solr and G@clustername:' + grains['cluster_id'] -%}
-{%- set solr_grains = salt['mine.get'](solr_target, 'grains.item', expr_form='compound') -%}
+{%- set solr_grains = salt['mine.get'](solr_target, 'grains.item', tgt_type='compound') -%}
 {%- if hdfs.namenode_count > 1 or solr_grains.items()|length > 0 %}
         <provider>
             <role>ha</role>
@@ -230,6 +231,17 @@
     <service>
         <role>SOLR</role>
         <version>6.0.0</version>
+    </service>
+    {%- endif %}
+    {%- set livy_target = 'G@role:livy and G@clustername:' + grains['cluster_id'] -%}
+    {%- set livy_grains = salt['mine.get'](livy_target, 'grains.item', tgt_type='compound') -%}
+    {%- if livy_grains.items()|length > 0 %}
+    {%- set livy_host = livy_grains|first() %}
+    {%- set livy_fqdn = livy_grains[livy_host]['fqdn'] %}
+    {%- if hadoop.secure_mode -%}{%- set livy_protocol = 'https' -%}{%- else -%}{%- set livy_protocol = 'http' -%}{%- endif -%}
+    <service>
+        <role>LIVYSERVER</role>
+	<url>{{ livy_protocol }}://{{ livy_fqdn }}:8998</url>
     </service>
     {%- endif %}
 </topology>
