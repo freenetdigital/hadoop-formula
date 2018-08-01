@@ -166,5 +166,5 @@ livy-service:
     - enable: True
     - name: livy.service
     - watch:
-      - file: {{ livy.conf_dir}}/livy.conf
+      - file: /etc/livy/conf/livy.conf
 
