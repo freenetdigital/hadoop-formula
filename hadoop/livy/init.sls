@@ -103,6 +103,14 @@ livy-logs-symlink:
     - mode: '755'
     - template: jinja
 
+/etc/default/livy.env:
+  file.managed:
+    - source: salt://hadoop/conf/livy/livy.env
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '755'
+    - template: jinja
+
 /etc/livy/conf/spark-blacklist.conf:
   file.managed:
     - source: salt://hadoop/conf/livy/spark-blacklist.conf
@@ -110,6 +118,16 @@ livy-logs-symlink:
     - group: {{username}}
     - mode: '644'
     - template: jinja
+
+{% if livy.jmx_export %}
+/etc/livy/conf/jmx.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/livy/jmx.yaml
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '755'
+    - template: jinja
+{% endif %}
 
 {% if hadoop.secure_mode %}
 
@@ -129,3 +147,24 @@ livy-logs-symlink:
     - group: {{ username }}
     - mode: '0400'
 {% endif %}
+
+/etc/systemd/system/livy.service:
+  file.managed:
+    - source: salt://hadoop/files/livy.init.systemd
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - context:
+      dir: {{ livy.dir }}
+      username: {{ username }}
+    - watch_in:
+      - cmd: systemd-reload
+
+livy-service:
+  service.running:
+    - enable: True
+    - name: livy.service
+    - watch:
+      - file: {{ livy.conf_dir}}/livy.conf
+
