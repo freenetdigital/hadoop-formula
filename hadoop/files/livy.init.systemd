@@ -1,0 +1,16 @@
+[Unit]
+Description=Livy Spark Rest-Proxy
+After=network.target
+
+[Service]
+User={{ username }}
+Group={{ username }}
+SyslogIdentifier={{ username }}
+Type=forking
+WorkingDirectory={{ dir }}
+EnvironmentFile=/etc/default/livy.env
+ExecStart={{dir}}/bin/livy-server start
+ExecStop={{dir}}/bin/livy-server stop
+
+[Install]
+WantedBy=multi-user.target
