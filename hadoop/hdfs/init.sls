@@ -109,8 +109,8 @@ include:
   file.managed:
     - source: salt://kerberos/files/spnego-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
-    - group: {{ username }}
-    - mode: '400'
+    - group: hadoop
+    - mode: '440'
 {% endif %}
 
 {{ keystore(username)}}
