@@ -13,6 +13,8 @@
 {%- set version            = g.get('version',        p.get('version', '0.5.0')) %}
 
 {%- set jmx_export            = gc.get('jmx_export', pc.get('jmx_export', false)) %}
+{%- set rsc_jars              = gc.get('rsc_jars',   pc.get('rsc_jars', '')) %}
+{%- set repl_jars             = gc.get('repl_jars',  pc.get('repl_jars', '')) %}
 
 
 {%- set livy = {} %}
@@ -23,4 +25,6 @@
                      'install_dir'              : base_install_dir + '/livy-' + version + '-' + release,
                      'download_mirror'          : download_mirror,
                      'jmx_export'               : jmx_export,
+                     'rsc_jars'                 : rsc_jars,
+                     'repl_jars'                : repl_jars,
                    }) %}
