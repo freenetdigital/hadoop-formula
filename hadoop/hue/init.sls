@@ -114,7 +114,7 @@ hive-site.xml-for-hue:
   file.managed:
     - name: /etc/hive/conf/hive-site.xml
     - template: jinja
-    - source: salt://hadoop/conf/hive/hive-site.xml
+    - source: salt://hadoop/conf/hive/hive-site.xml.external
 
 {{ hue.conf_dir}}/hue.ini:
   file.managed:

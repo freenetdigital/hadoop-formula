@@ -1,0 +1,33 @@
+{%- from 'hadoop/hive/settings.sls' import hive with context %}
+{%- from 'hadoop/settings.sls' import hadoop with context %}
+{%- set dyn_cfg = hive.get('config_hive_site', {}) -%}
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+   {%- if hadoop.secure_mode %}
+    <property>
+	    <name>hive.metastore.sasl.enabled</name>
+            <value>true</value>
+    </property>
+    <property>
+            <name>hive.server2.thrift.sasl.qop</name>
+            <value>auth-conf</value>
+    </property>
+    <property>
+            <name>hive.server2.webui.use.ssl</name>
+            <value>true</value>
+    </property>
+    <property>
+            <name>hive.server2.authentication</name>
+            <value>KERBEROS</value>
+   </property>
+   {%- endif %}
+{%- for name, subdict in dyn_cfg.items() %}
+    <property>
+        <name>{{ name }}</name>
+{%- for k,v in subdict.items() %}
+        <{{k}}>{{ v }}</{{k}}>
+{%- endfor %}
+    </property>
+{%- endfor %}
+</configuration>

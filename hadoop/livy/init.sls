@@ -3,6 +3,12 @@
 {%- from 'hadoop/user_macro.sls' import hadoop_user with context %}
 {%- from 'hadoop/keystore_macro.sls' import keystore with context %}
 {%- from 'hadoop/keystore_macro.sls' import keystore with context %}
+{%- from 'hadoop/hive/settings.sls'   import hive   with context -%}
+{%- set hive_cfg = hive.get('config_hive_site', {}) %}
+{%- set thrift_port = hive_cfg.get('hive.server2.thrift.http.port', {}) -%}
+{%- set thrift_path = hive_cfg.get('hive.server2.thrift.http.path', {}) -%}
+{%- set hive_target = 'G@role:hive and G@clustername:' + grains['cluster_id'] -%}
+{%- set hive_grains = salt['mine.get'](hive_target, 'grains.item','compound') -%}
 
 include:
   - hadoop.systemd

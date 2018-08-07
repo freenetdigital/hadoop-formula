@@ -1,6 +1,8 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
 {%- from 'hadoop/spark/settings.sls' import spark with context %}
 {%- from 'hadoop/user_macro.sls' import hadoop_user with context %}
+{%- set hive_target = 'G@role:hive and G@clustername:' + grains['cluster_id'] -%}
+{%- set hive_grains = salt['mine.get'](hive_target, 'grains.item','compound') -%}
 
 # this state does currently only deploy spark libs and config to be used by apache livy
 # with this configuration, only spark on yarn mode is supported
@@ -75,3 +77,15 @@ spark-conf-symlink:
     - target: {{ spark.install_dir}}/conf
     - name: /etc/spark/conf
 
+{%- if hive_grains.keys()|length > 0 %}
+spark-create-hive-conf-dir:
+  file.directory:
+    - name: /etc/hive/conf
+    - makedirs: true
+
+hive-site.xml-for-spark:
+  file.managed:
+    - name: /etc/hive/conf/hive-site.xml
+    - template: jinja
+    - source: salt://hadoop/conf/hive/hive-site.xml.external
+{% endif %}
