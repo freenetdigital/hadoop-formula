@@ -95,6 +95,14 @@ hive-site.xml:
     - group: {{ username }}
     - mode: '400'
 
+/etc/krb5/metastore.keytab:
+  file.managed:
+    - source: salt://kerberos/files/metastore-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '400'
+
+
 /etc/krb5/spnego.keytab:
   file.managed:
     - source: salt://kerberos/files/spnego-{{ grains['fqdn'] }}.keytab
