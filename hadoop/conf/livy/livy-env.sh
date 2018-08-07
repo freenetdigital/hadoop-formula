@@ -32,6 +32,10 @@
 #                     names. (Default: name of the user starting Livy).
 # - LIVY_MAX_LOG_FILES Max number of log file to keep in the log directory. (Default: 5.)
 # - LIVY_NICENESS   Niceness of the Livy server process when running in the background. (Default: 0.)
+#
+# SALT MANAGED 
+# this file is for local user tests only (systemd will use /etc/default/livy.env)
+#
 export JAVA_HOME={{ hadoop.java_home }}
 export HADOOP_CONF_DIR={{ hadoop.alt_config }}
 export SPARK_HOME={{ spark.install_dir }}
