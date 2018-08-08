@@ -15,6 +15,8 @@
 {%- set jmx_export            = gc.get('jmx_export', pc.get('jmx_export', false)) %}
 {%- set rsc_jars              = gc.get('rsc_jars',   pc.get('rsc_jars', '')) %}
 {%- set repl_jars             = gc.get('repl_jars',  pc.get('repl_jars', '')) %}
+{%- set pyspark               = gc.get('pyspark',  pc.get('pyspark', '')) %}
+{%- set sparkr                = gc.get('sparkr',  pc.get('sparkr', '')) %}
 
 
 {%- set livy = {} %}
@@ -27,4 +29,6 @@
                      'jmx_export'               : jmx_export,
                      'rsc_jars'                 : rsc_jars,
                      'repl_jars'                : repl_jars,
+                     'pyspark'                  : pyspark,
+                     'sparkr'                   : sparkr,
                    }) %}

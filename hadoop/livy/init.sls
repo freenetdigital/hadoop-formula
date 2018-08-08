@@ -111,6 +111,14 @@ livy-logs-symlink:
     - mode: '755'
     - template: jinja
 
+{{ livy.install_dir}}/upload_jars.sh:
+  file.managed:
+    - source: salt://hadoop/conf/livy/upload_jars.sh
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '755'
+    - template: jinja
+
 /etc/livy/conf/spark-blacklist.conf:
   file.managed:
     - source: salt://hadoop/conf/livy/spark-blacklist.conf

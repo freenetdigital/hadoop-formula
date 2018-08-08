@@ -14,6 +14,7 @@
 
 {%- set jmx_export         = gc.get('jmx_export', pc.get('jmx_export', false)) %}
 {%- set additional_jars    = gc.get('additional_jars', pc.get('additional_jars', [])) %}
+{%- set yarn_archive       = gc.get('yarn_archive', pc.get('yarn_archive', '')) %}
 
 
 {%- set spark = {} %}
@@ -25,4 +26,5 @@
                      'download_mirror'          : download_mirror,
                      'jmx_export'               : jmx_export,
                      'additional_jars'          : additional_jars,
+                     'yarn_archive'             : yarn_archive,
                    }) %}

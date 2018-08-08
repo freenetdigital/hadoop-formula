@@ -90,6 +90,13 @@ hive-site.xml-for-spark:
     - source: salt://hadoop/conf/hive/hive-site.xml.external
 {% endif %}
 
+/etc/spark/conf/spark-defaults.conf:
+  file.managed:
+    - template: jinja
+    - source: salt://hadoop/conf/spark/spark-defaults.conf
+    - user: {{ username }}
+    - group: hadoop
+
 {% for jar in spark.additional_jars %}
 {{spark.install_dir}}/jars/{{jar}}:
   file.managed:
