@@ -96,4 +96,4 @@ hive-site.xml-for-spark:
     - source: salt://spark/files/{{jar}}
     - user: {{ username }}
     - group: hadoop
-
+{% endfor %}
