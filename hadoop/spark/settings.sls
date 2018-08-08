@@ -12,7 +12,8 @@
 
 {%- set version            = g.get('version',        p.get('version', '2.3.1')) %}
 
-{%- set jmx_export            = gc.get('jmx_export', pc.get('jmx_export', false)) %}
+{%- set jmx_export         = gc.get('jmx_export', pc.get('jmx_export', false)) %}
+{%- set additional_jars    = gc.get('additional_jars', pc.get('additional_jars', [])) %}
 
 
 {%- set spark = {} %}
@@ -23,4 +24,5 @@
                      'install_dir'              : base_install_dir + '/spark-' + version + '-' + release,
                      'download_mirror'          : download_mirror,
                      'jmx_export'               : jmx_export,
+                     'additional_jars'          : additional_jars,
                    }) %}
