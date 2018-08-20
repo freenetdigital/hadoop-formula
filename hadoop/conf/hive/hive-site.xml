@@ -67,7 +67,10 @@
 	    <name>javax.jdo.option.ConnectionPassword</name>
 	    <value>{{ hive.metastore_pass }}</value>
    </property>
-
+   <property>
+        <name>hive.execution.engine</name>
+        <value>tez</value>
+    </property>
 {%- for name, subdict in dyn_cfg.items() %}
     <property>
         <name>{{ name }}</name>
