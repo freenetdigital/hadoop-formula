@@ -213,6 +213,14 @@ hadoop-resourcemanager:
       hadoop_major: {{ hadoop.major_version }}
       hadoop_home: {{ hadoop.alt_home }}
 
+# needed for hive connection in yarn/spark jobs
+{{ hadoop.alt_conf}}/hive-site.xml
+  file.managed:
+    - template: jinja
+    - source: salt://hadoop/conf/hive/hive-site.xml.external
+    - group: hadoop
+    - mode: '644'
+
 {% if grains['init'] == 'systemd' %}
 systemd-hadoop-nodemanager:
   file.managed:
