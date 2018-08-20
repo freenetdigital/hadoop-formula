@@ -179,6 +179,32 @@ nifi-logs-symlink:
 {% endif %}
 
 {% if nifi.ranger_auth %}
+download-nifi-ranger-plugin:
+  cmd.run:
+    - name: wget http://central.maven.org/maven2/org/apache/nifi/nifi-ranger-nar/{{ nifi.version}}/nifi-ranger-nar-{{nifi.version}}.nar
+    - cwd: /tmp/
+    - user: {{ username }}
+    - unless: test -f {{ nifi.install_dir }}/lib/nifi-ranger-nar-{{nifi.version}}.nar
+
+check-nifi-ranger-plugin:
+  module.run:
+    - name: file.check_hash
+    - path: {{ nifi.install_dir }}/lib/nifi-ranger-nar-{{nifi.version}}.nar
+    - file_hash: "sha1=c05c90d3d9475ab691cf664dff3d43d5433af6cc"
+    - onchanges:
+      - cmd: download-nifi-ranger-plugin    
+    - require_in:
+      - archive: move-nifi-ranger-plugin   
+
+move-nifi-ranger-plugin:
+  file.copy:
+    - name: {{ nifi.install_dir/lib/nifi-ranger-nar-{{nifi.version}}.nar
+    - source: /tmp/nifi-ranger-nar-{{nifi.version}}.nar
+    - user: {{ username }}
+    - group: hadoop
+    - onchanges:
+      - cmd: download-nifi-ranger-plugin
+
 /etc/ranger/nifi-{{ grains['cluster_id']}}/policycache:
   file.directory:
     - user: {{ username }}
