@@ -3,7 +3,6 @@
 {%- from 'zookeeper/settings.sls' import zk with context -%}
 {%- set solr_target = 'G@role:solr and G@clustername:' + grains['cluster_id'] -%}
 {%- set solr_grains = salt['mine.get'](solr_target, 'grains.item', tgt_type='compound') -%}
-{%- if solr_grains.items()|length > 0 %}
 {%- set solr_host = solr_grains|first() %}
 {%- set solr_fqdn = solr_grains[solr_host]['fqdn'] %}
 <configuration>
