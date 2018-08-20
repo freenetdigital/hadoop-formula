@@ -189,7 +189,7 @@ download-nifi-ranger-plugin:
 check-nifi-ranger-plugin:
   module.run:
     - name: file.check_hash
-    - path: {{ nifi.install_dir }}/lib/nifi-ranger-nar-{{nifi.version}}.nar
+    - path: /tmp/nifi-ranger-nar-{{nifi.version}}.nar
     - file_hash: "sha1=c05c90d3d9475ab691cf664dff3d43d5433af6cc"
     - onchanges:
       - cmd: download-nifi-ranger-plugin    
@@ -202,8 +202,6 @@ move-nifi-ranger-plugin:
     - source: /tmp/nifi-ranger-nar-{{nifi.version}}.nar
     - user: {{ username }}
     - group: hadoop
-    - onchanges:
-      - cmd: download-nifi-ranger-plugin
 
 /etc/ranger/nifi-{{ grains['cluster_id']}}/policycache:
   file.directory:
