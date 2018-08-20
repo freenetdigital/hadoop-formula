@@ -1,0 +1,67 @@
+{%- from 'hadoop/ranger/settings.sls' import ranger with context -%}
+{%- from 'hadoop/settings.sls' import hadoop with context -%}
+{%- from 'zookeeper/settings.sls' import zk with context -%}
+{%- set ranger_target = 'G@role:ranger and G@clustername:' + grains['cluster_id'] -%}
+{%- set ranger_grains = salt['mine.get'](ranger_target, 'grains.item', tgt_type='compound') -%}
+{%- if ranger_grains.items()|length > 0 %}
+{% set ranger_host = ranger_grains|first() %}
+{% set ranger_fqdn = ranger_grains[ranger_host]['fqdn'] %}
+{%- if hadoop.secure_mode %}
+{%- set protocol = 'https' %}
+{%- set port = 6182 %}
+{% else %}
+{%- set protocol = 'http' %}
+{%- set port = 6080 %}
+{%- endif %}
+{% endif %}
+<configuration>
+ 
+  <property>
+    <name>ranger.plugin.nifi.policy.rest.url</name>
+    <value>{{protocol}}://{{ ranger_fqdn }}:{{ port }}</value>
+    <description>URL to Ranger Admin</description>
+  </property>
+ 
+  <property>
+    <name>ranger.plugin.nifi.service.name</name>
+    <value>nifi-{{ grains['cluster_id']}}</value>
+    <description>Name of the Ranger service containing policies for this nifi instance</description>
+  </property>
+ 
+  <property>
+    <name>ranger.plugin.nifi.policy.source.impl</name>
+    <value>org.apache.ranger.admin.client.RangerAdminRESTClient</value>
+    <description>Class to retrieve policies from the source</description>
+  </property>
+ 
+  <property>
+    <name>ranger.plugin.nifi.policy.rest.ssl.config.file</name>
+    <value>ranger-policymgr-ssl.xml</value>
+    <description>Path to the file containing SSL details to contact Ranger Admin</description>
+  </property>
+ 
+  <property>
+    <name>ranger.plugin.nifi.policy.pollIntervalMs</name>
+    <value>30000</value>
+    <description>How often to poll for changes in policies?</description>
+  </property>
+ 
+  <property>
+    <name>ranger.plugin.nifi.policy.cache.dir</name>
+    <value>/etc/ranger/nifi-{{ grains['cluster_id']}}/policycache</value>
+    <description>Directory where Ranger policies are cached after successful retrieval from the source</description>
+  </property>
+ 
+  <property>
+    <name>ranger.plugin.nifi.policy.rest.client.connection.timeoutMs</name>
+    <value>120000</value>
+    <description>RangerRestClient Connection Timeout in Milli Seconds</description>
+  </property>
+ 
+  <property>
+    <name>ranger.plugin.nifi.policy.rest.client.read.timeoutMs</name>
+    <value>30000</value>
+    <description>RangerRestClient read Timeout in Milli Seconds</description>
+  </property>
+ 
+</configuration>

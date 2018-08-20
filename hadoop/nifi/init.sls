@@ -134,6 +134,18 @@ nifi-logs-symlink:
       username: {{ username }}
       keystore_pass: {{ hadoop.keystore_pass }}
 
+/etc/nifi/conf/authorizers.xml:
+  file.managed:
+    {%- if nifi.ranger_auth %}
+    - source: salt://hadoop/conf/nifi/authorizers-ranger.xml
+    {%- else %}
+    - source: salt://hadoop/conf/nifi/authorizers-default.xml
+    {%- endif %}
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '644'
+    - template: jinja
+
 /etc/nifi/conf/bootstrap.conf:
   file.managed:
     - source: salt://hadoop/conf/nifi/bootstrap.conf
@@ -166,6 +178,35 @@ nifi-logs-symlink:
     - mode: '0400'
 {% endif %}
 
+{% if nifi.ranger_auth %}
+/etc/ranger/nifi-{{ grains['cluster_id']}}/policycache:
+  file.directory:
+    - user: {{ username }}
+    - group: {{ username }}
+    - makedirs: true
+
+/var/log/nifi-{{ grains['cluster_id']}}/audit/solr/spool:
+  file.directory:
+    - user: {{ username }}
+    - group: {{ username }}
+    - makedirs: true
+
+/etc/nifi/conf/ranger-nifi-audit.xml:
+  file.managed:
+    - source: salt://hadoop/conf/nifi/ranger-nifi-audit.xml
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '400'
+    - template: jinja
+
+/etc/nifi/conf/ranger-nifi-security.xml:
+  file.managed:
+    - source: salt://hadoop/conf/nifi/ranger-nifi-security.xml
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '400'
+    - template: jinja
+{% endif %}
 #/etc/systemd/system/nifi.service:
 #  file.managed:
 #    - source: salt://hadoop/files/nifi.init.systemd

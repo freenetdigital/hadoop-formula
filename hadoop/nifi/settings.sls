@@ -11,11 +11,12 @@
 {%- set download_mirror    = g.get('download_mirror', p.get('download_mirror', 'https://archive.apache.org/dist/nifi')) %}
 {%- set version            = g.get('version',        p.get('version', '1.4.0')) %}
 
-{%- set jmx_export            = gc.get('jmx_export', pc.get('jmx_export', false)) %}
+{%- set jmx_export                = gc.get('jmx_export', pc.get('jmx_export', false)) %}
 {%- set provenance_implementation = gc.get('provenance_implementation', pc.get('provenance_implementation', 'org.apache.nifi.provenance.PersistentProvenanceRepository')) %}
-{%- set knoxsso = gc.get('knoxsso', pc.get('knoxsso', false)) %}
-{%- set min_mem = gc.get('min_mem', pc.get('min_mem', '512m')) %}
-{%- set max_mem = gc.get('max_mem', pc.get('max_mem', '512m')) %}
+{%- set knoxsso                   = gc.get('knoxsso', pc.get('knoxsso', false)) %}
+{%- set min_mem                   = gc.get('min_mem', pc.get('min_mem', '512m')) %}
+{%- set max_mem                   = gc.get('max_mem', pc.get('max_mem', '512m')) %}
+{%- set ranger_auth               = gc.get('ranger_auth', pc.get('ranger_auth', false)) %}
 
 
 {%- set nifi = {} %}
@@ -31,4 +32,5 @@
                      'knoxsso'                  : knoxsso,
                      'min_mem'                  : min_mem,
                      'max_mem'                  : max_mem,
+                     'ranger_auth'              : ranger_auth,
                    }) %}
