@@ -198,7 +198,7 @@ check-nifi-ranger-plugin:
 
 move-nifi-ranger-plugin:
   file.copy:
-    - name: {{ nifi.install_dir/lib/nifi-ranger-nar-{{nifi.version}}.nar
+    - name: {{ nifi.install_dir }}/lib/nifi-ranger-nar-{{nifi.version}}.nar
     - source: /tmp/nifi-ranger-nar-{{nifi.version}}.nar
     - user: {{ username }}
     - group: hadoop
