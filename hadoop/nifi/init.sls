@@ -28,13 +28,13 @@ nifi-directory-symlink:
 
 download-nifi-archive:
   cmd.run:
-    - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-{{ nifi.version }}-{{ nifi.release }}.zip
+    - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-{{ nifi.version }}.zip
     - cwd: {{ nifi.install_dir }}
     - user: {{ username }}
 
 download-nifi-toolkit-archive:
   cmd.run:
-    - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-toolkit-{{ nifi.version }}-{{ nifi.release }}.zip
+    - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-toolkit-{{ nifi.version }}.zip
     - cwd: {{ nifi.toolkit_install_dir }}
     - user: {{ username }}
     #- unless: test -f {{ nifi.install_dir }}/bin/nifi-server

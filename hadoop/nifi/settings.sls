@@ -18,7 +18,6 @@
 {%- do nifi.update({ 'version'                  : version,
                      'hash'                     : hash,
                      'toolkit_hash'             : toolkit_hash,
-                     'release'                  : release,
                      'dir'                      : dir,
                      'install_dir'              : base_install_dir + '/nifi-' + version,
                      'toolkit_install_dir'      : base_install_dir + '/nifi-toolkit-' + version,
