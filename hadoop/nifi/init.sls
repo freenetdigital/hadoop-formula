@@ -91,7 +91,7 @@ cleanup-nifi-directory:
     - onchanges:
       - archive: unpack-nifi-archive
 
-cleanup-nifi-directory:
+cleanup-nifi-toolkit-directory:
   cmd.run:
     - name: mv {{ tk_archive_dir }}/* {{ nifi.toolkit_install_dir }}; rm -rf {{ tk_archive_dir }}*
     - onchanges:
