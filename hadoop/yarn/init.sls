@@ -214,7 +214,7 @@ hadoop-resourcemanager:
       hadoop_home: {{ hadoop.alt_home }}
 
 # needed for hive connection in yarn/spark jobs
-{{ hadoop.alt_config}}/hive-site.xml
+{{ hadoop.alt_config}}/hive-site.xml:
   file.managed:
     - template: jinja
     - source: salt://hadoop/conf/hive/hive-site.xml.external
