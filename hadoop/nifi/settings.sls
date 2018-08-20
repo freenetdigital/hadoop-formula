@@ -8,7 +8,7 @@
 
 {%- set hash               = g.get('hash', p.get('hash', 'sha1=3027ac4daa09a9f6185fc501a5b137d1c4b8aad4')) %}
 {%- set toolkit_hash       = g.get('toolkit_hash', p.get('toolkit_hash', 'sha1=2e1e290824d83a1700f72b2999a2ec836ed544d0')) %}
-{%- set download_mirror    = g.get('download_mirror', p.get('download_mirror', 'https://archive.apache.org/dist/nifi/')) %}
+{%- set download_mirror    = g.get('download_mirror', p.get('download_mirror', 'https://archive.apache.org/dist/nifi')) %}
 {%- set version            = g.get('version',        p.get('version', '1.4.0')) %}
 
 {%- set jmx_export            = gc.get('jmx_export', pc.get('jmx_export', false)) %}

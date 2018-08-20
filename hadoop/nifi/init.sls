@@ -28,21 +28,21 @@ nifi-directory-symlink:
 
 download-nifi-archive:
   cmd.run:
-    - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-{{ nifi.version }}.zip
+    - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-{{ nifi.version }}-bin.zip
     - cwd: {{ nifi.install_dir }}
     - user: {{ username }}
 
 download-nifi-toolkit-archive:
   cmd.run:
-    - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-toolkit-{{ nifi.version }}.zip
+    - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-toolkit-{{ nifi.version }}-bin.zip
     - cwd: {{ nifi.toolkit_install_dir }}
     - user: {{ username }}
     #- unless: test -f {{ nifi.install_dir }}/bin/nifi-server
 
 {% set archive_dir = nifi.install_dir + '/nifi-' + nifi.version %}
-{% set archive = archive_dir + '.zip' %}
+{% set archive = archive_dir + '-bin.zip' %}
 {% set tk_archive_dir = nifi.toolkit_install_dir + '/nifi-toolkit-' + nifi.version %}
-{% set tk_archive = tk_archive_dir + '.zip' %}
+{% set tk_archive = tk_archive_dir + '-bin.zip' %}
 
 check-nifi-archive:
   module.run:
@@ -143,23 +143,7 @@ nifi-logs-symlink:
 #    - group: {{username}}
 #    - mode: '755'
 #    - template: jinja
-#
-#{{ nifi.install_dir}}/upload_jars.sh:
-#  file.managed:
-#    - source: salt://hadoop/conf/nifi/upload_jars.sh
-#    - user: {{username}}
-#    - group: {{username}}
-#    - mode: '755'
-#    - template: jinja
-#
-#/etc/nifi/conf/spark-blacklist.conf:
-#  file.managed:
-#    - source: salt://hadoop/conf/nifi/spark-blacklist.conf
-#    - user: {{username}}
-#    - group: {{username}}
-#    - mode: '644'
-#    - template: jinja
-#
+
 #{% if nifi.jmx_export %}
 #/etc/nifi/conf/jmx.yaml:
 #  file.managed:
