@@ -16,6 +16,11 @@ nifi-directory:
     - name: {{ nifi.install_dir }}
     - user: {{ username }}
 
+nifi-tk-directory:
+  file.directory:
+    - name: {{ nifi.toolkit_install_dir }}
+    - user: {{ username }}
+
 nifi-conf-directory:
   file.directory:
     - name: /etc/nifi
@@ -31,6 +36,7 @@ download-nifi-archive:
     - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-{{ nifi.version }}-bin.zip
     - cwd: {{ nifi.install_dir }}
     - user: {{ username }}
+    - unless: test -f {{ nifi.install_dir }}/bin/nifi.sh
 
 download-nifi-toolkit-archive:
   cmd.run:
