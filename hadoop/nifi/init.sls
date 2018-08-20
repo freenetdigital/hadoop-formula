@@ -43,7 +43,7 @@ download-nifi-toolkit-archive:
     - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-toolkit-{{ nifi.version }}-bin.zip
     - cwd: {{ nifi.toolkit_install_dir }}
     - user: {{ username }}
-    #- unless: test -f {{ nifi.install_dir }}/bin/nifi-server
+    - unless: test -f {{ nifi.toolkit_install_dir }}/bin/tls-toolkit.sh
 
 {% set archive_dir = nifi.install_dir + '/nifi-' + nifi.version %}
 {% set archive = archive_dir + '-bin.zip' %}
@@ -134,31 +134,25 @@ nifi-logs-symlink:
       username: {{ username }}
       keystore_pass: {{ hadoop.keystore_pass }}
 
-#/etc/nifi/conf/nifi-env.sh:
-#  file.managed:
-#    - source: salt://hadoop/conf/nifi/nifi-env.sh
-#    - user: {{username}}
-#    - group: {{username}}
-#    - mode: '755'
-#    - template: jinja
-#
-#/etc/default/nifi.env:
-#  file.managed:
-#    - source: salt://hadoop/conf/nifi/nifi.env
-#    - user: {{username}}
-#    - group: {{username}}
-#    - mode: '755'
-#    - template: jinja
+/etc/nifi/conf/bootstrap.conf:
+  file.managed:
+    - source: salt://hadoop/conf/nifi/bootstrap.conf
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '644'
+    - template: jinja
+    - context:
+      username: {{ username }}
 
-#{% if nifi.jmx_export %}
-#/etc/nifi/conf/jmx.yaml:
-#  file.managed:
-#    - source: salt://hadoop/conf/nifi/jmx.yaml
-#    - user: {{username}}
-#    - group: {{username}}
-#    - mode: '755'
-#    - template: jinja
-#{% endif %}
+{% if nifi.jmx_export %}
+/etc/nifi/conf/jmx.yaml:
+  file.managed:
+    - source: salt://hadoop/conf/nifi/jmx.yaml
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '755'
+    - template: jinja
+{% endif %}
 
 {% if hadoop.secure_mode %}
 

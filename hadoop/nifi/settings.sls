@@ -12,6 +12,10 @@
 {%- set version            = g.get('version',        p.get('version', '1.4.0')) %}
 
 {%- set jmx_export            = gc.get('jmx_export', pc.get('jmx_export', false)) %}
+{%- set provenance_implementation = gc.get('provenance_implementation', pc.get('provenance_implementation', 'org.apache.nifi.provenance.PersistentProvenanceRepository')) %}
+{%- set knoxsso = gc.get('knoxsso', pc.get('knoxsso', false)) %}
+{%- set min_mem = gc.get('min_mem', pc.get('min_mem', '512m')) %}
+{%- set max_mem = gc.get('max_mem', pc.get('max_mem', '512m')) %}
 
 
 {%- set nifi = {} %}
@@ -23,4 +27,8 @@
                      'toolkit_install_dir'      : base_install_dir + '/nifi-toolkit-' + version,
                      'download_mirror'          : download_mirror,
                      'jmx_export'               : jmx_export,
+                     'provenance_implementation': provenance_implementation,
+                     'knoxsso'                  : knoxsso,
+                     'min_mem'                  : min_mem,
+                     'max_mem'                  : max_mem,
                    }) %}
