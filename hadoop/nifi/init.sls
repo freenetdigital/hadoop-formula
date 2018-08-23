@@ -257,7 +257,7 @@ move-nifi-ranger-plugin:
 
 create-hadoop-ssl-credential-store:
   cmd.run:
-    - name: bash -c "hadoop credential create ssltruststore -value {{ hadoop.keystore_pass}} -provider localjceks://file/home/{{username}}/credentials.jceks && hadoop credential create ssltruststore -value changeit -provider localjceks://file/home/{{username}}/credentials.jceks"
+    - name: bash -c "hadoop credential create sslkeystore -value {{ hadoop.keystore_pass}} -provider localjceks://file/home/{{username}}/credentials.jceks && hadoop credential create ssltruststore -value changeit -provider localjceks://file/home/{{username}}/credentials.jceks"
     - user: {{ username }}
     - unless: test -f /home/{{username}}/credentials.jceks
 
