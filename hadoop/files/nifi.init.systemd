@@ -1,0 +1,21 @@
+[Unit]
+Description=Nifi
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/nifi/nifi.pid
+User={{ username }}
+Group={{ username }}
+RuntimeDirectory=nifi
+
+ExecStart={{ dir }}/bin/nifi.sh start
+ExecStop={{ dir }}/bin/nifi.sh stop
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+
+
