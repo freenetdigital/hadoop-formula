@@ -15,6 +15,10 @@ nifi-directory:
   file.directory:
     - name: {{ nifi.install_dir }}
     - user: {{ username }}
+nifi-data-directory:
+  file.directory:
+    - name: {{ nifi.data_dir }}
+    - user: {{ username }}
 
 nifi-tk-directory:
   file.directory:
@@ -176,6 +180,12 @@ nifi-logs-symlink:
     - user: {{ username }}
     - group: {{ username }}
     - mode: '0400'
+/etc/krb5/nifi-nohost.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{username}}-nohost.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '0400'
 {% endif %}
 
 {% if nifi.ranger_auth %}
@@ -230,6 +240,24 @@ move-nifi-ranger-plugin:
     - group: {{username}}
     - mode: '400'
     - template: jinja
+
+{% if hadoop.secure_mode %}
+
+/etc/nifi/conf/ranger-policymgr-ssl.xml
+  file.managed:
+    - source: salt://hadoop/conf/nifi/ranger-nifi-security.xml
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '400'
+    - template: jinja
+{% endif %}
+
+create-hadoop-ssl-credential-store:
+  cmd.run:
+    - name: hadoop credential create ssltruststore -value {{ hadoop.keystore_pass}} -provider localjceks://file/home/{{username}}/credentials.jceks && hadoop credential create ssltruststore -value changeit -provider localjceks://file/home/{{username}}/credentials.jceks
+    - user: {{ username }}
+    - unless: test -f /home/{{username}}credentials.jceks
+
 {% endif %}
 #/etc/systemd/system/nifi.service:
 #  file.managed:

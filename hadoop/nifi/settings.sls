@@ -18,6 +18,7 @@
 {%- set min_mem                   = gc.get('min_mem', pc.get('min_mem', '512m')) %}
 {%- set max_mem                   = gc.get('max_mem', pc.get('max_mem', '512m')) %}
 {%- set ranger_auth               = gc.get('ranger_auth', pc.get('ranger_auth', false)) %}
+{%- set data_dir                  = gc.get('data_dir', pc.get('data_dir', dir)) %}
 
 
 {%- set nifi = {} %}
@@ -35,4 +36,5 @@
                      'min_mem'                  : min_mem,
                      'max_mem'                  : max_mem,
                      'ranger_auth'              : ranger_auth,
+                     'data_dir'                 : data_dir,
                    }) %}
