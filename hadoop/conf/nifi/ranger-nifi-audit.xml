@@ -24,7 +24,7 @@
  
     <property>
       <name>xasecure.audit.destination.solr.urls</name>
-      <value>http://{{ solr_fqdn }}:8983/solr/ranger_audits</values>
+      <value>http://{{ solr_fqdn }}:8983/solr/ranger_audits</value>
     </property>
  
     <property>

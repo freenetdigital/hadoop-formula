@@ -8,6 +8,7 @@ User=ranger
 Group=ranger
 SyslogIdentifier=ranger
 Type=forking
+RuntimeDirectory=ranger
 {% if ranger.jmx_export -%}
 Environment="JAVA_OPTS= -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27015:/etc/ranger/ranger-admin/conf/jmx_agent.yaml"
 {% endif -%}

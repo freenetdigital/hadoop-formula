@@ -1,23 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <authorizers>
-    <userGroupProvider>
-        <identifier>file-user-group-provider</identifier>
-        <class>org.apache.nifi.authorization.FileUserGroupProvider</class>
-        <property name="Users File">./conf/users.xml</property>
-        <property name="Legacy Authorized Users File"></property>
-
-        <property name="Initial User Identity 1"></property>
-    </userGroupProvider>
-    <accessPolicyProvider>
-        <identifier>file-access-policy-provider</identifier>
-        <class>org.apache.nifi.authorization.FileAccessPolicyProvider</class>
-        <property name="User Group Provider">file-user-group-provider</property>
-        <property name="Authorizations File">./conf/authorizations.xml</property>
-        <property name="Initial Admin Identity"></property>
-        <property name="Legacy Authorized Users File"></property>
-
-        <property name="Node Identity 1"></property>
-    </accessPolicyProvider>
     <authorizer>
         <identifier>ranger-provider</identifier>
         <class>org.apache.nifi.ranger.authorization.RangerNiFiAuthorizer</class>
