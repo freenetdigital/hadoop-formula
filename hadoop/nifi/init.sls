@@ -245,7 +245,7 @@ move-nifi-ranger-plugin:
 
 /etc/nifi/conf/ranger-policymgr-ssl.xml:
   file.managed:
-    - source: salt://hadoop/conf/nifi/ranger-nifi-security.xml
+    - source: salt://hadoop/conf/nifi/ranger-policymgr-ssl.xml:
     - user: {{username}}
     - group: {{username}}
     - mode: '400'
@@ -256,7 +256,7 @@ create-hadoop-ssl-credential-store:
   cmd.run:
     - name: bash -c "hadoop credential create ssltruststore -value {{ hadoop.keystore_pass}} -provider localjceks://file/home/{{username}}/credentials.jceks && hadoop credential create ssltruststore -value changeit -provider localjceks://file/home/{{username}}/credentials.jceks"
     - user: {{ username }}
-    - unless: test -f /home/{{username}}credentials.jceks
+    - unless: test -f /home/{{username}}/credentials.jceks
 
 {% endif %}
 #/etc/systemd/system/nifi.service:

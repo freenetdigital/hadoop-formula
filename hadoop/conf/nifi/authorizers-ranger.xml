@@ -6,8 +6,8 @@
 	<property name="Ranger Audit Config Path">./conf/ranger-nifi-audit.xml</property>
         <property name="Ranger Security Config Path">./conf/ranger-nifi-security.xml</property>
         <property name="Ranger Service Type">nifi</property>
-        <property name="Ranger Application Id">nifi</property>
+	<property name="Ranger Application Id">nifi-{{ grains['cluster_id']}}</property>
         <property name="Ranger Admin Identity"></property>
-        <property name="Ranger Kerberos Enabled">false</property>
+        <property name="Ranger Kerberos Enabled">true</property>
     </authorizer>
 </authorizers>
