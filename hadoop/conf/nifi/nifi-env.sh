@@ -25,4 +25,4 @@ export NIFI_HOME=$(cd "${SCRIPT_DIR}" && cd .. && pwd)
 export NIFI_PID_DIR="/var/run/nifi"
 
 #The directory for NiFi log files
-export NIFI_LOG_DIR="${NIFI_HOME}/logs"
+export NIFI_LOG_DIR="/var/log/nifi"

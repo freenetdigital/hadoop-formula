@@ -119,13 +119,8 @@ nifi-conf-symlink:
 
 nifi-logs-directory:
   file.directory:
-    - name: {{ nifi.install_dir }}/logs
-    - user: {{ username }}
-
-nifi-logs-symlink:
-  file.symlink:
-    - target: {{ nifi.install_dir}}/logs
     - name: /var/log/nifi
+    - user: {{ username }}
 
 /etc/nifi/conf/nifi.properties:
   file.managed:
