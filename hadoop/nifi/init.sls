@@ -245,7 +245,7 @@ move-nifi-ranger-plugin:
 
 /etc/nifi/conf/ranger-policymgr-ssl.xml:
   file.managed:
-    - source: salt://hadoop/conf/nifi/ranger-policymgr-ssl.xml:
+    - source: salt://hadoop/conf/nifi/ranger-policymgr-ssl.xml
     - user: {{username}}
     - group: {{username}}
     - mode: '400'
