@@ -138,6 +138,14 @@ nifi-logs-symlink:
       username: {{ username }}
       keystore_pass: {{ hadoop.keystore_pass }}
 
+{{nifi.install_dir}}/bin/nifi-env.sh:
+  file.managed:
+    - source: salt://hadoop/conf/nifi/nifi-env.sh
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '755'
+    - template: jinja
+
 /etc/nifi/conf/authorizers.xml:
   file.managed:
     {%- if nifi.ranger_auth %}
@@ -259,23 +267,23 @@ create-hadoop-ssl-credential-store:
     - unless: test -f /home/{{username}}/credentials.jceks
 
 {% endif %}
-#/etc/systemd/system/nifi.service:
-#  file.managed:
-#    - source: salt://hadoop/files/nifi.init.systemd
-#    - user: root
-#    - group: root
-#    - mode: '644'
-#    - template: jinja
-#    - context:
-#      dir: {{ nifi.dir }}
-#      username: {{ username }}
-#    - watch_in:
-#      - cmd: systemd-reload
-#
-#nifi-service:
-#  service.running:
-#    - enable: True
-#    - name: nifi.service
-#    - watch:
-#      - file: /etc/nifi/conf/nifi.conf
-#
+/etc/systemd/system/nifi.service:
+  file.managed:
+    - source: salt://hadoop/files/nifi.init.systemd
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - context:
+      dir: {{ nifi.dir }}
+      username: {{ username }}
+    - watch_in:
+      - cmd: systemd-reload
+
+nifi-service:
+  service.running:
+    - enable: True
+    - name: nifi.service
+    - watch:
+      - file: /etc/nifi/conf/nifi.properties
+
