@@ -169,6 +169,7 @@ nifi-logs-directory:
     - source: salt://nifi/files/{{nar}}
     - user: {{ username }}
     - group: hadoop
+{% endfor %}
 
 {% if nifi.jmx_export %}
 /etc/nifi/conf/jmx.yaml:
