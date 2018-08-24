@@ -17,7 +17,6 @@ create-common-folders:
     - mode: 775
     - names:
       - {{ hadoop.log_root }}
-      - /var/run/hadoop
       - /var/lib/hadoop
     - require:
       - group: hadoop

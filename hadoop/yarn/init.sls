@@ -136,7 +136,7 @@ fix-executor-permissions:
     - template: jinja
     - context:
       hadoop_svc: historyserver
-      hadoop_user: hdfs
+      hadoop_user: mapred
       hadoop_major: {{ hadoop.major_version }}
       hadoop_home: {{ hadoop.alt_home }}
 
@@ -151,16 +151,16 @@ systemd-hadoop-historyserver:
     - template: jinja
     - context:
       hadoop_svc: historyserver
-      hadoop_user: hdfs
+      hadoop_user: mapred
       hadoop_major: {{ hadoop.major_version }}
       hadoop_home: {{ hadoop.alt_home }}
     - watch_in:
       - cmd: systemd-reload
 {% endif %}
 
-hadoop-historyserver:
-  service.running:
-    - enable: True
+#hadoop-historyserver:
+# service.running:
+#   - enable: True
 
 /etc/init.d/hadoop-resourcemanager:
   file.managed:
