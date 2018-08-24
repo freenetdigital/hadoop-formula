@@ -19,6 +19,7 @@
 {%- set max_mem                   = gc.get('max_mem', pc.get('max_mem', '512m')) %}
 {%- set ranger_auth               = gc.get('ranger_auth', pc.get('ranger_auth', false)) %}
 {%- set data_dir                  = gc.get('data_dir', pc.get('data_dir', dir)) %}
+{%- set additional_jars           = gc.get('additional_jars', pc.get('additional_jars', [])) %}
 
 
 {%- set nifi = {} %}
@@ -37,4 +38,5 @@
                      'max_mem'                  : max_mem,
                      'ranger_auth'              : ranger_auth,
                      'data_dir'                 : data_dir,
+                     'additional_jars'          : additional_jars,
                    }) %}

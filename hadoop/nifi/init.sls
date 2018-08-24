@@ -163,6 +163,13 @@ nifi-logs-directory:
     - context:
       username: {{ username }}
 
+{% for nar in nifi.additional_jars %}
+{{nifi.install_dir}}/lib/{{nar}}:
+  file.managed:
+    - source: salt://nifi/files/{{nar}}
+    - user: {{ username }}
+    - group: hadoop
+
 {% if nifi.jmx_export %}
 /etc/nifi/conf/jmx.yaml:
   file.managed:
