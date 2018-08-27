@@ -1,5 +1,5 @@
-{%- from 'hadoop/knox/settings.sls' import knox with context %}
 <?xml version="1.0" encoding="utf-8"?>
+{%- from 'hadoop/knox/settings.sls' import knox with context %}
 <!--
      SALT-MANAGED
 -->
