@@ -1,0 +1,55 @@
+{%- from 'hadoop/knox/settings.sls' import knox with context %}
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SALT-MANAGED
+-->
+<topology>
+  <gateway>
+  <provider>
+    	<role>webappsec</role>
+    	<name>WebAppSec</name>
+    	<enabled>true</enabled>
+    	<param>
+      		<name>cors.enabled</name>
+      		<value>true</value>
+  	</param>
+  </provider>
+  <provider>
+    	<role>federation</role>
+    	<name>SSOCookieProvider</name>
+    	<enabled>true</enabled>
+    	<param>
+      {%- set knox_url = salt['pillar.get']('knox:config:gateway-site:gateway.frontend.url:value', grains['fqdn']) %}
+      		<name>sso.authentication.provider.url</name>
+   		<value>https://{{ knox_url }}:8443/gateway/knoxsso/api/v1/websso</value>
+   	</param>
+   </provider>
+   <provider>
+            <role>identity-assertion</role>
+            <name>Default</name>
+            <enabled>true</enabled>
+    </provider>
+    <provider>
+            <role>authorization</role>
+            {%- if knox.ranger_plugin %}
+            <name>XASecurePDPKnox</name>
+            <enabled>true</enabled>
+            {%- else %}
+            <name>AclsAuthz</name>
+            <enabled>true</enabled>
+            <param>
+                <name>knox.acl</name>
+                <value>{{ knox.cluster_topology.acl }}</value>
+            </param>
+            {%- endif %}
+    </provider>
+    </gateway>
+    {%- set nifi_target = 'G@role:nifi and G@clustername:' + grains['cluster_id'] -%}
+    {%- set nifi_grains = salt['mine.get'](nifi_target, 'grains.item', tgt_type='compound') -%}
+    <service>
+        <role>NIFI</role>
+	<url>https://{{ nifi_grains | first() }}:8443</url>
+        <param name="useTwoWaySsl" value="true"/>
+    </service>
+</topology>
+
