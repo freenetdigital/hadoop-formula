@@ -84,6 +84,7 @@ hive-site.xml:
     - template: jinja
     - source: salt://hadoop/conf/hive/hive-site.xml
     - user: {{ username }}
+    - mode: 600
     - watch_in:
       - service: hive-hiveserver2
 
