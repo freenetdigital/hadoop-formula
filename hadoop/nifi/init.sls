@@ -223,6 +223,7 @@ move-nifi-ranger-plugin:
     - source: /tmp/nifi-ranger-nar-{{nifi.version}}.nar
     - user: {{ username }}
     - group: hadoop
+    - unless: test -f {{ nifi.install_dir }}/lib/nifi-ranger-nar-{{nifi.version}}.nar
 
 /etc/ranger/nifi-{{ grains['cluster_id']}}/policycache:
   file.directory:
