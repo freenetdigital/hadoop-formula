@@ -170,15 +170,15 @@ ranger-admin-logs-symlink:
   file.symlink:
     - target: {{ ranger.admin_install_dir }}/ews/logs
     - name: /var/log/ranger/ranger-admin
-    - onchanges:
-      - cmd: provision-ranger-admin
+  #- onchanges:
+    #- cmd: provision-ranger-admin
 
 ranger-config-symlink:
   file.symlink:
     - target: {{ ranger.admin_install_dir }}/ews/webapp/WEB-INF/classes/conf
     - name: /etc/ranger/ranger-admin/conf
-    - onchanges:
-      - cmd: provision-ranger-admin
+  #- onchanges:
+    #- cmd: provision-ranger-admin
 
 ranger-usersync-logs-symlink:
   file.symlink:
