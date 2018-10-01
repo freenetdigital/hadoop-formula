@@ -187,13 +187,13 @@ nifi-logs-directory:
 
 /etc/krb5/nifi.keytab:
   file.managed:
-    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '0400'
 /etc/krb5/nifi-nohost.keytab:
   file.managed:
-    - source: salt://kerberos/files/{{username}}-nohost.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-nohost.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '0400'

@@ -156,7 +156,7 @@ knox-logs-symlink:
 
 /etc/krb5/knox.keytab:
   file.managed:
-    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '0400'

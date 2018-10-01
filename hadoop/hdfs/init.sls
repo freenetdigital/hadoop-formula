@@ -100,14 +100,14 @@ include:
 {% if hadoop.secure_mode %}
 /etc/krb5/hdfs.keytab:
   file.managed:
-    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'
 {% if hdfs.is_namenode or hdfs.is_journalnode or hdfs.is_datanode %}
 /etc/krb5/spnego.keytab:
   file.managed:
-    - source: salt://kerberos/files/spnego-{{ grains['fqdn'] }}.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/spnego-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: hadoop
     - mode: '440'

@@ -91,14 +91,14 @@ hive-site.xml:
 {% if hadoop.secure_mode %}
 /etc/krb5/hive.keytab:
   file.managed:
-    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'
 
 /etc/krb5/metastore.keytab:
   file.managed:
-    - source: salt://kerberos/files/metastore-{{ grains['fqdn'] }}.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/metastore-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'
@@ -106,7 +106,7 @@ hive-site.xml:
 
 /etc/krb5/spnego.keytab:
   file.managed:
-    - source: salt://kerberos/files/spnego-{{ grains['fqdn'] }}.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/spnego-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'

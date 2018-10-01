@@ -70,7 +70,7 @@ mysql-connector-deps:
 {% if hadoop.secure_mode %}
 /etc/krb5/ranger.keytab:
   file.managed:
-    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'

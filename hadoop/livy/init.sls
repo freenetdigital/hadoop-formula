@@ -143,14 +143,14 @@ livy-logs-symlink:
 
 /etc/krb5/livy.keytab:
   file.managed:
-    - source: salt://kerberos/files/{{username}}-{{ grains['fqdn'] }}.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '0400'
 
 /etc/krb5/spnego.livy.keytab:
   file.managed:
-    - source: salt://kerberos/files/spnego-{{ grains['fqdn'] }}.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/spnego-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '0400'
