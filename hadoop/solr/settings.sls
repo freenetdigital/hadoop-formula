@@ -9,7 +9,7 @@
 {%- set conf_dir           = g.get('conf_dir',         p.get('conf_dir', '/etc/solr/conf')) %}
 {%- set hash_7_3_1         = g.get('hash',             p.get('hash', 'sha1=551fa068b2ae464bafd47f668408f392eb8dec9c')) %}
 {%- set hash_6_6_4         = g.get('hash',             p.get('hash', 'sha1=baa8cb6ad834af8665be971090defd38d04a9b8c')) %}
-{%- set hash               = hash_6_6_4  %}
+{%- set hash               = g.get('hash',             p.get('hash', hash_6_6_4  %}
 {%- set download_mirror    = g.get('download_mirror', p.get('download_mirror', 'http://apache.lauf-forum.at/lucene/solr')) %}
 
 {%- set version            = g.get('version',        p.get('version', '6.6.4')) %}
