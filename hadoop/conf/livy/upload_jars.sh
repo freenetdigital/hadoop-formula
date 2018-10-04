@@ -10,7 +10,7 @@ set +o allexport
 
 LIVY_HOME=/usr/lib/livy
 #init kerberos auth
-kinit -k -t /etc/krb5/livy.keytab livy/svc-hadoop-utilities-pre-c3-01.jamba.net@HADOOP-PRE-C3
+kinit -k -t /etc/krb5/livy.keytab livy/{{ grains['fqdn']}}@{{grains['cluster_id'] | upper }}
 
 # create dirs if missing
 hdfs dfs -mkdir /apps/livy/

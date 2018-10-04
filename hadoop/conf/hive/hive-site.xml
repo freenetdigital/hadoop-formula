@@ -11,7 +11,7 @@
      </property>
      <property>
             <name>hive.server2.authentication.spnego.principal</name>
-            <value>HTTP/_HOST@HADOOP-PRE-C3</value>
+	    <value>HTTP/_HOST@{{ grains['cluster_id'] | upper }}</value>
     </property>
     <property>
 	    <name>hive.metastore.sasl.enabled</name>
