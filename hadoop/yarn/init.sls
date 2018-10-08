@@ -111,7 +111,7 @@ fix-executor-permissions:
 {% if hadoop.secure_mode %}
 /etc/krb5/wap.keytab:
   file.managed:
-    - source: salt://kerberos/files/wap-{{ grains['fqdn'] }}.keytab
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/wap-{{ grains['fqdn'] }}.keytab
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'
