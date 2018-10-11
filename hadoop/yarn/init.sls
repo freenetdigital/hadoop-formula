@@ -8,8 +8,6 @@
 include:
   - hadoop.systemd
 
-{%- if hadoop.major_version|string() == '2' %}
-
 {% set username = 'yarn' %}
 {% set yarn_home_directory = '/user/' + username %}
 {% set uid = hadoop.users[username] %}
@@ -127,19 +125,6 @@ fix-executor-permissions:
 {{ hdfs_mkdir(yarn_home_directory, username, username, 700, hadoop.dfs_cmd) }}
 {{ hdfs_mkdir(rald, username, 'hadoop', 1777, hadoop.dfs_cmd) }}
 
-/etc/init.d/hadoop-historyserver:
-  file.managed:
-    - source: salt://hadoop/files/{{ hadoop.initscript }}
-    - user: root
-    - group: root
-    - mode: '755'
-    - template: jinja
-    - context:
-      hadoop_svc: historyserver
-      hadoop_user: mapred
-      hadoop_major: {{ hadoop.major_version }}
-      hadoop_home: {{ hadoop.alt_home }}
-
 {% if grains['init'] == 'systemd' %}
 systemd-hadoop-historyserver:
   file.managed:
@@ -161,19 +146,6 @@ systemd-hadoop-historyserver:
 #hadoop-historyserver:
 # service.running:
 #   - enable: True
-
-/etc/init.d/hadoop-resourcemanager:
-  file.managed:
-    - source: salt://hadoop/files/{{ hadoop.initscript }}
-    - user: root
-    - group: root
-    - mode: '755'
-    - template: jinja
-    - context:
-      hadoop_svc: resourcemanager
-      hadoop_user: yarn
-      hadoop_major: {{ hadoop.major_version }}
-      hadoop_home: {{ hadoop.alt_home }}
 
 {% if grains['init'] == 'systemd' %}
 systemd-hadoop-resourcemanager:
@@ -199,19 +171,6 @@ hadoop-resourcemanager:
 {% endif %}
 
 {% if yarn.is_nodemanager %}
-
-/etc/init.d/hadoop-nodemanager:
-  file.managed:
-    - source: salt://hadoop/files/{{ hadoop.initscript }}
-    - user: root
-    - group: root
-    - mode: '755'
-    - template: jinja
-    - context:
-      hadoop_svc: nodemanager
-      hadoop_user: yarn
-      hadoop_major: {{ hadoop.major_version }}
-      hadoop_home: {{ hadoop.alt_home }}
 
 # needed for hive connection in yarn/spark jobs
 {{ hadoop.alt_config}}/hive-site.xml:
@@ -243,5 +202,4 @@ hadoop-nodemanager:
   service.running:
     - enable: True
 {% endif %}
-{%- endif %}
 
