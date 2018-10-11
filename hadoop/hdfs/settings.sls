@@ -43,11 +43,11 @@
 
 {% if hadoop.major_version == 3 %}
   {% if hadoop.secure_mode %}
-    {%- set namenode_http_protocol        = 'https')) %}
-    {%- set namenode_http_default_port    = '9871')) %}
+    {%- set namenode_http_protocol        = 'https' %}
+    {%- set namenode_http_default_port    = '9871' %}
   {% else %}
-    {%- set namenode_http_default_port    = '9870')) %}
-    {%- set namenode_http_protocol        = 'http')) %}
+    {%- set namenode_http_default_port    = '9870' %}
+    {%- set namenode_http_protocol        = 'http' %}
   {% endif %}
 {% else %}
   {% if hadoop.secure_mode %}

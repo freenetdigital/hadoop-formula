@@ -7,7 +7,7 @@
 {%- set resourcetracker_port        = gc.get('resourcetracker_port', pc.get('resourcetracker_port', '8031')) %}
 {%- set scheduler_port              = gc.get('scheduler_port', pc.get('scheduler_port', '8030')) %}
 {%- set resourcemanager_port        = gc.get('resourcemanager_port', pc.get('resourcemanager_port', '8032')) %}
-{% hadoop.secure_mode %}
+{% if hadoop.secure_mode %}
   {% set webapp_port='8090' %}
   {% set webapp_protocol='https' %}
 {% else %}
