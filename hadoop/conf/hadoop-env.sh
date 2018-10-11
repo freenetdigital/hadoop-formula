@@ -1,5 +1,15 @@
-export JAVA_HOME={{ java_home }}
+{%- from 'hadoop/settings.sls' import hadoop with context %}
+{%- if hadoop.major_version == '3' %}
+{% set opts_prefix='HDFS' %}
+export HADOOP_HOME={{ hadoop_home }}
+{%- else %}
+{% set opts_prefix='HADOOP' %}
 export HADOOP_PREFIX={{ hadoop_home }}
+export YARN_LOG_DIR={{ logs }}
+export YARN_PID_DIR={{ pids }}
+{% endif -%}
+
+export JAVA_HOME={{ java_home }}
 export HADOOP_CONF_DIR={{ hadoop_config }}
 export PATH=$HADOOP_PREFIX/bin:$HADOOP_PREFIX/sbin:${JAVA_HOME}/bin:$PATH
 
@@ -9,19 +19,19 @@ export JMX_OPTS=" -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.
 export JMX_HDFS_NN=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27001:{{ hadoop_config }}/jmx_hdfs_nn.yaml"
 export JMX_HDFS_DN=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27003:{{ hadoop_config }}/jmx_hdfs_dn.yaml"
 
-export HADOOP_NAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26001 $JMX_HDFS_NN"
-export HADOOP_DATANODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26003 $JMX_HDFS_DN"
-export HADOOP_ZKFC_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27008:{{ hadoop_config }}/jmx_hdfs_zkfc.yaml"
-export HADOOP_JOURNALNODE_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27007:{{ hadoop_config }}/jmx_hdfs_jn.yaml"
+export {{opts_prefix}}_NAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26001 $JMX_HDFS_NN"
+export {{opts_prefix}}_DATANODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26003 $JMX_HDFS_DN"
+export {{opts_prefix}}_ZKFC_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27008:{{ hadoop_config }}/jmx_hdfs_zkfc.yaml"
+export {{opts_prefix}}_JOURNALNODE_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27007:{{ hadoop_config }}/jmx_hdfs_jn.yaml"
 export YARN_RESOURCEMANAGER_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27009:{{ hadoop_config }}/jmx_yarn_rm.yaml"
 export YARN_NODEMANAGER_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27010:{{ hadoop_config }}/jmx_yarn_nm.yaml"
 
 {% else %}
-export HADOOP_NAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26001 $HADOOP_NAMENODE_OPTS"
-export HADOOP_DATANODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26003 $HADOOP_DATANODE_OPTS"
+export {{opts_prefix}}_NAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26001 $HADOOP_NAMENODE_OPTS"
+export {{opts_prefix}}_DATANODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26003 $HADOOP_DATANODE_OPTS"
 {% endif %} 
-export HADOOP_SECONDARYNAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26002 $HADOOP_SECONDARYNAMENODE_OPTS"
-export HADOOP_BALANCER_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26004 $HADOOP_BALANCER_OPTS"
+export {{opts_prefix}}_SECONDARYNAMENODE_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26002 $HADOOP_SECONDARYNAMENODE_OPTS"
+export {{opts_prefix}}_BALANCER_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26004 $HADOOP_BALANCER_OPTS"
 export HADOOP_JOBTRACKER_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26005 $HADOOP_JOBTRACKER_OPTS"
 export HADOOP_TASKTRACKER_OPTS="$JMX_OPTS -Dcom.sun.management.jmxremote.port=26006 $HADOOP_TASKTRACKER_OPTS"
 
@@ -37,10 +47,9 @@ export HADOOP_LOG_DIR={{ logs }}
 export HDFS_LOG_DIR={{ logs }}
 export MAPRED_LOG_DIR={{ logs }}
 export HADOOP_MAPRED_LOG_DIR={{ logs }}
-export YARN_LOG_DIR={{ logs }}
 
 export HADOOP_PID_DIR={{ pids }}
 export HDFS_PID_DIR={{ pids }}
 export MAPRED_PID_DIR={{ pids }}
 export HADOOP_MAPRED_PID_DIR={{ pids }}
-export YARN_PID_DIR={{ pids }}
+

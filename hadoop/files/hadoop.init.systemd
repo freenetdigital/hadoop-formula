@@ -1,17 +1,15 @@
-{%- if hadoop_major == 1 %}
-{%- set bindir='bin' %}
-{%- else %}
-{%- set bindir='sbin' %}
-{%- endif %}
 {%- if hadoop_svc == 'historyserver' %}
-{% set pidfile = "/var/run/hadoop/mapred-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
-{% set exec = hadoop_home + "/" + bindir + "/mr-jobhistory-daemon.sh" %}
+	{% set pidfile = "/var/run/hadoop/mapred-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
+	{% set exec = hadoop_home + "/sbin/mr-jobhistory-daemon.sh" %}
+	{% set exec_v3 = hadoop_home + "/sbin/mr-jobhistory-daemon.sh" %}
 {%- elif hadoop_user == 'yarn' %}
-{% set pidfile = "/var/run/hadoop/yarn-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
-{% set exec = hadoop_home + "/" + bindir + "/yarn-daemon.sh" %}
+	{% set pidfile = "/var/run/hadoop/yarn-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
+	{% set exec = hadoop_home + "/sbin/yarn-daemon.sh" %}
+	{% set exec_v3 = hadoop_home + "/bin/yarn --daemon" %}
 {%- else %}
-{% set pidfile = "/var/run/hadoop/hadoop-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
-{% set exec = hadoop_home + "/" + bindir + "/hadoop-daemon.sh" %}
+	{% set pidfile = "/var/run/hadoop/hadoop-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
+	{% set exec = hadoop_home + "/sbin/hadoop-daemon.sh" %}
+	{% set exec_v3 = hadoop_home + "/bin/hdfs --daemon" %}
 {%- endif %}
 
 [Unit]
@@ -30,8 +28,13 @@ RuntimeDirectoryMode=775
 Environment="JAVA_OPTS=-Djava.awt.headless=true"
 EnvironmentFile=-/etc/default/hadoop-systemd
 
+{% if hadoop_major == 3 %}
+ExecStart={{ exec_v3 }} start {{ hadoop_svc }}
+ExecStop={{ exec_v3 }} stop {{ hadoop_svc }}
+{%- else %}
 ExecStart={{ exec }} --config /etc/hadoop/conf start {{ hadoop_svc }}
 ExecStop={{ exec }} --config /etc/hadoop/conf stop {{ hadoop_svc }}
+{%- endif %}
 Restart=on-failure
 SyslogIdentifier=hadoop-{{ hadoop_svc }}
 

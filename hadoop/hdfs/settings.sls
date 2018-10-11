@@ -2,6 +2,7 @@
 {%- set pc = p.get('config', {}) %}
 {%- set g  = salt['grains.get']('hdfs', {}) %}
 {%- set gc = g.get('config', {}) %}
+{% from 'hadoop/settings.sls' import hadoop with context %}
 
 {%- set namenode_target     = g.get('namenode_target', p.get('namenode_target', 'roles:hadoop_master')) %}
 {%- set primary_namenode_target   = g.get('primary_namenode_target', p.get('primary_namenode_target', 'roles:hdfs_namenode1')) %}
@@ -39,7 +40,26 @@
 {%- set datanode_count        = datanode_hosts|count() %}
 {%- set journalnode_count     = journalnode_hosts|count() %}
 {%- set namenode_port         = gc.get('namenode_port', pc.get('namenode_port', '8020')) %}
-{%- set namenode_http_port    = gc.get('namenode_http_port', pc.get('namenode_http_port', '50070')) %}
+
+{% if hadoop.major_version == 3 %}
+  {% if hadoop.secure_mode %}
+    {%- set namenode_http_protocol        = 'https')) %}
+    {%- set namenode_http_default_port    = '9871')) %}
+  {% else %}
+    {%- set namenode_http_default_port    = '9870')) %}
+    {%- set namenode_http_protocol        = 'http')) %}
+  {% endif %}
+{% else %}
+  {% if hadoop.secure_mode %}
+    {%- set namenode_http_default_port    = '50470')) %}
+    {%- set namenode_http_protocol        = 'https')) %}
+  {% else %}
+    {%- set namenode_http_default_port    = '50070')) %}
+    {%- set namenode_http_protocol        = 'http')) %}
+  {% endif %}
+{% endif %}
+
+{%- set namenode_http_port    = gc.get('namenode_http_port', pc.get('namenode_http_port', namenode_http_default_port)) %}
 {%- set secondarynamenode_http_port  = gc.get('secondarynamenode_http_port', pc.get('secondarynamenode_http_port', '50090')) %}
 {%- set local_disks           = salt['grains.get']('hdfs_data_disks', ['/data']) %}
 {%- set load                  = salt['grains.get']('hdfs_load', salt['pillar.get']('hdfs_load', {})) %}
@@ -85,6 +105,7 @@
                      'namenode_port'               : namenode_port,
                      'ha_namenode_port'            : ha_namenode_port,
                      'namenode_http_port'          : namenode_http_port,
+                     'namenode_http_protocol'      : namenode_http_protocol,
                      'ha_namenode_http_port'       : ha_namenode_http_port,
                      'is_namenode'                 : is_namenode,
                      'is_primary_namenode'         : is_primary_namenode,

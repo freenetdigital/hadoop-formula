@@ -2,11 +2,21 @@
 {% set pc = p.get('config', {}) %}
 {% set g  = salt['grains.get']('yarn', {}) %}
 {% set gc = g.get('config', {}) %}
+{% from 'hadoop/settings.sls' import hadoop with context %}
 
 {%- set resourcetracker_port        = gc.get('resourcetracker_port', pc.get('resourcetracker_port', '8031')) %}
 {%- set scheduler_port              = gc.get('scheduler_port', pc.get('scheduler_port', '8030')) %}
 {%- set resourcemanager_port        = gc.get('resourcemanager_port', pc.get('resourcemanager_port', '8032')) %}
-{%- set resourcemanager_webapp_port = gc.get('resourcemanager_webapp_port', pc.get('resourcemanager_webapp_port', '8088')) %}
+{% hadoop.secure_mode %}
+  {% set webapp_port='8090' %}
+  {% set webapp_protocol='https' %}
+{% else %}
+  {% set webapp_port='8088' %}
+  {% set webapp_protocol='http' %}
+{% endif %}
+
+{%- set resourcemanager_webapp_port = gc.get('resourcemanager_webapp_port', pc.get('resourcemanager_webapp_port', webapp_port)) %}
+{%- set resourcemanager_webapp_protocol = gc.get('resourcemanager_webapp_protocol', pc.get('resourcemanager_webapp_protocol', webapp_protocol )) %}
 {%- set resourcemanager_admin_port  = gc.get('resourcemanager_admin_port', pc.get('resourcemanager_admin_port', '8033')) %}
 {%- set nodemanager_port            = gc.get('nodemanager_port', pc.get('nodemanager_port', '50024')) %}
 {%- set nodemanager_webapp_port     = gc.get('nodemanager_webapp_port', pc.get('nodemanager_webapp_port', '50025')) %}
@@ -37,6 +47,7 @@
                      'scheduler_port'              : scheduler_port,
                      'resourcemanager_port'        : resourcemanager_port,
                      'resourcemanager_webapp_port' : resourcemanager_webapp_port,
+                     'resourcemanager_webapp_protocol' : resourcemanager_webapp_protocol,
                      'resourcemanager_admin_port'  : resourcemanager_admin_port,
                      'resourcemanager_host'        : resourcemanager_host,
                      'resourcemanager_hosts'       : resourcemanager_hosts,

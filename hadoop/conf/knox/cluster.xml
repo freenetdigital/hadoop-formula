@@ -144,11 +144,7 @@
 {%- if hdfs.namenode_count > 1 %}
     <service>
         <role>HDFSUI</role>
-	{%- if hadoop.secure_mode %}
-         <url>https://{{ hdfs.namenode_hosts|first() }}:50470</url>
-	 {%- else %}
-         <url>http://{{ hdfs.namenode_hosts|first() }}:{{ hdfs.namenode_http_port }}</url>
-	 {%- endif %}
+	<url>{{hdfs.namenode_http_protocol }}://{{ hdfs.namenode_hosts|first() }}:{{ hdfs.namenode_http_port }}</url>
     </service>
     <service>
         <role>NAMENODE</role>
@@ -158,21 +154,13 @@
     <service>
         <role>WEBHDFS</role>
 {%- for namenode in hdfs.namenode_hosts %}
-	{%- if hadoop.secure_mode %}
-         <url>https://{{ namenode }}:50470/webhdfs</url>
-	 {%- else %}
-         <url>http://{{ namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
-	 {%- endif %}
+       <url>{{ hdfs.namenode_http_protocol }}://{{ namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
 {% endfor -%}
     </service>
 {%- else -%}
 {%- if hdfs.namenode_count == 1 %}
     <service>
-	{%- if hadoop.secure_mode %}
-        <url>https://{{ hdfs.namenode }}:50470</url>
-	 {%- else %}
-        <url>http://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}</url>
-	 {%- endif %}
+	 <url>{{hdfs.namenode_http_protocol}}://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}</url>
         <role>HDFSUI</role>
     </service>
     <service>
@@ -181,11 +169,7 @@
     </service>
     <service>
         <role>WEBHDFS</role>
-	{%- if hadoop.secure_mode %}
-         <url>https://{{ hdfs.namenode }}:50470/webhdfs</url>
-	 {%- else %}
-         <url>http://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
-	 {%- endif %}
+	<url>{{ hdfs.namenode_http_protocol }}://{{ hdfs.namenode }}:{{ hdfs.namenode_http_port }}/webhdfs</url>
     </service>
 {%- endif -%}
 {%- endif %}
