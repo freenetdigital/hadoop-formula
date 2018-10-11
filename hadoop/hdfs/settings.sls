@@ -51,11 +51,11 @@
   {% endif %}
 {% else %}
   {% if hadoop.secure_mode %}
-    {%- set namenode_http_default_port    = '50470')) %}
-    {%- set namenode_http_protocol        = 'https')) %}
+    {%- set namenode_http_default_port    = '50470' %}
+    {%- set namenode_http_protocol        = 'https' %}
   {% else %}
-    {%- set namenode_http_default_port    = '50070')) %}
-    {%- set namenode_http_protocol        = 'http')) %}
+    {%- set namenode_http_default_port    = '50070' %}
+    {%- set namenode_http_protocol        = 'http' %}
   {% endif %}
 {% endif %}
 
