@@ -3,7 +3,7 @@
 	{% set exec = hadoop_home + "/sbin/mr-jobhistory-daemon.sh" %}
 	{% set exec_v3 = hadoop_home + "/sbin/mr-jobhistory-daemon.sh" %}
 {%- elif hadoop_user == 'yarn' %}
-	{% set pidfile = "/var/run/hadoop/yarn-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
+	{% set pidfile = "/var/run/hadoop/hadoop-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
 	{% set exec = hadoop_home + "/sbin/yarn-daemon.sh" %}
 	{% set exec_v3 = hadoop_home + "/bin/yarn --daemon" %}
 {%- else %}
