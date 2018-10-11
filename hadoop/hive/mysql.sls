@@ -42,10 +42,10 @@ download-and-copy-mysql-connector:
     - name: wget https://dev.mysql.com/get/Downloads/Connector-J/{{ conn_tar }}; tar -xvf {{ conn_tar }}; cp {{ conn }}/{{ conn }}-bin.jar {{ hive.dir }}/lib/; rm -rf {{ conn }}*
     - unless: ls /usr/lib/hive/lib/mysql-connector-java-5.1.45-bin.jar
 
-init-schema:
-  cmd.run:
-    - name: bash -c "export HADOOP_LIBEXEC_DIR={{ hadoop.alt_home }}/libexec; {{ hive.install_dir}}/bin/schematool -dbType mysql -initSchema"
-    - unless: bash -c "export HADOOP_LIBEXEC_DIR={{ hadoop.alt_home }}/libexec; {{ hive.install_dir}}/bin/schematool -dbType mysql -validate"
+#init-schema:
+  #cmd.run:
+    #- name: bash -c "export HADOOP_LIBEXEC_DIR={{ hadoop.alt_home }}/libexec; {{ hive.install_dir}}/bin/schematool -dbType mysql -initSchema"
+    #- unless: bash -c "export HADOOP_LIBEXEC_DIR={{ hadoop.alt_home }}/libexec; {{ hive.install_dir}}/bin/schematool -dbType mysql -validate"
 
 ##TODO setup ssl truststore
 ##https://community.hortonworks.com/articles/72475/connect-hiveserver2-to-mysql-metastore-over-ssl-1.html
