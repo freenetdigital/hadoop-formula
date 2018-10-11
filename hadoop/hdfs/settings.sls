@@ -49,7 +49,8 @@
     {%- set namenode_http_default_port    = '9870' %}
     {%- set namenode_http_protocol        = 'http' %}
   {% endif %}
-{% else %}
+{% endif %}
+{% if hadoop.major_version == 2 %}
   {% if hadoop.secure_mode %}
     {%- set namenode_http_default_port    = '50470' %}
     {%- set namenode_http_protocol        = 'https' %}
