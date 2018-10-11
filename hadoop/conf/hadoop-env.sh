@@ -7,11 +7,11 @@ export HADOOP_HOME={{ hadoop_home }}
 export HADOOP_PREFIX={{ hadoop_home }}
 export YARN_LOG_DIR={{ logs }}
 export YARN_PID_DIR={{ pids }}
-{% endif -%}
+{%- endif %}
 
 export JAVA_HOME={{ java_home }}
 export HADOOP_CONF_DIR={{ hadoop_config }}
-export PATH=$HADOOP_PREFIX/bin:$HADOOP_PREFIX/sbin:${JAVA_HOME}/bin:$PATH
+export PATH={{ hadoop_home }}/bin:{{ hadoop_home }}/sbin:${JAVA_HOME}/bin:$PATH
 
 export HADOOP_HEAPSIZE=1024
 export JMX_OPTS=" -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote -Djava.rmi.server.hostname=127.0.0.1"
