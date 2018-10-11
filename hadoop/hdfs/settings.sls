@@ -41,7 +41,7 @@
 {%- set journalnode_count     = journalnode_hosts|count() %}
 {%- set namenode_port         = gc.get('namenode_port', pc.get('namenode_port', '8020')) %}
 
-{% if hadoop.major_version == 3 %}
+{% if hadoop.major_version == '3' %}
   {% if hadoop.secure_mode %}
     {%- set namenode_http_protocol        = 'https' %}
     {%- set namenode_http_default_port    = '9871' %}
@@ -50,7 +50,7 @@
     {%- set namenode_http_protocol        = 'http' %}
   {% endif %}
 {% endif %}
-{% if hadoop.major_version == 2 %}
+{% if hadoop.major_version == '2' %}
   {% if hadoop.secure_mode %}
     {%- set namenode_http_default_port    = '50470' %}
     {%- set namenode_http_protocol        = 'https' %}
