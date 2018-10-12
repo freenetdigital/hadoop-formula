@@ -36,13 +36,8 @@
 {%- set targeting_method = g.get('targeting_method', p.get('targeting_method', 'grain')) %}
 {%- set jmx_export = pc.get('jmx_export', false) %}
 
-{%- if version_info['major_version'] == '1' %}
-{%- set dfs_cmd = alt_home + '/bin/hadoop dfs' %}
-{%- set dfsadmin_cmd = alt_home + '/bin/hadoop dfsadmin' %}
-{%- else %}
 {%- set dfs_cmd = alt_home + '/bin/hdfs dfs' %}
 {%- set dfsadmin_cmd = alt_home + '/bin/hdfs dfsadmin' %}
-{%- endif %}
 
 {%- set java_home        = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
 {%- set config_core_site = gc.get('core-site', pc.get('core-site', {})) %}

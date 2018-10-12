@@ -7,33 +7,6 @@
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 
 <configuration>
-
-{%- if major == '1' %}
-    <property>
-        <name>mapred.job.tracker</name>
-        <value>{{ mapred.jobtracker_host }}:{{ mapred.jobtracker_port }}</value>
-    </property>
-
-    <property>
-        <name>mapred.job.tracker.http.address</name>
-        <value>{{ mapred.jobtracker_host }}:{{ mapred.jobtracker_http_port }}</value>
-    </property>
-
-    <property>
-        <name>mapreduce.tasktracker.group</name>
-        <value>hadoop</value>
-    </property>
-
-    <property>
-        <name>mapreduce.history.server.http.address</name>
-        <value>{{ mapred.jobtracker_host }}:{{ mapred.jobhistory_port }}</value>
-    </property>
-
-    <property>
-        <name>mapred.submit.replication</name>
-        <value>{{ hdfs.datanode_count }}</value>
-    </property>
-{%- else %}
     <property>
         <name>mapreduce.jobhistory.address</name>
         <value>{{ mapred.jobtracker_host }}:{{ mapred.jobhistory_port }}</value>
@@ -58,7 +31,6 @@
         <name>mapreduce.client.submit.file.replication</name>
         <value>{{ hdfs.datanode_count }}</value>
     </property>
-{%- endif %}
 {%- if hadoop.secure_mode %}
     <property>
         <name>mapreduce.jobhistory.keytab</name>

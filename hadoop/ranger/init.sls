@@ -209,7 +209,6 @@ ranger-usersync-logs-symlink:
       - cmd: systemd-reload
 {% endif %}
 
-{% if grains['init'] == 'systemd' %}
 /etc/systemd/system/ranger-admin.service:
   file.managed:
     - source: salt://hadoop/files/ranger-admin.init.systemd
@@ -229,7 +228,6 @@ ranger-usersync-logs-symlink:
     - template: jinja
     - watch_in:
       - cmd: systemd-reload
-{% endif %}
 
 ranger-admin:
   service.running:

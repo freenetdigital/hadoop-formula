@@ -61,18 +61,6 @@ include:
 
 {% endfor %}
 
-#{{ hadoop.alt_config }}/core-site.xml:
-#  file.managed:
-#    - source: salt://hadoop/conf/hdfs/core-site.xml
-#    - template: jinja
-#    - mode: 644
-#
-#{{ hadoop.alt_config }}/hdfs-site.xml:
-#  file.managed:
-#    - source: salt://hadoop/conf/hdfs/hdfs-site.xml
-#    - template: jinja
-#    - mode: 644
-
 {{ hadoop.alt_config }}/masters:
   file.managed:
     - mode: 644
@@ -121,29 +109,11 @@ include:
 {%- if hdfs.namenode_count == 1 %}
 format-namenode:
   cmd.run:
-{%- if hadoop.major_version|string() == '1' %}
-    - name: {{ hadoop.alt_home }}/bin/hadoop namenode -format -force
-{%- else %}
     - name: {{ hadoop.alt_home }}/bin/hdfs namenode -format
-{% endif %}
     - user: hdfs
     - unless: test -d {{ test_folder }}
 {%- endif %}
 
-/etc/init.d/hadoop-namenode:
-  file.managed:
-    - source: salt://hadoop/files/{{ hadoop.initscript }}
-    - user: root
-    - group: root
-    - mode: '755'
-    - template: jinja
-    - context:
-      hadoop_svc: namenode
-      hadoop_user: hdfs
-      hadoop_major: {{ hadoop.major_version }}
-      hadoop_home: {{ hadoop.alt_home }}
-
-{% if grains['init'] == 'systemd' %}
 systemd-hadoop-namenode:
   file.managed:
     - name: /etc/systemd/system/hadoop-namenode.service
@@ -159,23 +129,8 @@ systemd-hadoop-namenode:
       hadoop_home: {{ hadoop.alt_home }}
     - watch_in:
       - cmd: systemd-reload
-{% endif %}
 
 {%- if hdfs.namenode_count == 1 %}
-/etc/init.d/hadoop-secondarynamenode:
-  file.managed:
-    - source: salt://hadoop/files/{{ hadoop.initscript }}
-    - user: root
-    - group: root
-    - mode: '755'
-    - template: jinja
-    - context:
-      hadoop_svc: secondarynamenode
-      hadoop_user: hdfs
-      hadoop_major: {{ hadoop.major_version }}
-      hadoop_home: {{ hadoop.alt_home }}
-
-{% if grains['init'] == 'systemd' %}
 systemd-hadoop-secondarynamenode:
   file.managed:
     - name: /etc/systemd/system/hadoop-secondarynamenode.service
@@ -188,22 +143,7 @@ systemd-hadoop-secondarynamenode:
       service: hadoop-secondarynamenode
     - watch_in:
       - cmd: systemd-reload
-{% endif %}
 {%- else %}
-/etc/init.d/hadoop-zkfc:
-  file.managed:
-    - source: salt://hadoop/files/{{ hadoop.initscript }}
-    - user: root
-    - group: root
-    - mode: '755'
-    - template: jinja
-    - context:
-      hadoop_svc: zkfc
-      hadoop_user: hdfs
-      hadoop_major: {{ hadoop.major_version }}
-      hadoop_home: {{ hadoop.alt_home }}
-
-{% if grains['init'] == 'systemd' %}
 systemd-hadoop-zkfc:
   file.managed:
     - name: /etc/systemd/system/hadoop-zkfc.service
@@ -219,25 +159,10 @@ systemd-hadoop-zkfc:
       hadoop_home: {{ hadoop.alt_home }}
     - watch_in:
       - cmd: systemd-reload
-{% endif %}
-{% endif %}
+{% endif %} 
 {% endif %}
 
 {% if hdfs.is_datanode %}
-/etc/init.d/hadoop-datanode:
-  file.managed:
-    - source: salt://hadoop/files/{{ hadoop.initscript }}
-    - user: root
-    - group: root
-    - mode: '755'
-    - template: jinja
-    - context:
-      hadoop_svc: datanode
-      hadoop_user: hdfs
-      hadoop_major: {{ hadoop.major_version }}
-      hadoop_home: {{ hadoop.alt_home }}
-
-{% if grains['init'] == 'systemd' %}
 systemd-hadoop-datanode:
   file.managed:
     - name: /etc/systemd/system/hadoop-datanode.service
@@ -254,24 +179,8 @@ systemd-hadoop-datanode:
     - watch_in:
       - cmd: systemd-reload
 {% endif %}
-{% endif %}
 
 {% if hdfs.is_journalnode %}
-
-/etc/init.d/hadoop-journalnode:
-  file.managed:
-    - source: salt://hadoop/files/{{ hadoop.initscript }}
-    - user: root
-    - group: root
-    - mode: '755'
-    - template: jinja
-    - context:
-      hadoop_svc: journalnode
-      hadoop_user: hdfs
-      hadoop_major: {{ hadoop.major_version }}
-      hadoop_home: {{ hadoop.alt_home }}
-
-{% if grains['init'] == 'systemd' %}
 systemd-hadoop-journalnode:
   file.managed:
     - name: /etc/systemd/system/hadoop-journalnode.service
@@ -288,7 +197,6 @@ systemd-hadoop-journalnode:
       user: hdfs
     - watch_in:
       - cmd: systemd-reload
-{% endif %}
 {% endif %}
 
 {% if hdfs.is_namenode and hdfs.namenode_count == 1 %}

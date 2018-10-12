@@ -8,23 +8,8 @@
 
 <configuration>
 
-{%- if major == '1' %}
     <property>
-        <name>fs.checkpoint.dir</name>
-        <value>{{ '/hdfs/snn,'.join(hdfs.local_disks) }}/hdfs/snn</value>
-        <final>true</final>
-    </property>
-{%- endif %}
-
-<!--
-    <property>
-        <name>hadoop.tmp.dir</name>
-        <value>{{ hdfs.tmp_dir }}</value>
-    </property>
--->
-
-    <property>
-        <name>{{ 'fs.default.name' if major == '1' else 'fs.defaultFS' }}</name>
+        <name>fs.defaultFS</name>
 {%- if hdfs.namenode_count > 1 %}
         <value>hdfs://{{ hdfs.ha_cluster_id }}</value>
 {%- else %}

@@ -79,7 +79,6 @@ knox-logs-symlink:
     - target: {{ knox.install_dir }}/logs
     - name: /var/log/knox
 
-{% if grains['init'] == 'systemd' %}
 /etc/systemd/system/knox.service:
   file.managed:
     - source: salt://hadoop/files/knox.init.systemd
@@ -91,8 +90,6 @@ knox-logs-symlink:
       dir: {{ knox.dir }}
     - watch_in:
       - cmd: systemd-reload
-
-{% endif %}
 
 {{ knox.conf_dir}}/gateway-site.xml:
   file.managed:

@@ -77,7 +77,6 @@ cleanup-solr-directory:
     - onchanges:
       - archive: unpack-solr-archive
 
-{% if grains['init'] == 'systemd' %}
 /etc/systemd/system/solr.service:
   file.managed:
     - source: salt://hadoop/files/solr.init.systemd
@@ -98,7 +97,6 @@ cleanup-solr-directory:
     - template: jinja
     - watch_in:
       - cmd: systemd-reload
-{% endif %}
 {% endif %}
 
 /etc/default/solr.in.sh:

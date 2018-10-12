@@ -106,57 +106,21 @@ yarn-bin-link:
     - require:
       - alternatives: yarn-bin-link
       
-{%- if hadoop.cdhmr1 %}
-
-{{ hadoop.alt_home }}/share/hadoop/mapreduce:
-  file.symlink:
-    - target: {{ hadoop.alt_home }}/share/hadoop/mapreduce1
-    - force: True
-
-rename-bin:
-  cmd.run:
-    - name: mv {{ hadoop.alt_home }}/bin {{ hadoop.alt_home }}/bin-mapreduce2
-    - unless: test -L {{ hadoop.alt_home }}/bin
-
-rename-config:
-  cmd.run:
-    - name: mv {{ hadoop.alt_home }}/etc/hadoop {{ hadoop.alt_home }}/etc/hadoop-mapreduce2
-    - unless: test -L {{ hadoop.alt_home }}/etc/hadoop
-
-{{ hadoop.alt_home }}/bin:
-  file.symlink:
-    - target: {{ hadoop.alt_home }}/bin-mapreduce1
-    - force: True
-
-{{ hadoop.alt_home }}/etc/hadoop:
-  file.symlink:
-    - target: {{ hadoop.alt_home }}/etc/hadoop-mapreduce1
-    - force: True
-
-{% endif %}
-
 /etc/profile.d/hadoop.sh:
   file.managed:
-    - source: salt://hadoop/files/hadoop.sh.jinja
+    - source: salt://hadoop/files/hadoop.jinja
     - template: jinja
     - mode: 644
     - user: root
     - group: root
     - context:
-      hadoop_config: {{ hadoop['alt_config'] }}
-      alt_home: {{ hadoop.get('alt_home', '/usr/lib/hadoop') }}
+      var_export: true
+      java_home: {{ hadoop.java_home }}
+      hadoop_home: {{ hadoop.alt_home }}
+      hadoop_config: {{ hadoop.alt_config }}
+      hadoop_major_version: {{ hadoop.major_version }}
 
-hadoop-setup-env-vars:
-  cmd.run:
-    - name: source /etc/profile.d/hadoop.sh
-    - onchanges:
-      - file: /etc/profile.d/hadoop.sh
-      
-{% if (hadoop['major_version'] == '1') and not hadoop.cdhmr1 %}
-{% set real_config_src = hadoop['real_home'] + '/conf' %}
-{% else %}
 {% set real_config_src = hadoop['real_home'] + '/etc/hadoop' %}
-{% endif %}
 
 /etc/hadoop:
   file.directory:
@@ -289,7 +253,6 @@ hadoop-conf-link:
     - user: root
     - template: jinja
 
-{%- if grains.os == 'Ubuntu' %}
 /etc/default/hadoop:
   file.managed:
     - source: salt://hadoop/files/hadoop.jinja
@@ -298,18 +261,21 @@ hadoop-conf-link:
     - user: root
     - group: root
     - context:
+      var_export: true
       java_home: {{ hadoop.java_home }}
       hadoop_home: {{ hadoop.alt_home }}
       hadoop_config: {{ hadoop.alt_config }}
+      hadoop_major_version: {{ hadoop.major_version }}
 /etc/default/hadoop-systemd:
   file.managed:
-    - source: salt://hadoop/files/hadoop_env_systemd.jinja
+    - source: salt://hadoop/files/hadoop.jinja
     - mode: '644'
     - template: jinja
     - user: root
     - group: root
     - context:
+      var_export: false
       java_home: {{ hadoop.java_home }}
       hadoop_home: {{ hadoop.alt_home }}
       hadoop_config: {{ hadoop.alt_config }}
-{%- endif %}
+      hadoop_major_version: {{ hadoop.major_version }}

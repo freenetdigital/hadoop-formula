@@ -125,7 +125,6 @@ fix-executor-permissions:
 {{ hdfs_mkdir(yarn_home_directory, username, username, 700, hadoop.dfs_cmd) }}
 {{ hdfs_mkdir(rald, username, 'hadoop', 1777, hadoop.dfs_cmd) }}
 
-{% if grains['init'] == 'systemd' %}
 systemd-hadoop-historyserver:
   file.managed:
     - name: /etc/systemd/system/hadoop-historyserver.service
@@ -141,13 +140,11 @@ systemd-hadoop-historyserver:
       hadoop_home: {{ hadoop.alt_home }}
     - watch_in:
       - cmd: systemd-reload
-{% endif %}
 
 #hadoop-historyserver:
 # service.running:
 #   - enable: True
 
-{% if grains['init'] == 'systemd' %}
 systemd-hadoop-resourcemanager:
   file.managed:
     - name: /etc/systemd/system/hadoop-resourcemanager.service
@@ -163,7 +160,6 @@ systemd-hadoop-resourcemanager:
       hadoop_home: {{ hadoop.alt_home }}
     - watch_in:
       - cmd: systemd-reload
-{% endif %}
 
 hadoop-resourcemanager:
   service.running:
@@ -180,7 +176,6 @@ hadoop-resourcemanager:
     - group: hadoop
     - mode: '644'
 
-{% if grains['init'] == 'systemd' %}
 systemd-hadoop-nodemanager:
   file.managed:
     - name: /etc/systemd/system/hadoop-nodemanager.service
@@ -196,7 +191,6 @@ systemd-hadoop-nodemanager:
       hadoop_home: {{ hadoop.alt_home }}
     - watch_in:
       - cmd: systemd-reload
-{% endif %}
 
 hadoop-nodemanager:
   service.running:

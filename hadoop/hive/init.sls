@@ -132,7 +132,6 @@ hive-log4j2.properties:
 {{ hdfs_mkdir('/apps', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
 {{ hdfs_mkdir('/tmp/scratch', 'hive', 'hadoop', 1777, hadoop.dfs_cmd) }}
 
-{% if grains['init'] == 'systemd' %}
 /etc/systemd/system/hive-hiveserver2.service:
   file.managed:
     - source: salt://hadoop/files/hive.init.systemd
@@ -156,7 +155,6 @@ hive-log4j2.properties:
       svc: metastore
     - watch_in:
       - cmd: systemd-reload
-{% endif %}
 
 {% if hive.jmx_export %}
 {{ hive.conf_dir }}/hive-env.sh:

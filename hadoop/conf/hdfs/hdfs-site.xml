@@ -12,7 +12,7 @@
 
 <configuration>
     <property>
-        <name>{{ 'dfs.name.dir' if major == '1' else 'dfs.namenode.name.dir' }}</name>
+        <name>dfs.namenode.name.dir</name>
         <value>
 {%- for d in hdfs.local_disks -%}
 file://{{ d }}/hdfs/nn{{ '' if loop.last else ',' }}
@@ -21,7 +21,7 @@ file://{{ d }}/hdfs/nn{{ '' if loop.last else ',' }}
     </property>
 
     <property>
-        <name>{{ 'dfs.data.dir' if major == '1' else 'dfs.datanode.data.dir' }}</name>
+        <name>dfs.datanode.data.dir</name>
         <value>
 {%- for d in hdfs.local_disks -%}
 file://{{ d }}/hdfs/dn{{ '' if loop.last else ',' }}
@@ -29,7 +29,6 @@ file://{{ d }}/hdfs/dn{{ '' if loop.last else ',' }}
         <final>true</final>
     </property>
 
-{%- if major == '2' %}
     <property>
         <name>dfs.namenode.checkpoint.dir</name>
         <value>
@@ -38,17 +37,16 @@ file://{{ d }}/hdfs/snn{{ '' if loop.last else ',' }}
 {%- endfor -%}</value>
         <final>true</final>
     </property>
-{%- endif %}
 
 {%- if hdfs.namenode_count == 1 %}
     <property>
-        <name>{{ 'dfs.http-address' if major == '1' else 'dfs.namenode.http-address' }}</name>
+        <name>dfs.namenode.http-address</name>
         <value>{{ hdfs.namenode_host }}:{{ hdfs.namenode_http_port }}</value>
         <final>true</final>
     </property>
 
     <property>
-        <name>{{ 'dfs.secondary.http-address' if major == '1' else 'dfs.secondary.namenode.http-address' }}</name>
+        <name>dfs.secondary.namenode.http-address</name>
         <value>{{ hdfs.namenode_host }}:{{ hdfs.secondarynamenode_http_port }}</value>
         <final>true</final>
     </property>
