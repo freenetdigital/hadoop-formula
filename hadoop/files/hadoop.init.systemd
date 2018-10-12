@@ -1,0 +1,42 @@
+{%- if hadoop_svc == 'historyserver' %}
+	{% set pidfile = "/var/run/hadoop/mapred-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
+	{% set exec = hadoop_home + "/sbin/mr-jobhistory-daemon.sh" %}
+	{% set exec_v3 = hadoop_home + "/sbin/mr-jobhistory-daemon.sh" %}
+{%- elif hadoop_user == 'yarn' %}
+	{% set pidfile = "/var/run/hadoop/hadoop-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
+	{% set exec = hadoop_home + "/sbin/yarn-daemon.sh" %}
+	{% set exec_v3 = hadoop_home + "/bin/yarn --daemon" %}
+{%- else %}
+	{% set pidfile = "/var/run/hadoop/hadoop-" + hadoop_user + "-" + hadoop_svc + ".pid" %}
+	{% set exec = hadoop_home + "/sbin/hadoop-daemon.sh" %}
+	{% set exec_v3 = hadoop_home + "/bin/hdfs --daemon" %}
+{%- endif %}
+
+[Unit]
+Description=Hadoop {{ hadoop_svc }}
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=forking
+PIDFile={{ pidfile }}
+User={{ hadoop_user }}
+Group=hadoop
+RuntimeDirectory=hadoop
+RuntimeDirectoryMode=775
+
+Environment="JAVA_OPTS=-Djava.awt.headless=true"
+EnvironmentFile=-/etc/default/hadoop-systemd
+
+{% if hadoop_major == 3 %}
+ExecStart={{ exec_v3 }} start {{ hadoop_svc }}
+ExecStop={{ exec_v3 }} stop {{ hadoop_svc }}
+{%- else %}
+ExecStart={{ exec }} --config /etc/hadoop/conf start {{ hadoop_svc }}
+ExecStop={{ exec }} --config /etc/hadoop/conf stop {{ hadoop_svc }}
+{%- endif %}
+Restart=on-failure
+SyslogIdentifier=hadoop-{{ hadoop_svc }}
+
+[Install]
+WantedBy=multi-user.target
