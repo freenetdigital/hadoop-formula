@@ -1,19 +1,19 @@
-{% if var_export %}export{% endif -%} JAVA_HOME={{ java_home }}
-{% if var_export %}export{% endif -%} HADOOP_HOME_WARN_SUPPRESS=true
-{% if var_export %}export{% endif -%} HADOOP_HOME={{ hadoop_home }}
+{% if var_export %}export {% endif -%} JAVA_HOME={{ java_home }}
+{% if var_export %}export {% endif -%} HADOOP_HOME_WARN_SUPPRESS=true
+{% if var_export %}export {% endif -%} HADOOP_HOME={{ hadoop_home }}
 
 {% if hadoop_major_version == '2' %}
-{% if var_export %}export{% endif -%} HADOOP_PREFIX={{ hadoop_home }}
+{% if var_export %}export {% endif -%} HADOOP_PREFIX={{ hadoop_home }}
 {%- endif %}
 
-{% if var_export %}export{% endif -%} HADOOP_CONF_DIR={{ hadoop_config }}
-{% if var_export %}export{% endif -%} HADOOP_LIBEXEC_DIR={{ hadoop_home }}/libexec
-{% if var_export %}export{% endif -%} HADOOP_COMMON_HOME={{ hadoop_home }}
-{% if var_export %}export{% endif -%} HADOOP_HDFS_HOME={{ hadoop_home }}
-{% if var_export %}export{% endif -%} HADOOP_MAPRED_HOME={{ hadoop_home }}
-{% if var_export %}export{% endif -%} HADOOP_YARN_HOME={{ hadoop_home }}
-{% if var_export %}export{% endif -%} HIVE_CONF_DIR=/etc/hive/conf
-{% if var_export %}export{% endif -%} HIVE_HOME=/usr/lib/hive
+{% if var_export %}export {% endif -%} HADOOP_CONF_DIR={{ hadoop_config }}
+{% if var_export %}export {% endif -%} HADOOP_LIBEXEC_DIR={{ hadoop_home }}/libexec
+{% if var_export %}export {% endif -%} HADOOP_COMMON_HOME={{ hadoop_home }}
+{% if var_export %}export {% endif -%} HADOOP_HDFS_HOME={{ hadoop_home }}
+{% if var_export %}export {% endif -%} HADOOP_MAPRED_HOME={{ hadoop_home }}
+{% if var_export %}export {% endif -%} HADOOP_YARN_HOME={{ hadoop_home }}
+{% if var_export %}export {% endif -%} HIVE_CONF_DIR=/etc/hive/conf
+{% if var_export %}export {% endif -%} HIVE_HOME=/usr/lib/hive
 
-{% if var_export %}export{% endif -%} TEZ_CONF_DIR=/etc/tez/conf
-{% if var_export %}export{% endif -%} HADOOP_CLASSPATH=/usr/lib/tez/*:/usr/lib/tez/lib/*
+{% if var_export %}export {% endif -%} TEZ_CONF_DIR=/etc/tez/conf
+{% if var_export %}export {% endif -%} HADOOP_CLASSPATH=/usr/lib/tez/*:/usr/lib/tez/lib/*
