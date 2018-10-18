@@ -93,9 +93,9 @@ nifi-reg-logs-directory:
       username: {{ username }}
       keystore_pass: {{ hadoop.keystore_pass }}
 
-{{nifi.reg_install_dir}}/bin/nifi-env.sh:
+{{nifi.reg_install_dir}}/bin/nifi-registry-env.sh:
   file.managed:
-    - source: salt://hadoop/conf/nifi/nifi-env.sh
+    - source: salt://hadoop/conf/nifi/nifi-registry-env.sh
     - user: {{username}}
     - group: {{username}}
     - mode: '755'
