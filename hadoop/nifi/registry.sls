@@ -82,6 +82,11 @@ nifi-reg-logs-directory:
     - name: /var/log/nifi-registry
     - user: {{ username }}
 
+nifi-reg-log-symlink:
+  file.symlink:
+    - target: /var/log/nifi-registry
+    - name: {{ nifi.reg_install_dir}}/logs
+
 /etc/nifi-registry/conf/nifi-registry.properties:
   file.managed:
     - source: salt://hadoop/conf/nifi/nifi-registry.properties
