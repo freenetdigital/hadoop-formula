@@ -9,9 +9,12 @@ PIDFile=/var/run/nifi-registry/nifi-registry.pid
 User={{ username }}
 Group={{ username }}
 RuntimeDirectory=nifi-registry
+Environment="NIFI_REGISTRY_HOME=/usr/lib/nifi-registry"
+Environment="NIFI_REGISTRY_PID_DIR=/var/run/nifi-registry"
+Environment="NIFI_REGISTRY_LOG_DIR=/var/log/nifi-registry"
 
-ExecStart={{ dir }}/bin/nifi-registry.sh start
-ExecStop={{ dir }}/bin/nifi-registry.sh stop
+ExecStart={{ reg_dir }}/bin/nifi-registry.sh start
+ExecStop={{ reg_dir }}/bin/nifi-registry.sh stop
 Restart=on-failure
 
 [Install]

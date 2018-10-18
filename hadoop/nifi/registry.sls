@@ -122,6 +122,16 @@ nifi-reg-logs-directory:
     - template: jinja
     - context:
       username: {{ username }}
+
+/etc/nifi-registry/conf/providers.xml:
+  file.managed:
+    - source: salt://hadoop/conf/nifi/providers.xml
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '644'
+    - template: jinja
+    - context:
+      username: {{ username }}
 #
 #{% for nar in nifi.additional_jars %}
 #{{nifi.install_dir}}/lib/{{nar}}:
