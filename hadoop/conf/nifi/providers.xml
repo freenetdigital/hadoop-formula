@@ -1,4 +1,4 @@
-{%- from 'hadoop/nifi/setting.sls' import nifi with context -%}
+{%- from 'hadoop/nifi/settings.sls' import nifi with context -%}
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more

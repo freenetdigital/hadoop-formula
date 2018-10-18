@@ -93,14 +93,14 @@ nifi-reg-logs-directory:
       username: {{ username }}
       keystore_pass: {{ hadoop.keystore_pass }}
 
-#{{nifi.install_dir}}/bin/nifi-env.sh:
-#  file.managed:
-#    - source: salt://hadoop/conf/nifi/nifi-env.sh
-#    - user: {{username}}
-#    - group: {{username}}
-#    - mode: '755'
-#    - template: jinja
-#
+{{nifi.reg_install_dir}}/bin/nifi-env.sh:
+  file.managed:
+    - source: salt://hadoop/conf/nifi/nifi-env.sh
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '755'
+    - template: jinja
+
 #/etc/nifi/conf/authorizers.xml:
 #  file.managed:
 #    {%- if nifi.ranger_auth %}
@@ -244,7 +244,7 @@ nifi-reg-logs-directory:
     - mode: '644'
     - template: jinja
     - context:
-      dir: {{ nifi.dir }}
+      reg_dir: {{ nifi.reg_dir }}
       username: {{ username }}
     - watch_in:
       - cmd: systemd-reload
