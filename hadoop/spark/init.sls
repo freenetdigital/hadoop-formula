@@ -88,6 +88,12 @@ hive-site.xml-for-spark:
     - name: /etc/hive/conf/hive-site.xml
     - template: jinja
     - source: salt://hadoop/conf/hive/hive-site.xml.external
+
+hive-site.xml-for-spark2:
+  file.managed:
+    - name: /etc/hadoop/conf/hive-site.xml
+    - template: jinja
+    - source: salt://hadoop/conf/hive/hive-site.xml.external
 {% endif %}
 
 /etc/spark/conf/spark-defaults.conf:
