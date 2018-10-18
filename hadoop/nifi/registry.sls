@@ -23,7 +23,7 @@ nifi-reg-data-directory:
 
 nifi-conf-directory:
   file.directory:
-    - name: /etc/nifi
+    - name: /etc/nifi-registry
     - user: {{ username }}
 
 nifi-reg-directory-symlink:

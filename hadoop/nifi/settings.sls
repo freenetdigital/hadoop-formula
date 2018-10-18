@@ -35,7 +35,7 @@
                      'dir'                      : dir,
                      'reg_dir'                  : reg_dir,
                      'install_dir'              : base_install_dir + '/nifi-' + version,
-                     'reg_install_dir'          : base_install_dir + '/nifi-registry-' + version,
+                     'reg_install_dir'          : base_install_dir + '/nifi-registry-' + reg_version,
                      'toolkit_install_dir'      : base_install_dir + '/nifi-toolkit-' + version,
                      'download_mirror'          : download_mirror,
                      'reg_download_mirror'      : reg_download_mirror,
