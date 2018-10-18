@@ -36,7 +36,7 @@ download-nifi-reg-archive:
     - name: wget {{ nifi.reg_download_mirror }}/nifi-registry/nifi-registry-{{ nifi.reg_version }}/nifi-registry-{{ nifi.reg_version }}-bin.zip
     - cwd: {{ nifi.reg_install_dir }}
     - user: {{ username }}
-    - unless: test -f {{ nifi.reg_install_dir }}/bin/registry.sh
+    - unless: test -f {{ nifi.reg_install_dir }}/bin/nifi-registry.sh
 
 {% set reg_archive_dir = nifi.reg_install_dir + '/nifi-registry-' + nifi.reg_version %}
 {% set reg_archive = reg_archive_dir + '-bin.zip' %}
@@ -145,12 +145,12 @@ nifi-reg-logs-directory:
 
 {{ keystore(username, ssl_conf=False)}}
 
-/etc/krb5/nifi.keytab:
-  file.managed:
-    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-{{ grains['fqdn'] }}.keytab
-    - user: {{ username }}
-    - group: {{ username }}
-    - mode: '0400'
+#/etc/krb5/nifi.keytab:
+#  file.managed:
+#    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-{{ grains['fqdn'] }}.keytab
+#    - user: {{ username }}
+#    - group: {{ username }}
+#    - mode: '0400'
 {% endif %}
 #
 #{% if nifi.ranger_auth %}
