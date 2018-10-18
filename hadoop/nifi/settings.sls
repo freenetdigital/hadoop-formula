@@ -21,6 +21,8 @@
 {%- set knox_audience             = gc.get('knox_audience', pc.get('knox_audience', '')) %}
 {%- set min_mem                   = gc.get('min_mem', pc.get('min_mem', '512m')) %}
 {%- set max_mem                   = gc.get('max_mem', pc.get('max_mem', '512m')) %}
+{%- set reg_min_mem               = gc.get('reg_min_mem', pc.get('reg_min_mem', '512m')) %}
+{%- set reg_max_mem               = gc.get('reg_max_mem', pc.get('reg_max_mem', '512m')) %}
 {%- set ranger_auth               = gc.get('ranger_auth', pc.get('ranger_auth', false)) %}
 {%- set data_dir                  = gc.get('data_dir', pc.get('data_dir', dir)) %}
 {%- set additional_jars           = gc.get('additional_jars', pc.get('additional_jars', [])) %}
@@ -45,6 +47,8 @@
                      'knox_audience'            : knox_audience,
                      'min_mem'                  : min_mem,
                      'max_mem'                  : max_mem,
+                     'reg_min_mem'              : reg_min_mem,
+                     'reg_max_mem'              : reg_max_mem,
                      'ranger_auth'              : ranger_auth,
                      'data_dir'                 : data_dir,
                      'additional_jars'          : additional_jars,

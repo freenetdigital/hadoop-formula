@@ -82,17 +82,17 @@ nifi-reg-logs-directory:
     - name: /var/log/nifi-registry
     - user: {{ username }}
 
-#/etc/nifi-registry/conf/nifi.properties:
-#  file.managed:
-#    - source: salt://hadoop/conf/nifi/nifi.properties
-#    - user: {{username}}
-#    - group: {{username}}
-#    - mode: '644'
-#    - template: jinja
-#    - context:
-#      username: {{ username }}
-#      keystore_pass: {{ hadoop.keystore_pass }}
-#
+/etc/nifi-registry/conf/nifi-registry.properties:
+  file.managed:
+    - source: salt://hadoop/conf/nifi/nifi-registry.properties
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '644'
+    - template: jinja
+    - context:
+      username: {{ username }}
+      keystore_pass: {{ hadoop.keystore_pass }}
+
 #{{nifi.install_dir}}/bin/nifi-env.sh:
 #  file.managed:
 #    - source: salt://hadoop/conf/nifi/nifi-env.sh
@@ -113,15 +113,15 @@ nifi-reg-logs-directory:
 #    - mode: '644'
 #    - template: jinja
 #
-#/etc/nifi/conf/bootstrap.conf:
-#  file.managed:
-#    - source: salt://hadoop/conf/nifi/bootstrap.conf
-#    - user: {{username}}
-#    - group: {{username}}
-#    - mode: '644'
-#    - template: jinja
-#    - context:
-#      username: {{ username }}
+/etc/nifi-registry/conf/bootstrap.conf:
+  file.managed:
+    - source: salt://hadoop/conf/nifi/bootstrap-registry.conf
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '644'
+    - template: jinja
+    - context:
+      username: {{ username }}
 #
 #{% for nar in nifi.additional_jars %}
 #{{nifi.install_dir}}/lib/{{nar}}:
@@ -141,23 +141,17 @@ nifi-reg-logs-directory:
 #    - template: jinja
 #{% endif %}
 #
-#{% if hadoop.secure_mode %}
-#
-#{{ keystore(username, ssl_conf=False)}}
-#
-#/etc/krb5/nifi.keytab:
-#  file.managed:
-#    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-{{ grains['fqdn'] }}.keytab
-#    - user: {{ username }}
-#    - group: {{ username }}
-#    - mode: '0400'
-#/etc/krb5/nifi-nohost.keytab:
-#  file.managed:
-#    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-nohost.keytab
-#    - user: {{ username }}
-#    - group: {{ username }}
-#    - mode: '0400'
-#{% endif %}
+{% if hadoop.secure_mode %}
+
+{{ keystore(username, ssl_conf=False)}}
+
+/etc/krb5/nifi.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '0400'
+{% endif %}
 #
 #{% if nifi.ranger_auth %}
 #download-nifi-ranger-plugin:
@@ -231,23 +225,24 @@ nifi-reg-logs-directory:
 #    - unless: test -f /home/{{username}}/credentials.jceks
 #
 #{% endif %}
-#/etc/systemd/system/nifi.service:
-#  file.managed:
-#    - source: salt://hadoop/files/nifi.init.systemd
-#    - user: root
-#    - group: root
-#    - mode: '644'
-#    - template: jinja
-#    - context:
-#      dir: {{ nifi.dir }}
-#      username: {{ username }}
-#    - watch_in:
-#      - cmd: systemd-reload
-#
-#nifi-service:
-#  service.running:
-#    - enable: True
-#    - name: nifi.service
-#    - watch:
-#      - file: /etc/nifi/conf/nifi.properties
-#
+
+/etc/systemd/system/nifi-registry.service:
+  file.managed:
+    - source: salt://hadoop/files/nifi-registry.init.systemd
+    - user: root
+    - group: root
+    - mode: '644'
+    - template: jinja
+    - context:
+      dir: {{ nifi.dir }}
+      username: {{ username }}
+    - watch_in:
+      - cmd: systemd-reload
+
+nifi-registry-service:
+  service.running:
+    - enable: True
+    - name: nifi-registry.service
+    - watch:
+      - file: /etc/nifi-registry/conf/nifi-registry.properties
+

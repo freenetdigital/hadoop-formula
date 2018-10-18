@@ -1,0 +1,21 @@
+[Unit]
+Description=Nifi Registry
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/nifi-registry/nifi-registry.pid
+User={{ username }}
+Group={{ username }}
+RuntimeDirectory=nifi-registry
+
+ExecStart={{ dir }}/bin/nifi-registry.sh start
+ExecStop={{ dir }}/bin/nifi-registry.sh stop
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+
+
