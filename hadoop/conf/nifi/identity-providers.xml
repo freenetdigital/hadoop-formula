@@ -69,7 +69,7 @@
     <provider>
         <identifier>ldap-identity-provider</identifier>
         <class>org.apache.nifi.registry.security.ldap.LdapIdentityProvider</class>
-	<property name="Authentication Strategy">{{ nifi.registry_ldap.authentication_strategy</property>
+	<property name="Authentication Strategy">{{ nifi.registry_ldap.authentication_strategy }}</property>
 
 	<property name="Manager DN">{{ nifi.registry_ldap.manager_dn }}</property>
 	<property name="Manager Password">{{ nifi.registry_ldap.manager_pw }}</property>

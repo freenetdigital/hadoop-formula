@@ -17,7 +17,7 @@
 <providers>
 
     <flowPersistenceProvider>
-	<class>{{ nifi.flow_persistance_provider }}</class>
+	<class>{{ nifi.flow_persistence_provider }}</class>
 	<property name="Flow Storage Directory">{{ nifi.data_dir}}/flow_storage</property>
 	{% if nifi.remote_to_push %}<property name="Remote To Push">{{ nifi.remote_to_push }}</property>{% endif %}
     </flowPersistenceProvider>
