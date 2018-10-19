@@ -26,7 +26,7 @@
 {%- set ranger_auth               = gc.get('ranger_auth', pc.get('ranger_auth', false)) %}
 {%- set data_dir                  = gc.get('data_dir', pc.get('data_dir', dir)) %}
 {%- set additional_jars           = gc.get('additional_jars', pc.get('additional_jars', [])) %}
-{%- set flow_persistance_provider = gc.get('flow_persistance_provider', pc.get('flow_persistance_provider', 'org.apache.nifi.registry.provider.flow.FileSystemFlowPersistenceProvider')) %}
+{%- set flow_persistence_provider = gc.get('flow_persistence_provider', pc.get('flow_persistence_provider', 'org.apache.nifi.registry.provider.flow.FileSystemFlowPersistenceProvider')) %}
 {%- set remote_to_push            = gc.get('remote_to_push', pc.get('remote_to_push','')) %}
 {%- set registry_ldap             = gc.get('registry_ldap', pc.get('registry_ldap',{})) %}
 {%- set reg_init_admin            = gc.get('reg_init_admin', pc.get('reg_init_admin','admin')) %}
