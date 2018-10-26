@@ -184,6 +184,13 @@ hive-log4j2.properties:
     - group: root
 {% endif %} 
 
+{{ hadoop['alt_config'] }}/mapred-site.xml:
+  file.managed:
+    - source: salt://hadoop/conf/mapred/mapred-site.xml
+    - template: jinja
+    - mode: 644
+
+
 hive-metastore:
   service.running:
     - enable: True
