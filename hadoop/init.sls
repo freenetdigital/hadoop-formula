@@ -253,6 +253,12 @@ hadoop-conf-link:
     - user: root
     - template: jinja
 
+{{ hadoop['alt_config'] }}/mapred-site.xml:
+  file.managed:
+    - source: salt://hadoop/conf/mapred/mapred-site.xml
+    - template: jinja
+    - mode: 644
+
 /etc/default/hadoop:
   file.managed:
     - source: salt://hadoop/files/hadoop.jinja
