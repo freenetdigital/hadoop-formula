@@ -163,6 +163,14 @@ nifi-logs-directory:
     - context:
       username: {{ username }}
 
+/etc/nifi/conf/state-management.xml:
+  file.managed:
+    - source: salt://hadoop/conf/nifi/state-management.xml
+    - user: {{username}}
+    - group: {{username}}
+    - mode: '644'
+    - template: jinja
+
 {% for nar in nifi.additional_jars %}
 {{nifi.install_dir}}/lib/{{nar}}:
   file.managed:
