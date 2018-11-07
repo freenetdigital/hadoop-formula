@@ -7,10 +7,10 @@
 {%- endif %}
 
 {% if grains['hadoop_heap_size'] -%}
-{%- if var_export %}export {% endif -%} HADOOP_HEAPSIZE={{ grains['hadoop_heap_size'] }}
+{%- if var_export %}export {% endif -%} HADOOP_HEAPSIZE="{{ grains['hadoop_heap_size'] }}"
 {%- endif  %}
 {% if grains['hadoop_opts'] -%}
-{%- if var_export %}export {% endif -%} HADOOP_OPTS={{ grains['hadoop_opts'] }}
+{%- if var_export %}export {% endif -%} HADOOP_OPTS="{{ grains['hadoop_opts'] }}"
 {%- endif  %}
 
 {% if var_export %}export {% endif -%} HADOOP_CONF_DIR={{ hadoop_config }}
