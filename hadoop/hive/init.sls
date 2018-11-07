@@ -90,7 +90,7 @@ hive-site.xml:
     - group: hadoop
     - mode: 640
     - watch_in:
-      - service: hive-hiveserver2
+      - service: hive-hiveserver2.service
 
 {% if hadoop.secure_mode %}
 /etc/krb5/hive.keytab:
@@ -131,7 +131,7 @@ hive-log4j2.properties:
     - source: salt://hadoop/conf/hive/hive-log4j2.properties
     - user: {{ username }}
     - watch_in:
-      - service: hive-hiveserver2
+      - service: hive-hiveserver2.service
 
 {{ hdfs_mkdir('/tmp', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
 {{ hdfs_mkdir('/apps', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
