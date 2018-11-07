@@ -60,6 +60,7 @@
                   'spark'  : 6009,
                   'livy'   : 6010,
                   'nifi'   : 6011,
+                  'hive-metastore'   : 6012,
                 } %}
 
 {%- set hadoop = {} %}

@@ -8,8 +8,8 @@ Type={{ type if type is defined else 'simple' }}
 {% if pid is defined -%}
 PIDFile=/var/run/hadoop/hive-{{ svc }}.pid
 {% endif -%}
-User=hive
-Group=hive
+User={{ user }}
+Group={{ user }}
 
 Environment="JAVA_OPTS=-Djava.awt.headless=true"
 EnvironmentFile=-/etc/default/hadoop-systemd

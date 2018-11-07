@@ -25,12 +25,12 @@
 #    - makedirs: True
 #{% endfor %}
 #
-#{{ hadoop['alt_config'] }}/mapred-site.xml:
-#  file.managed:
-#    - source: salt://hadoop/conf/mapred/mapred-site.xml
-#    - template: jinja
-#    - mode: 644
-#
+{{ hadoop['alt_config'] }}/mapred-site.xml:
+  file.managed:
+    - source: salt://hadoop/conf/mapred/mapred-site.xml
+    - template: jinja
+    - mode: 644
+
 #{{ hadoop['alt_config'] }}/taskcontroller.cfg:
 #  file.managed:
 #    - source: salt://hadoop/conf/mapred/taskcontroller.cfg

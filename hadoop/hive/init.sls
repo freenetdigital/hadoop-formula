@@ -9,8 +9,11 @@ include:
   
 {%- set username = 'hive' %}
 {%- set uid = hadoop.users[username] %}
+{%- set metastore_username = 'hive-metastore' %}
+{%- set metastore_uid = hadoop.users[metastore_username] %}
 
-{{ hadoop_user(username, uid) }}
+{{ hadoop_user(username, uid, ssh=False) }}
+{{ hadoop_user(metastore_username, metastore_uid, ssh=False) }}
 
 hive-directory:
   file.directory:
@@ -65,13 +68,13 @@ cleanup-hive-directory:
       - archive: unpack-hive-archive
 
 #patch hiveserver start script
-hive-startscript.sh:
-  file.managed:
-    - name: {{ hive.install_dir }}/bin/ext/hiveserver2.sh
-    - source: salt://hadoop/files/hiveserver2.sh
-    - user: root
-    - watch_in:
-      - service: hive-hiveserver2
+#hive-startscript.sh:
+  #file.managed:
+    #- name: {{ hive.install_dir }}/bin/ext/hiveserver2.sh
+    #- source: salt://hadoop/files/hiveserver2.sh
+    #- user: root
+  #- watch_in:
+    #- service: hive-hiveserver2
 
 hive-conf-symlink:
   file.symlink:
@@ -84,7 +87,8 @@ hive-site.xml:
     - template: jinja
     - source: salt://hadoop/conf/hive/hive-site.xml
     - user: {{ username }}
-    - mode: 600
+    - group: hadoop
+    - mode: 640
     - watch_in:
       - service: hive-hiveserver2
 
@@ -99,8 +103,8 @@ hive-site.xml:
 /etc/krb5/metastore.keytab:
   file.managed:
     - source: salt://kerberos/files/{{grains['cluster_id']}}/metastore-{{ grains['fqdn'] }}.keytab
-    - user: {{ username }}
-    - group: {{ username }}
+    - user: {{ metastore_username }}
+    - group: {{ metastore_username }}
     - mode: '400'
 
 
@@ -118,6 +122,7 @@ hive-log-directory:
   file.directory:
     - name: {{ hive.hive_log_dir }}
     - user: {{ username }}
+    - group: hadoop
 
 hive-log4j2.properties:
   file.managed:
@@ -141,6 +146,7 @@ hive-log4j2.properties:
     - template: jinja
     - context:
       svc: hiveserver2
+      user: {{ username }}
     - watch_in:
       - cmd: systemd-reload
 
@@ -153,6 +159,7 @@ hive-log4j2.properties:
     - template: jinja
     - context:
       svc: metastore
+      user: {{ metastore_username }}
     - watch_in:
       - cmd: systemd-reload
 
@@ -183,13 +190,6 @@ hive-log4j2.properties:
     - user: root
     - group: root
 {% endif %} 
-
-{{ hadoop['alt_config'] }}/mapred-site.xml:
-  file.managed:
-    - source: salt://hadoop/conf/mapred/mapred-site.xml
-    - template: jinja
-    - mode: 644
-
 
 hive-metastore:
   service.running:
