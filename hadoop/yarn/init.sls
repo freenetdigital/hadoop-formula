@@ -16,8 +16,13 @@ include:
 #deploy hive,hue,livy user on yarn worker nodes to be able to spawn container as hive user
 {% set hiveuid = hadoop.users['hive'] %}
 {{ hadoop_user('hive', hiveuid, ssh=False) }}
+
+{% set hive_meta_uid = hadoop.users['hive-metastore'] %}
+{{ hadoop_user('hive-metastore', hive_meta_uid, ssh=False) }}
+
 {% set hueuid = hadoop.users['hue'] %}
 {{ hadoop_user('hue', hueuid, ssh=False) }}
+
 {% set livyuid = hadoop.users['livy'] %}
 {{ hadoop_user('livy', livyuid, ssh=False) }}
 
