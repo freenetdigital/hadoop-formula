@@ -6,10 +6,10 @@
 {% if var_export %}export {% endif -%} HADOOP_PREFIX={{ hadoop_home }}
 {%- endif %}
 
-{% if grains['hadoop_heap_size'] -%}
+{% if grains['hadoop_heap_size'] is defined -%}
 {%- if var_export %}export {% endif -%} HADOOP_HEAPSIZE="{{ grains['hadoop_heap_size'] }}"
 {%- endif  %}
-{% if grains['hadoop_opts'] -%}
+{% if grains['hadoop_opts'] is defined -%}
 {%- if var_export %}export {% endif -%} HADOOP_OPTS="{{ grains['hadoop_opts'] }}"
 {%- endif  %}
 
