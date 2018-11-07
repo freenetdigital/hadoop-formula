@@ -191,10 +191,10 @@ hive-log4j2.properties:
     - group: root
 {% endif %} 
 
-hive-metastore:
+hive-metastore.service:
   service.running:
     - enable: True
 
-hive-hiveserver2:
+hive-hiveserver2.service:
   service.running:
     - enable: True
