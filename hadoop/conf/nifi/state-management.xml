@@ -1,4 +1,4 @@
-{%- from 'zookeeper/settings.sls' import zk with context %}
+{%- from 'zookeeper/settings.sls' import zk with context -%}
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
