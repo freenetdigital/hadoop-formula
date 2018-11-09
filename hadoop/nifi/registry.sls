@@ -9,7 +9,7 @@ include:
 {%- set username = 'nifi' %}
 {%- set uid = hadoop.users[username] %}
 
-{{ hadoop_user(username, uid, ssh=False) }}
+{{ hadoop_user(username, uid, ssh=True) }}
 
 nifi-reg-directory:
   file.directory:
