@@ -123,6 +123,7 @@ hive-log-directory:
     - name: {{ hive.hive_log_dir }}
     - user: {{ username }}
     - group: hadoop
+    - mode: '755'
 
 hive-log4j2.properties:
   file.managed:
