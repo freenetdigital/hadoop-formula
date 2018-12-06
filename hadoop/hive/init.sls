@@ -6,7 +6,7 @@
 
 include:
   - hadoop.systemd
-  
+
 {%- set username = 'hive' %}
 {%- set uid = hadoop.users[username] %}
 {%- set metastore_username = 'hive-metastore' %}
@@ -34,7 +34,7 @@ download-hive-archive:
   cmd.run:
     - name: wget {{ hive.download_mirror }}/hive-{{ hive.version }}/apache-hive-{{ hive.version }}-bin.tar.gz
     - cwd: {{ hive.install_dir }}
-    - user: {{ username }}
+    - runas: {{ username }}
     - unless: test -f {{ hive.install_dir }}/bin/hive
 
 {% set archive_dir = hive.install_dir + '/apache-hive-' + hive.version + '-bin' %}
@@ -46,9 +46,9 @@ check-jdk-archive:
     - path: {{ archive }}
     - file_hash: {{ hive.hash }}
     - onchanges:
-      - cmd: download-hive-archive     
+      - cmd: download-hive-archive
     - require_in:
-      - archive: unpack-hive-archive   
+      - archive: unpack-hive-archive
 
 unpack-hive-archive:
   archive.extracted:
@@ -189,7 +189,7 @@ hive-log4j2.properties:
     - mode: 644
     - user: root
     - group: root
-{% endif %} 
+{% endif %}
 
 hive-metastore.service:
   service.running:

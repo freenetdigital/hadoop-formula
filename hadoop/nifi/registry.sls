@@ -5,7 +5,7 @@
 
 include:
   - hadoop.systemd
-  
+
 {%- set username = 'nifi' %}
 {%- set uid = hadoop.users[username] %}
 
@@ -35,7 +35,7 @@ download-nifi-reg-archive:
   cmd.run:
     - name: wget {{ nifi.reg_download_mirror }}/nifi-registry/nifi-registry-{{ nifi.reg_version }}/nifi-registry-{{ nifi.reg_version }}-bin.zip
     - cwd: {{ nifi.reg_install_dir }}
-    - user: {{ username }}
+    - runas: {{ username }}
     - unless: test -f {{ nifi.reg_install_dir }}/bin/nifi-registry.sh
 
 {% set reg_archive_dir = nifi.reg_install_dir + '/nifi-registry-' + nifi.reg_version %}
@@ -47,9 +47,9 @@ check-nifi-reg-archive:
     - path: {{ reg_archive }}
     - file_hash: {{ nifi.reg_hash }}
     - onchanges:
-      - cmd: download-nifi-reg-archive    
+      - cmd: download-nifi-reg-archive
     - require_in:
-      - archive: unpack-nifi-reg-archive   
+      - archive: unpack-nifi-reg-archive
 
 unpack-nifi-reg-archive:
   archive.extracted:
@@ -176,4 +176,3 @@ nifi-registry-service:
     - name: nifi-registry.service
     - watch:
       - file: /etc/nifi-registry/conf/nifi-registry.properties
-

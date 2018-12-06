@@ -3,6 +3,6 @@
 
 exec-dfsadmin-{{ localname }}:
   cmd.run:
-    - user: hdfs
+    - runas: hdfs
     - name: {{ hdfs_cmd }} {{ cmd }} {{ arg1 }}
 {%- endmacro %}
