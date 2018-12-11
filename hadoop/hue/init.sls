@@ -5,7 +5,7 @@
 
 include:
   - hadoop.systemd
-  
+
 {%- set username = 'hue' %}
 {%- set uid = hadoop.users[username] %}
 
@@ -16,7 +16,7 @@ download-hue-archive:
   cmd.run:
     - name: wget {{ hue.download_mirror }}/{{ hue.version }}/hue-{{ hue.version }}.tgz
     - cwd: {{ hue.download_dir }}
-    - user: {{ username }}
+    - runas: {{ username }}
     - unless: test -f {{ hue.download_dir }}/hue-{{hue.version}}/VERSION
 
 unpack-hue-archive:
@@ -38,31 +38,31 @@ copy-hue-archive:
     - user: {{ username }}
     - group: {{ username }}
     - unless: test -f {{hue.download_dir }}/hue-{{ hue.version }}/VERSION
-{% endif %} 
+{% endif %}
 
 
 install-build-dependencies:
   pkg.installed:
     - pkgs:
-      - python2.7-dev 
-      - make 
-      - libkrb5-dev 
-      - libxml2-dev 
-      - libffi-dev 
-      - libxslt-dev 
-      - libsqlite3-dev 
-      - libssl-dev 
-      - libldap2-dev 
-      - libkrb5-dev 
-      - libmysqlclient-dev 
-      - libsasl2-dev 
-      - libsasl2-modules-gssapi-mit 
-      - libsqlite3-dev 
-      - libxml2-dev 
-      - libxslt-dev 
-      - libffi-dev 
-      - libgmp3-dev 
-      - libz-dev 
+      - python2.7-dev
+      - make
+      - libkrb5-dev
+      - libxml2-dev
+      - libffi-dev
+      - libxslt-dev
+      - libsqlite3-dev
+      - libssl-dev
+      - libldap2-dev
+      - libkrb5-dev
+      - libmysqlclient-dev
+      - libsasl2-dev
+      - libsasl2-modules-gssapi-mit
+      - libsqlite3-dev
+      - libxml2-dev
+      - libxslt-dev
+      - libffi-dev
+      - libgmp3-dev
+      - libz-dev
       - python-pip
 
 hue-make-install:

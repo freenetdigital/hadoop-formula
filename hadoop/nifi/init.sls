@@ -5,7 +5,7 @@
 
 include:
   - hadoop.systemd
-  
+
 {%- set username = 'nifi' %}
 {%- set uid = hadoop.users[username] %}
 
@@ -39,14 +39,14 @@ download-nifi-archive:
   cmd.run:
     - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-{{ nifi.version }}-bin.zip
     - cwd: {{ nifi.install_dir }}
-    - user: {{ username }}
+    - runas: {{ username }}
     - unless: test -f {{ nifi.install_dir }}/bin/nifi.sh
 
 download-nifi-toolkit-archive:
   cmd.run:
     - name: wget {{ nifi.download_mirror }}/{{ nifi.version }}/nifi-toolkit-{{ nifi.version }}-bin.zip
     - cwd: {{ nifi.toolkit_install_dir }}
-    - user: {{ username }}
+    - runas: {{ username }}
     - unless: test -f {{ nifi.toolkit_install_dir }}/bin/tls-toolkit.sh
 
 {% set archive_dir = nifi.install_dir + '/nifi-' + nifi.version %}
@@ -60,9 +60,9 @@ check-nifi-archive:
     - path: {{ archive }}
     - file_hash: {{ nifi.hash }}
     - onchanges:
-      - cmd: download-nifi-archive    
+      - cmd: download-nifi-archive
     - require_in:
-      - archive: unpack-nifi-archive   
+      - archive: unpack-nifi-archive
 
 check-tk-nifi-archive:
   module.run:
@@ -70,9 +70,9 @@ check-tk-nifi-archive:
     - path: {{ tk_archive }}
     - file_hash: {{ nifi.toolkit_hash }}
     - onchanges:
-      - cmd: download-nifi-toolkit-archive    
+      - cmd: download-nifi-toolkit-archive
     - require_in:
-      - archive: unpack-tk-nifi-archive   
+      - archive: unpack-tk-nifi-archive
 
 
 unpack-nifi-archive:
@@ -212,7 +212,7 @@ download-nifi-ranger-plugin:
   cmd.run:
     - name: wget http://central.maven.org/maven2/org/apache/nifi/nifi-ranger-nar/{{ nifi.version}}/nifi-ranger-nar-{{nifi.version}}.nar
     - cwd: /tmp/
-    - user: {{ username }}
+    - runas: {{ username }}
     - unless: test -f {{ nifi.install_dir }}/lib/nifi-ranger-nar-{{nifi.version}}.nar
 
 check-nifi-ranger-plugin:
@@ -221,9 +221,9 @@ check-nifi-ranger-plugin:
     - path: /tmp/nifi-ranger-nar-{{nifi.version}}.nar
     - file_hash: "sha1=69f88069bb6a87e73590ccfbcb8f4b0853dcadaa"
     - onchanges:
-      - cmd: download-nifi-ranger-plugin    
+      - cmd: download-nifi-ranger-plugin
     - require_in:
-      - archive: move-nifi-ranger-plugin   
+      - archive: move-nifi-ranger-plugin
 
 move-nifi-ranger-plugin:
   file.copy:
@@ -275,7 +275,7 @@ move-nifi-ranger-plugin:
 create-hadoop-ssl-credential-store:
   cmd.run:
     - name: bash -c "hadoop credential create sslkeystore -value {{ hadoop.keystore_pass}} -provider localjceks://file/home/{{username}}/credentials.jceks && hadoop credential create ssltruststore -value changeit -provider localjceks://file/home/{{username}}/credentials.jceks"
-    - user: {{ username }}
+    - runas: {{ username }}
     - unless: test -f /home/{{username}}/credentials.jceks
 
 {% endif %}
@@ -298,4 +298,3 @@ nifi-service:
     - name: nifi.service
     - watch:
       - file: /etc/nifi/conf/nifi.properties
-

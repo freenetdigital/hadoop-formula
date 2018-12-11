@@ -17,7 +17,7 @@ download-{{ filename }}:
 hdfsload-{{ filename }}:
   cmd.run:
     - name: {{ hadoop.dfs_cmd }} -copyFromLocal {{ tmppath }} {{ tmppath }}
-    - user: hdfs
+    - runas: hdfs
     - cwd: /tmp
     - unless: {{ hadoop.dfs_cmd }} -stat {{ tmppath }}
     - onlyif: test -f {{ tmppath }}

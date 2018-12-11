@@ -21,13 +21,13 @@
 format-namenode:
   cmd.run:
     - name: {{ hadoop.alt_home }}/bin/hdfs namenode -format
-    - user: hdfs
+    - runas: hdfs
     - unless: test -d {{ test_folder }}
 
 format-zookeeper:
   cmd.run:
     - name: {{ hadoop.alt_home }}/bin/hdfs zkfc -formatZK
-    - user: hdfs
+    - runas: hdfs
     - unless: service status hadoop-zkfc
     - onlyif: echo 'ls /hadoop-ha' | {{zk.alt_home}}/bin/zkCli.sh -server {{zk.connection_string}} 2>&1 | grep 'Node does not exist'
 
@@ -37,7 +37,7 @@ format-zookeeper:
 bootstrap-secondary-namenode:
   cmd.run:
     - name: {{ hadoop.alt_home }}/bin/hdfs namenode -bootstrapStandby
-    - user: hdfs
+    - runas: hdfs
     - unless: test -d {{ test_folder }}
 
 {%- endif %}

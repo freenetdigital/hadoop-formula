@@ -9,7 +9,7 @@
 
 include:
   - hadoop.systemd
-  
+
 {%- set username = 'spark' %}
 {%- set uid = hadoop.users[username] %}
 
@@ -34,7 +34,7 @@ download-spark-archive:
   cmd.run:
     - name: wget {{ spark.download_mirror }}/spark-{{ spark.version }}/spark-{{ spark.version }}-{{ spark.release }}.tgz
     - cwd: {{ spark.install_dir }}
-    - user: {{ username }}
+    - runas: {{ username }}
     - unless: test -f {{ spark.install_dir }}/bin/spark-submit
 
 {% set archive_dir = spark.install_dir + '/spark-' + spark.version + '-' + spark.release %}
@@ -46,9 +46,9 @@ check-spark-archive:
     - path: {{ archive }}
     - file_hash: {{ spark.hash }}
     - onchanges:
-      - cmd: download-spark-archive    
+      - cmd: download-spark-archive
     - require_in:
-      - archive: unpack-spark-archive   
+      - archive: unpack-spark-archive
 
 
 unpack-spark-archive:

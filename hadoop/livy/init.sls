@@ -6,7 +6,7 @@
 
 include:
   - hadoop.systemd
-  
+
 {%- set username = 'livy' %}
 {%- set uid = hadoop.users[username] %}
 
@@ -31,7 +31,7 @@ download-livy-archive:
   cmd.run:
     - name: wget {{ livy.download_mirror }}/{{ livy.version }}-incubating/livy-{{ livy.version }}-{{ livy.release }}.zip
     - cwd: {{ livy.install_dir }}
-    - user: {{ username }}
+    - runas: {{ username }}
     - unless: test -f {{ livy.install_dir }}/bin/livy-server
 
 {% set archive_dir = livy.install_dir + '/livy-' + livy.version + '-' + livy.release %}
@@ -43,9 +43,9 @@ check-livy-archive:
     - path: {{ archive }}
     - file_hash: {{ livy.hash }}
     - onchanges:
-      - cmd: download-livy-archive    
+      - cmd: download-livy-archive
     - require_in:
-      - archive: unpack-livy-archive   
+      - archive: unpack-livy-archive
 
 
 unpack-livy-archive:
@@ -175,4 +175,3 @@ livy-service:
     - name: livy.service
     - watch:
       - file: /etc/livy/conf/livy.conf
-

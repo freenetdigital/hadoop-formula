@@ -5,7 +5,7 @@
 
 include:
   - hadoop.systemd
-  
+
 {%- set username = 'knox' %}
 {%- set uid = hadoop.users[username] %}
 
@@ -30,7 +30,7 @@ download-knox-archive:
   cmd.run:
     - name: wget {{ knox.download_mirror }}/{{ knox.version }}/knox-{{ knox.version }}.zip
     - cwd: {{ knox.install_dir }}
-    - user: {{ username }}
+    - runas: {{ username }}
     - unless: test -f {{ knox.install_dir }}/bin/gateway.sh
 
 {% set archive_dir = knox.install_dir + '/knox-' + knox.version %}
@@ -42,9 +42,9 @@ check-knox-archive:
     - path: {{ archive }}
     - file_hash: {{ knox.hash }}
     - onchanges:
-      - cmd: download-knox-archive     
+      - cmd: download-knox-archive
     - require_in:
-      - archive: unpack-knox-archive   
+      - archive: unpack-knox-archive
 
 unpack-knox-archive:
   archive.extracted:
@@ -174,10 +174,9 @@ knox-logs-symlink:
   file.replace:
     - pattern: "^APP_MEM_OPTS.*"
     - repl: 'APP_MEM_OPTS=" -javaagent:/var/lib/prometheus_jmx_javaagent/jmx_prometheus_javaagent-0.10.jar=27014:{{knox.conf_dir}}/jmx.yaml"'
-{% endif %} 
+{% endif %}
 
 knox-service:
   service.running:
     - enable: True
     - name: knox.service
-
