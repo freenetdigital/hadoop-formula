@@ -1,4 +1,8 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
+
+{%- set logs = '/var/log/hadoop' %}
+{%- set pids = '/var/run/hadoop' %}
+
 {%- if hadoop.major_version == '3' %}
 {% set opts_prefix='HDFS' %}
 export HADOOP_HOME={{ hadoop_home }}
@@ -39,9 +43,6 @@ export HADOOP_USER=hadoop
 export HDFS_USER=hdfs
 export MAPRED_USER=mapred
 export YARN_USER=yarn
-
-{%- set logs = '/var/log/hadoop' %}
-{%- set pids = '/var/run/hadoop' %}
 
 export HADOOP_LOG_DIR={{ logs }}
 export HDFS_LOG_DIR={{ logs }}
