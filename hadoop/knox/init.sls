@@ -125,6 +125,14 @@ knox-logs-symlink:
     - mode: '600'
     - template: jinja
 
+{{ knox.conf_dir}}/topologies/knoxtoken.xml:
+  file.managed:
+    - source: salt://hadoop/conf/knox/knoxtoken.xml
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '600'
+    - template: jinja
+
 {{ knox.conf_dir}}/topologies/{{ grains['cluster_id'] }}-sso.xml:
   file.managed:
     - source: salt://hadoop/conf/knox/cluster-sso.xml
@@ -133,6 +141,13 @@ knox-logs-symlink:
     - mode: '600'
     - template: jinja
 
+{{ knox.conf_dir}}/topologies/{{ grains['cluster_id'] }}-jwt.xml:
+  file.managed:
+    - source: salt://hadoop/conf/knox/cluster-jwt.xml
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '600'
+    - template: jinja
 
 {{ knox.conf_dir}}/topologies/{{ grains['cluster_id'] }}-ranger.xml:
   file.managed:

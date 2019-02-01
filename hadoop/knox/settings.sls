@@ -29,6 +29,7 @@
 {%- set gateway_port          = gc.get('gateway_port', pc.get('gateway_port', '8443')) %}
 {%- set gateway_path          = gc.get('gateway_path', pc.get('gateway_path','gateway')) %}
 {%- set ranger_plugin         = gc.get('ranger_plugin', pc.get('ranger_plugin', False)) %}
+{%- set token_ttl             = gc.get('token_ttl', pc.get('token_ttl', 36000000)) %}
 
 
 {%- set knox = {} %}
@@ -57,4 +58,5 @@
                      'gateway_port'             : gateway_port,
                      'gateway_path'             : gateway_path,
                      'ranger_plugin'            : ranger_plugin,
+		     'token_ttl'		: token_ttl,
                    }) %}
