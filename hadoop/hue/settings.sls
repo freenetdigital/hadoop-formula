@@ -23,6 +23,8 @@
 {%- set ldap_user_filter      = gc.get('ldap_user_filter', pc.get('ldap_user_filter','')) %}
 {%- set database_type         = gc.get('database_type', pc.get('database_type', 'sqlite')) %}
 {%- set database_name         = gc.get('database_name', pc.get('database_name', 'huedb')) %}
+{%- set database_host         = gc.get('database_host', pc.get('database_host', 'localhost')) %}
+{%- set database_port         = gc.get('database_port', pc.get('database_port', '3306')) %}
 {%- set database_password     = gc.get('database_password', pc.get('database_password', '')) %}
 
 
@@ -43,5 +45,7 @@
                      'ldap_user_filter'         : ldap_user_filter,
                      'database_type'            : database_type,
                      'database_name'            : database_name,
+                     'database_host'            : database_host,
+                     'database_port'            : database_port,
                      'database_password'        : database_password,
                    }) %}
