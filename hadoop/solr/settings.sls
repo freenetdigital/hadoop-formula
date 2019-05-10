@@ -14,6 +14,7 @@
 
 {%- set version            = g.get('version',        p.get('version', '6.6.4')) %}
 {%- set jmx_export         = gc.get('jmx_export',   pc.get('jmx_export', false)) %}
+{%- set heapsize           = gc.get('heapsize',     pc.get('heapsize', '512m')) %}
 
 
 {%- set solr = {} %}
@@ -24,6 +25,7 @@
                      'install_dir'              : base_install_dir + '/solr-' + version,
                      'download_mirror'          : download_mirror,
                      'jmx_export'               : jmx_export,
+                     'heapsize'                 : heapsize,
                      'data_dir'                 : data_dir,
                      'home_dir'                 : data_dir + '/data',
                      'log_dir'                  : data_dir + '/logs',
