@@ -1,5 +1,16 @@
-hostPort: 127.0.0.1:26001
 lowercaseOutputLabelNames: false
 lowercaseOutputName: false
 ssl: false
 startDelaySeconds: 0
+rules:
+  - pattern: 'Hadoop<service=NameNode, name=NameNodeStatus><>State: (standby.*)'
+    name: Hadoop_NameNode_state
+    labels:
+      state: "$1"
+    value: 0
+  - pattern: 'Hadoop<service=NameNode, name=NameNodeStatus><>State: (active.*)'
+    name: Hadoop_NameNode_state
+    labels:
+      state: "$1"
+    value: 1
+
