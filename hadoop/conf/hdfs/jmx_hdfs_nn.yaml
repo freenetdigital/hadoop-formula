@@ -13,4 +13,16 @@ rules:
     labels:
       state: "$1"
     value: 1
+  - pattern: 'Hadoop<service=(.+), name=(.+), key=(.*)><(.+)>(.+): (.+)'
+    name: Hadoop_$1_$4_$5
+    labels:
+      name: $2
+      key: $3
+    value: $6
+
+  - pattern: 'Hadoop<service=(.+), name=(.+)><>(.+): (.+)'
+    name: Hadoop_$1_$3
+    labels:
+      name: $2
+    value: $4
 
