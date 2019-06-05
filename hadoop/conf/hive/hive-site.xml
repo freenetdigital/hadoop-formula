@@ -22,10 +22,6 @@
             <value>auth-conf</value>
     </property>
     <property>
-            <name>hive.server2.enable.doAs</name>
-            <value>true</value>
-    </property>
-    <property>
             <name>hive.server2.webui.use.ssl</name>
             <value>true</value>
     </property>
