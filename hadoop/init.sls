@@ -29,11 +29,9 @@ create-common-folders:
 {%- endif %}
 
 cronjob_clean_up_old_logs:
-  cron.present:
-  - user: root
-  - special: "@daily"
-  - identifier: cronjob_clean_up_old_logs
-  - name: "find /var/log/hadoop/ -maxdepth 1 -type f -mtime +21 -exec rm -fv {} +; find /var/log/hadoop/ -maxdepth 1 -type f -mtime +7 -exec gzip {} +"
+  file.managed:
+  - name: /etc/cron.d/hadoop_clean_up_old_logs
+  - content: "@daily root find /var/log/hadoop/ -maxdepth 1 -type f -mtime +21 -exec rm -fv {} +; find /var/log/hadoop/ -maxdepth 1 -type f -mtime +7 -exec gzip {} +"
 
 unpack-hadoop-dist:
   archive.extracted:
