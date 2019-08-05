@@ -28,6 +28,12 @@ create-common-folders:
     - target: {{ hadoop.log_root }}
 {%- endif %}
 
+cronjob_clean_up_old_logs:
+  cron.present:
+    user: root
+    special: "@daily"
+    name: "find /var/log/hadoop/ -type f -mtime +21 -exec rm -fv {} +; find /var/log/hadoop/ -type f -mtime +7 -exec gzip {} +"
+
 unpack-hadoop-dist:
   archive.extracted:
     - name: /usr/lib/
@@ -57,7 +63,7 @@ hadoop-home-link:
     - target: {{ hadoop['real_home'] }}
     - require:
       - alternatives: hadoop-home-link
-      
+
 hadoop-bin-link:
   alternatives.install:
     - link: /usr/bin/hadoop
@@ -69,7 +75,7 @@ hadoop-bin-link:
     - target: {{ hadoop['alt_home'] }}/bin/hadoop
     - require:
       - alternatives: hadoop-bin-link
-      
+
 hdfs-bin-link:
   alternatives.install:
     - link: /usr/bin/hdfs
@@ -81,7 +87,7 @@ hdfs-bin-link:
     - target: {{ hadoop['alt_home'] }}/bin/hdfs
     - require:
       - alternatives: hdfs-bin-link
-      
+
 mapred-bin-link:
   alternatives.install:
     - link: /usr/bin/mapred
@@ -93,7 +99,7 @@ mapred-bin-link:
     - target: {{ hadoop['alt_home'] }}/bin/mapred
     - require:
       - alternatives: mapred-bin-link
-      
+
 yarn-bin-link:
   alternatives.install:
     - link: /usr/bin/yarn
@@ -105,7 +111,7 @@ yarn-bin-link:
     - target: {{ hadoop['alt_home'] }}/bin/yarn
     - require:
       - alternatives: yarn-bin-link
-      
+
 /etc/profile.d/hadoop.sh:
   file.managed:
     - source: salt://hadoop/files/hadoop.jinja
@@ -160,7 +166,7 @@ hadoop-conf-link:
     - target: {{ hadoop['real_config'] }}
     - require:
       - alternatives: hadoop-conf-link
-      
+
 {{ hadoop['real_config'] }}/log4j.properties:
   file.copy:
     - source: {{ hadoop['real_config_dist'] }}/log4j.properties
