@@ -9,6 +9,7 @@ PIDFile=/var/run/nifi/nifi.pid
 User={{ username }}
 Group={{ username }}
 RuntimeDirectory=nifi
+LimitNOFILE=65536
 
 ExecStart={{ dir }}/bin/nifi.sh start
 ExecStop={{ dir }}/bin/nifi.sh stop
