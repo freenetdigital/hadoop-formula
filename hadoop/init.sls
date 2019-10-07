@@ -243,12 +243,14 @@ hadoop-conf-link:
   file.managed:
     - source: salt://hadoop/conf/hdfs/core-site.xml
     - template: jinja
+    - user: root
     - mode: 644
 
 {{ hadoop.alt_config }}/hdfs-site.xml:
   file.managed:
     - source: salt://hadoop/conf/hdfs/hdfs-site.xml
     - template: jinja
+    - user: root
     - mode: 644
 
 {{ hadoop.alt_config }}/yarn-site.xml:
