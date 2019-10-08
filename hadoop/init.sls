@@ -297,7 +297,7 @@ hadoop-conf-link:
 {{hadoop.alt_home}}/share/hadoop/common/lib/{{jar}}:
   file.managed:
     - source: salt://hadoop/files/{{jar}}
-    - user: {{ username }}
+    - user: root
     - group: hadoop
 {% endfor %}
 {% if hadoop.gcp_auth_file %}
