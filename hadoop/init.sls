@@ -304,5 +304,7 @@ hadoop-conf-link:
 {{hadoop.alt_config}}/{{hadoop.gcp_auth_file}}:
   file.managed:
     - source: salt://hadoop/files/{{hadoop.gcp_auth_file}}
+    - group: hadoop
+    - mode: '440'
 {% endif %}
 
