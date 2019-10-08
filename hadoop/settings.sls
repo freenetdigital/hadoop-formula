@@ -47,6 +47,8 @@
 {%- set cert_priv_path   = gc.get('cert_priv_path', pc.get('cert_priv_path', '/etc/ssl/private')) %}
 {%- set cert_pub_path    = gc.get('cert_pub_path', pc.get('cert_pub_path', '/etc/ssl/certs')) %}
 {%- set keystore_pass    = gc.get('keystore_pass', pc.get('keystore_pass', False)) %}
+{%- set additional_jars  = gc.get('additional_jars', pc.get('additional_jars', [])) %}
+{%- set gcp_auth_file    = gc.get('gcp_auth_file', pc.get('gcp_auth_file', '')) %}
 
 {%- set users = { 'hadoop' : 6000,
                   'hdfs'   : 6001,
@@ -93,4 +95,6 @@
                           'cert_priv_path'   : cert_priv_path,
                           'cert_pub_path'    : cert_pub_path,
                           'ldap_user_to_unix': ldap_user_to_unix,
+			  'additional_jars'  : additional_jars,
+			  'gcp_auth_file'    : gcp_auth_file,
                       }) %}

@@ -292,3 +292,17 @@ hadoop-conf-link:
       hadoop_home: {{ hadoop.alt_home }}
       hadoop_config: {{ hadoop.alt_config }}
       hadoop_major_version: {{ hadoop.major_version }}
+
+{% for jar in hadoop.additional_jars %}
+{{hadoop.alt_home}}/share/hadoop/common/lib/{{jar}}:
+  file.managed:
+    - source: salt://hadoop/files/{{jar}}
+    - user: {{ username }}
+    - group: hadoop
+{% endfor %}
+{% if hadoop.gcp_auth_file %}
+{{hadoop.alt_config}}/{{hadoop.gcp_auth_file}}:
+  file.managed:
+    - source: salt://hadoop/files/{{hadoop.gcp_auth_file}}
+{% endif %}
+
