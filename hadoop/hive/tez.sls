@@ -13,6 +13,20 @@ tez-directory-symlink:
     - template: jinja
     - source: salt://hadoop/conf/hive/tez-site.xml
 
+/etc/tez/conf/tez-site.xml:
+  file.managed:
+    - makedirs: True
+    - user: hive
+    - template: jinja
+    - source: salt://hadoop/conf/hive/tez-site.xml
+
+/etc/hadoop/conf/tez-site.xml:
+  file.managed:
+    - makedirs: True
+    - user: hive
+    - template: jinja
+    - source: salt://hadoop/conf/hive/tez-site.xml
+
 install-tez:
   cmd.run:
     - cwd: /usr/lib

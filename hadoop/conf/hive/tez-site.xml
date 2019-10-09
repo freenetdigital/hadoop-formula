@@ -7,8 +7,12 @@
 <configuration>
 <property>
   <name>tez.lib.uris</name>
-  <value>${fs.defaultFS}/apps/tez/tez.tar.gz</value>
+  <value>${fs.defaultFS}/apps/tez/tez.tar.gz#tez,${fs.defaultFS}/apps/tez/gcs.tar.gz#gcs</value>
 </property>
+    <property>
+        <name>tez.lib.uris.classpath</name>
+        <value>./tez/*:./tez/lib/*:./gcs/*</value>
+    </property>
 {%- for name, subdict in dyn_cfg.items() %}
     <property>
         <name>{{ name }}</name>
