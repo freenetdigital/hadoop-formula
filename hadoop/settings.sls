@@ -10,7 +10,7 @@
 {%- set default_versions = {   
                      'apache-2.8.4' : { 'version'       : '2.8.4',
                                         'version_name'  : 'hadoop-2.8.4',
-                                        'source_url'    : g.get('source_url', p.get('source_url', 'http://apache.osuosl.org/hadoop/common/hadoop-2.8.4/hadoop-2.8.4.tar.gz')),
+                                        'source_url'    : g.get('source_url', p.get('source_url', 'https://archive.apache.org/dist/hadoop/core/hadoop-2.8.4/hadoop-2.8.4.tar.gz')),
                                         'source_hash'   : g.get('source_hash', p.get('source_hash', 'b30b409bb69185003b3babd1504ba224')),
                                         'major_version' : '2',
                                       },  
