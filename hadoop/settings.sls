@@ -20,6 +20,12 @@
                                         'source_hash'   : g.get('source_hash', p.get('source_hash', '0b6ab06b59ae75f433de387783f19011')),
                                         'major_version' : '3',
                                       },  
+                     'apache-3.2.1' : { 'version'       : '3.2.1',
+                                        'version_name'  : 'hadoop-3.2.1',
+                                        'source_url'    : g.get('source_url', p.get('source_url', 'http://ftp.halifax.rwth-aachen.de/apache/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz')),
+                                        'source_hash'   : g.get('source_hash', p.get('source_hash', '489ceea09aa6c78bde5c2241f9da742d')),
+                                        'major_version' : '3',
+                                      },  
                    }%}
 
 {%- set versions         = p.get('versions', default_versions) %}
