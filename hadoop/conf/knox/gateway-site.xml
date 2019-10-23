@@ -75,6 +75,15 @@
         <description>The interval (in seconds) for polling Ambari for cluster configuration changes.</description>
     </property>
 
+    </property>
+        <property>
+        <name>gateway.dispatch.whitelist.services</name>
+        <value>DATANODE,HBASEUI,HDFSUI,JOBHISTORYUI,NODEUI,YARNUI,knoxauth</value>
+    </property>
+    <property>
+        <name>gateway.dispatch.whitelist</name>
+        <value>DEFAULT</value>
+    </property>
 
 {%- for name, subdict in dyn_cfg.items() %}
     <property>

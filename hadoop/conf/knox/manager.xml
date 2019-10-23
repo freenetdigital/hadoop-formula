@@ -95,7 +95,6 @@
 	    {%- else %}
             <name>AclsAuthz</name>
 	    {%- endif %}
-            <role>authorization</role>
             <enabled>true</enabled>
             <param>
                 <name>knox.acl</name>
@@ -111,11 +110,12 @@
 
     <application>
         <role>admin-ui</role>
+        <name>admin-ui</name>
     </application>
 
-    <service>
+    <application>
         <role>KNOX</role>
-    </service>
+    </application>
 
 </topology>
 
