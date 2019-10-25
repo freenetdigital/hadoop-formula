@@ -9,22 +9,22 @@
 
 unpack-ranger-hive-plugin-archive:
   archive.extracted:
-    - name: {{ hive.install_dir}}/ranger_hive_plugin
+    - name: {{ hive.install_dir}}/ranger_hive_plugin-{{ ranger.version }}
     - source: salt://ranger/ranger-{{ ranger.version }}/ranger-{{ ranger.version }}-hive-plugin.zip
     - archive_format: zip
     - clean: true
     - user: {{ username }}
     - group: {{ username }}
-    - unless: test -f {{ hive.install_dir }}/ranger_hive_plugin/enable-hive-plugin.sh
+    - unless: test -f {{ hive.install_dir }}/ranger_hive_plugin-{{ ranger.version }}/enable-hive-plugin.sh
 
 move-hive-plugin-files:
   cmd.run:
-    - name: mv {{ hive.install_dir}}/ranger_hive_plugin/ranger-{{ ranger.version }}-hive-plugin/* {{ hive.install_dir}}/ranger_hive_plugin/; rm -rf {{ hive.install_dir}}/ranger_hive_plugin/ranger-{{ ranger.version }}-hive-plugin
+    - name: mv {{ hive.install_dir}}/ranger_hive_plugin-{{ ranger.version }}/ranger-{{ ranger.version }}-hive-plugin/* {{ hive.install_dir}}/ranger_hive_plugin-{{ ranger.version }}/; rm -rf {{ hive.install_dir}}/ranger_hive_plugin-{{ ranger.version }}/ranger-{{ ranger.version }}-hive-plugin
     - onchanges:
       - archive: unpack-ranger-hive-plugin-archive
 
 
-{{ hive.install_dir }}/ranger_hive_plugin/install.properties:
+{{ hive.install_dir }}/ranger_hive_plugin-{{ ranger.version }}/install.properties:
   file.managed:
     - source: salt://hadoop/conf/hive/ranger.install.properties
     - user: {{ username }}
@@ -35,11 +35,11 @@ move-hive-plugin-files:
 provision-ranger-hive-plugin:
   cmd.run:
     - name: bash -c './enable-hive-plugin.sh'
-    - cwd: {{ hive.install_dir }}/ranger_hive_plugin
+    - cwd: {{ hive.install_dir }}/ranger_hive_plugin-{{ ranger.version }}
     - env:
       - JAVA_HOME: '/usr/lib/java'
     - onchanges:
-      - file: {{ hive.install_dir }}/ranger_hive_plugin/install.properties
+      - file: {{ hive.install_dir }}/ranger_hive_plugin-{{ ranger.version }}/install.properties
 
 hive-service-ranger:
   service.running:
