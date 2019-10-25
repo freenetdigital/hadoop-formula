@@ -219,7 +219,12 @@ check-nifi-ranger-plugin:
   module.run:
     - name: file.check_hash
     - path: /tmp/nifi-ranger-nar-{{nifi.version}}.nar
+    {%- if nifi.version = 1.7.1 %}
     - file_hash: "sha1=69f88069bb6a87e73590ccfbcb8f4b0853dcadaa"
+    {%- endif %}
+    {%- if nifi.version = 1.9.2 %}
+    - file_hash: "sha1=e5530ed16aa4d0102dca7dbedbcc39df69115a05"
+    {%- endif %}
     - onchanges:
       - cmd: download-nifi-ranger-plugin
     - require_in:
