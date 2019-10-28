@@ -16,7 +16,6 @@ download-hue-archive:
   cmd.run:
     - name: wget {{ hue.download_mirror }}/hue-{{ hue.version }}.tgz
     - cwd: {{ hue.download_dir }}
-    - runas: {{ username }}
     - unless: test -f {{ hue.download_dir }}/hue-{{hue.version}}/VERSION
 
 unpack-hue-archive:
