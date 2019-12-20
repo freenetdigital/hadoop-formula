@@ -48,7 +48,6 @@ install-build-dependencies:
       - libkrb5-dev
       - libxml2-dev
       - libffi-dev
-      - libxslt-dev
       - libsqlite3-dev
       - libssl-dev
       - libldap2-dev
