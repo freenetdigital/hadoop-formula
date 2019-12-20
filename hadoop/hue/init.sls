@@ -58,10 +58,10 @@ install-build-dependencies:
       - libsasl2-modules-gssapi-mit
       - libsqlite3-dev
       - libxml2-dev
-      - libxslt-dev
+      - libxslt1-dev
       - libffi-dev
       - libgmp3-dev
-      - libz-dev
+      - lib1g-dev
       - python-pip
 
 hue-make-install:
