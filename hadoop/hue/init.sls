@@ -61,7 +61,7 @@ install-build-dependencies:
       - libxslt1-dev
       - libffi-dev
       - libgmp3-dev
-      - lib1g-dev
+      - zlib1g-dev
       - python-pip
 
 hue-make-install:
