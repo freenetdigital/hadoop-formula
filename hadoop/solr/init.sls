@@ -121,3 +121,15 @@ solr-service:
   service.running:
     - enable: True
     - name: solr.service
+
+
+{% if hadoop.secure_mode %}
+/etc/krb5/solr.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-{{ grains['fqdn'] }}.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '400'
+{{ keystore(username, ssl_conf=False)}}
+{% endif %}
+
