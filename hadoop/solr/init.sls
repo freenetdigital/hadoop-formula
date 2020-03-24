@@ -1,7 +1,6 @@
 {%- from 'hadoop/settings.sls' import hadoop with context %}
 {%- from 'hadoop/solr/settings.sls' import solr with context %}
 {%- from 'hadoop/user_macro.sls' import hadoop_user with context %}
-{%- from 'hadoop/keystore_macro.sls' import keystore with context %}
 
 include:
   - hadoop.systemd
@@ -131,6 +130,5 @@ solr-service:
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'
-{{ keystore(username, ssl_conf=False)}}
 {% endif %}
 
