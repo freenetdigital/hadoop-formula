@@ -13,9 +13,9 @@
 {%- set targeting_method    = salt['grains.get']('hadoop:targeting_method', salt['pillar.get']('hadoop:targeting_method', 'grain')) %}
 
 # HA requires that you have exactly two NNs
-{%- set namenode_host           = salt['mine.get'](namenode_target, 'network.interfaces', expr_form=targeting_method).keys() %}
-{%- set primary_namenode_host   = salt['mine.get'](primary_namenode_target, 'network.interfaces', expr_form=targeting_method).keys() %}
-{%- set secondary_namenode_host = salt['mine.get'](secondary_namenode_target, 'network.interfaces', expr_form=targeting_method).keys() %}
+{%- set namenode_host           = salt['mine.get'](namenode_target, 'network.interfaces', tgt_type=targeting_method).keys() %}
+{%- set primary_namenode_host   = salt['mine.get'](primary_namenode_target, 'network.interfaces', tgt_type=targeting_method).keys() %}
+{%- set secondary_namenode_host = salt['mine.get'](secondary_namenode_target, 'network.interfaces', tgt_type=targeting_method).keys() %}
 {%- set namenode_hosts          = [] %}
 
 # it is required to specify the namenode target and one of primary and secondary for each namenode
@@ -35,8 +35,8 @@
   {%- endif %}
 {%- endif %}
 
-{%- set datanode_hosts        = salt['mine.get'](datanode_target, 'network.interfaces', expr_form=targeting_method).keys() %}
-{%- set journalnode_hosts     = salt['mine.get'](journalnode_target, 'network.interfaces', expr_form=targeting_method).keys() %}
+{%- set datanode_hosts        = salt['mine.get'](datanode_target, 'network.interfaces', tgt_type=targeting_method).keys() %}
+{%- set journalnode_hosts     = salt['mine.get'](journalnode_target, 'network.interfaces', tgt_type=targeting_method).keys() %}
 {%- set datanode_count        = datanode_hosts|count() %}
 {%- set journalnode_count     = journalnode_hosts|count() %}
 {%- set namenode_port         = gc.get('namenode_port', pc.get('namenode_port', '8020')) %}

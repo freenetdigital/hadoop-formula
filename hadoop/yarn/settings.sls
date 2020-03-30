@@ -25,10 +25,10 @@
 {%- set nodemanager_target          = g.get('nodemanager_target', p.get('nodemanager_target', 'roles:hadoop_slave')) %}
 # this is a deliberate duplication as to not re-import hadoop/settings multiple times
 {%- set targeting_method            = salt['grains.get']('hadoop:targeting_method', salt['pillar.get']('hadoop:targeting_method', 'grain')) %}
-{%- set resourcemanager_host        = salt['mine.get'](resourcemanager_target, 'network.interfaces', expr_form=targeting_method)|first() %}
-{%- set resourcemanager_hosts       = salt['mine.get'](resourcemanager_target, 'network.interfaces', expr_form=targeting_method) %}
+{%- set resourcemanager_host        = salt['mine.get'](resourcemanager_target, 'network.interfaces', tgt_type=targeting_method)|first() %}
+{%- set resourcemanager_hosts       = salt['mine.get'](resourcemanager_target, 'network.interfaces', tgt_type=targeting_method) %}
 {%- set zookeeper_target            = g.get('zookeeper_target', p.get('zookeeper_target', 'roles:zookeeper')) %}
-{%- set zookeeper_hosts             = salt['mine.get'](zookeeper_target, 'network.interfaces', expr_form=targeting_method).keys() %}
+{%- set zookeeper_hosts             = salt['mine.get'](zookeeper_target, 'network.interfaces', tgt_type=targeting_method).keys() %}
 
 {%- set cluster_id                  = salt['grains.get']('cluster_id', 'cluster1') %}
 
