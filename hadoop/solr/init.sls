@@ -130,5 +130,12 @@ solr-service:
     - user: {{ username }}
     - group: {{ username }}
     - mode: '400'
+
+/etc/krb5/solr-nohost.keytab:
+  file.managed:
+    - source: salt://kerberos/files/{{grains['cluster_id']}}/{{username}}-nohost.keytab
+    - user: {{ username }}
+    - group: {{ username }}
+    - mode: '0400'
 {% endif %}
 
