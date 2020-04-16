@@ -11,7 +11,7 @@ User=solr
 Group=solr
 
 PIDFile={{ solr.data_dir }}/solr-8983.pid
-ExecStart={{ solr.install_dir }}/bin/solr start 
+ExecStart={{ solr.install_dir }}/bin/solr start -cloud
 ExecStop={{ solr.install_dir }}/bin/solr stop
 
 Restart=on-failure
