@@ -9,6 +9,7 @@ Type=simple
 Environment=SOLR_INCLUDE=/etc/default/solr.in.sh
 User=solr
 Group=solr
+LimitNOFILE=65536
 
 PIDFile={{ solr.data_dir }}/solr-8983.pid
 ExecStart={{ solr.install_dir }}/bin/solr start -cloud
