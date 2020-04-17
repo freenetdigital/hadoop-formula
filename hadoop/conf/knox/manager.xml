@@ -4,6 +4,7 @@
      SALT-MANAGED
 -->
 <topology>
+    <name>manager</name>
     <gateway>
         <provider>
             <role>webappsec</role>
@@ -108,17 +109,11 @@
         </provider>
     </gateway>
 
+    <service>
+        <role>KNOX</role>
+    </service>
     <application>
-        <role>admin-ui</role>
         <name>admin-ui</name>
     </application>
 
-    <application>
-        <role>KNOX</role>
-    </application>
-
 </topology>
-
-
-
-
