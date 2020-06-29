@@ -22,6 +22,7 @@
 {%- set hive_log_dir       = pc.get('hive_log_dir', '/var/log/hive') %}
 {%- set jmx_export         = pc.get('jmx_export', false) %}
 {%- set ranger_plugin      = pc.get('ranger_plugin', false) %}
+{%- set additional_jars    = gc.get('additional_jars', pc.get('additional_jars', [])) %}
 
 {% set mver = version.split('.') %}
 
@@ -48,4 +49,5 @@
                      'config_tez_site'          : pc.get('tez-site', {}) ,
                      'jmx_export'               : jmx_export,
                      'ranger_plugin'            : ranger_plugin,
+                     'additional_jars'          : additional_jars,
                    }) %}

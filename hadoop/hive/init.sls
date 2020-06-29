@@ -199,3 +199,11 @@ hive-metastore.service:
 hive-hiveserver2.service:
   service.running:
     - enable: True
+
+{% for jar in hive.additional_jars %}
+{{hive.install_dir}}/lib/{{jar}}:
+  file.managed:
+    - source: salt://hive/files/{{jar}}
+    - user: {{ username }}
+    - group: hadoop
+{% endfor %}
