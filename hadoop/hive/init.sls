@@ -138,6 +138,14 @@ hive-log4j2.properties:
 {{ hdfs_mkdir('/apps', 'hdfs', 'hadoop', 1777, hadoop.dfs_cmd) }}
 {{ hdfs_mkdir('/tmp/scratch', 'hive', 'hadoop', 1777, hadoop.dfs_cmd) }}
 
+{% for jar in hive.additional_jars %}
+{{hive.install_dir}}/lib/{{jar}}:
+  file.managed:
+    - source: salt://hive/files/{{jar}}
+    - user: {{ username }}
+    - group: hadoop
+{% endfor %}
+
 /etc/systemd/system/hive-hiveserver2.service:
   file.managed:
     - source: salt://hadoop/files/hive.init.systemd
@@ -199,11 +207,3 @@ hive-metastore.service:
 hive-hiveserver2.service:
   service.running:
     - enable: True
-
-{% for jar in hive.additional_jars %}
-{{hive.install_dir}}/lib/{{jar}}:
-  file.managed:
-    - source: salt://hive/files/{{jar}}
-    - user: {{ username }}
-    - group: hadoop
-{% endfor %}
