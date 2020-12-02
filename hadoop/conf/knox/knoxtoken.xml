@@ -52,6 +52,12 @@
                 <name>main.ldapRealm.userSearchAttributeName</name>
                 <value>sAMAccountName</value>
             </param>
+            {%- if knox.ldap_user_search_filter %}
+            <param>
+                <name>main.ldapRealm.userSearchFilter</name>
+                <value>{{ knox.ldap_user_search_filter }}</value>
+            </param>
+            {%- endif %}
             <param>
                 <name>main.ldapRealm.userObjectClass</name>
                 <value>person</value>
