@@ -21,6 +21,7 @@
 {%- set ldap_host             = gc.get('ldap_host', pc.get('ldap_host','')) %}
 {%- set ldap_port             = gc.get('ldap_host', pc.get('ldap_port','')) %}
 {%- set ldap_searchbase       = gc.get('ldap_searchbase', pc.get('ldap_searchbase','')) %}
+{%- set ldap_user_search_filter = gc.get('ldap_user_search_filter', pc.get('ldap_user_search_filter','')) %}
 {%- set ldap_group_searchbase = gc.get('ldap_group_searchbase', pc.get('ldap_group_searchbase','')) %}
 {%- set ldap_user             = gc.get('ldap_user', pc.get('ldap_user','')) %}
 {%- set ldap_pass             = gc.get('ldap_pass', pc.get('ldap_pass','')) %}
@@ -50,6 +51,7 @@
                      'ldap_host'                : ldap_host,
                      'ldap_port'                : ldap_port,
                      'ldap_searchbase'          : ldap_searchbase,
+                     'ldap_user_search_filter'  : ldap_user_search_filter,
                      'ldap_group_searchbase'    : ldap_group_searchbase,
                      'ldap_user'                : ldap_user,
                      'ldap_pass'                : ldap_pass,
