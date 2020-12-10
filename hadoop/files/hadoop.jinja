@@ -23,4 +23,4 @@
 {% if var_export %}export {% endif -%} HIVE_HOME=/usr/lib/hive
 
 {% if var_export %}export {% endif -%} TEZ_CONF_DIR=/etc/tez/conf
-{% if var_export %}export {% endif -%} HADOOP_CLASSPATH=/usr/lib/tez/*:/usr/lib/tez/lib/*
+{% if var_export %}export {% endif -%} HADOOP_CLASSPATH=/usr/lib/hadoop/share/hadoop/common/lib/*:/usr/lib/tez/*:/usr/lib/tez/lib/*
