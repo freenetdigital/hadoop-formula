@@ -22,6 +22,7 @@
 {%- set ldap_user             = gc.get('ldap_user',             pc.get('ldap_user','')) %}
 {%- set ldap_pass             = gc.get('ldap_pass',             pc.get('ldap_pass','')) %}
 {%- set ldap_ad_domain        = gc.get('ldap_ad_domain',        pc.get('ldap_ad_domain','')) %}
+{%- set ldap_ad_domain_sid    = gc.get('ldap_ad_domain_sid',    pc.get('ldap_ad_domain_sid','')) %}
 {%- set ldap_scrape_userfilter = gc.get('ldap_scrape_userfilter',pc.get('ldap_scrape_userfilter','')) %}
 {%- set ldap_ad_usersearchfilter = gc.get('ldap_ad_usersearchfilter',pc.get('ldap_ad_usersearchfilter','')) %}
 
@@ -48,6 +49,7 @@
                        'ldap_user'                  : ldap_user,
                        'ldap_pass'                  : ldap_pass,
                        'ldap_ad_domain'             : ldap_ad_domain,
+                       'ldap_ad_domain_sid'         : ldap_ad_domain_sid,
                        'ldap_scrape_userfilter'     : ldap_scrape_userfilter,
                        'ldap_ad_usersearchfilter'   : ldap_ad_usersearchfilter,
 
