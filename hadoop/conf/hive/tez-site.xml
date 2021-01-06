@@ -11,7 +11,7 @@
 </property>
     <property>
         <name>tez.lib.uris.classpath</name>
-        <value>./tez/*:./tez/lib/*:./gcs/*</value>
+        <value>/usr/lib/hadoop/share/hadoop/common/lib/*:./tez/*:./tez/lib/*:./gcs/*</value>
     </property>
 {%- for name, subdict in dyn_cfg.items() %}
     <property>
