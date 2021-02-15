@@ -11,8 +11,10 @@ Group={{ username }}
 RuntimeDirectory=nifi
 LimitNOFILE=65536
 
+ExecStartPre=-/bin/rm -f /tmp/snappy-*.so
 ExecStart={{ dir }}/bin/nifi.sh start
 ExecStop={{ dir }}/bin/nifi.sh stop
+ExecStop=-/bin/rm -f /tmp/snappy-*.so
 Restart=on-failure
 
 [Install]
